@@ -1,10 +1,10 @@
-projectTitle = "Team Voided Template"
-modId = "template"
+projectTitle = "Starborn soundscape"
+modId = "starborn_soundscape"
 modVersion = "1.0.0"
 group = "org.teamvoided"
-githubRepo = "Teamvoided/TeamVoidedTemplateMod"
+githubRepo = "Mxz-Astatine/StarbornSoundscape"
 discordServerInviteId = "KZ5Q364hEg"
-authors = [ "TheEnderCore" ]
+authors = [ "Astratene, BrandRobKus, k1pp0" ]
 majorMinecraftVersion = ">=1.21"
 minecraftVersion = "1.21.1"
 fabricLoaderVersion = "0.18.4"
@@ -12,7 +12,7 @@ fabricApiVersion = "0.116.7+1.21.1"
 fabricLangKotlinVersion = "1.13.8+kotlin.2.3.0"
 license = "MIT"
 modules = [ ]
-modDescription = "Template Mod Description"
+modDescription = "Hitting your ears like meteors of sound!"
 # Modmenu badges, values can be: [ library, deprecated ]
 badges = [ ]
 disableKotlin = false

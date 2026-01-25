@@ -1,12 +1,12 @@
-package org.teamvoided.template.data.gen
+package org.teamvoided.starborn_soundscape.data.gen
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.core.RegistrySetBuilder
-import org.teamvoided.template.Template.log
+import org.teamvoided.starborn_soundscape.StarbornSoundscape.log
 
 @Suppress("unused")
-object TemplateData : DataGeneratorEntrypoint {
+object StarbornSoundscapeData : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(gen: FabricDataGenerator) {
         log.info("Hello from DataGen")
         val pack = gen.createPack()
