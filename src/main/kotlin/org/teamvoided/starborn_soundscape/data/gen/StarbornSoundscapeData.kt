@@ -2,7 +2,7 @@ package org.teamvoided.starborn_soundscape.data.gen
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
-import net.minecraft.core.RegistrySetBuilder
+import net.minecraft.registry.RegistrySetBuilder
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.log
 
 @Suppress("unused")
