@@ -87,7 +87,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius }
             for (entity in entities){
                 entity.customDamage(
-                    StarbornSoundscapeDamageTypes.BOLT_DIRECT,
+                    StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
                     directDamage,
                     owner,
                     owner

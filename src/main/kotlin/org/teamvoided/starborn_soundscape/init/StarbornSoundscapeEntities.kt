@@ -6,7 +6,7 @@ import net.minecraft.entity.SpawnGroup
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
-import org.teamvoided.starborn_soundscape.entity.CosmicBoltEntity
+import org.teamvoided.starborn_soundscape.entity.*
 
 object StarbornSoundscapeEntities {
     fun init() = Unit
@@ -21,6 +21,12 @@ object StarbornSoundscapeEntities {
     val COSMIC_BOLT = register(
         "cosmic_bolt",
         EntityType.Builder.create(EntityType.EntityFactory(::CosmicBoltEntity), SpawnGroup.MISC)
+            .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
+    )
+
+    val SMALL_SPEAKER = register(
+        "small_speaker",
+        EntityType.Builder.create(EntityType.EntityFactory(::SmallSpeakerEntity), SpawnGroup.MISC)
             .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
     )
 
