@@ -5,6 +5,9 @@ import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.teamvoided.starborn_soundscape.config.StarbornSoundscapeConfig
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 
 @Suppress("unused")
 object StarbornSoundscape {
@@ -18,6 +21,9 @@ object StarbornSoundscape {
 
     fun init() {
         log.info("Stars coming straight to your ears!")
+        StarbornSoundscapeEntities.init()
+        StarbornSoundscapeItems.init()
+        StarbornSoundscapeDamageTypes
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)

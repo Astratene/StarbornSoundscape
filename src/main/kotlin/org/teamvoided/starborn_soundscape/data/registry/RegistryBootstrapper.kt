@@ -1,8 +1,10 @@
 package org.teamvoided.starborn_soundscape.data.registry
 
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider.Entries
 import net.minecraft.registry.BootstrapContext
 import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.Holder
+import net.minecraft.registry.HolderLookup
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
