@@ -24,6 +24,12 @@ repositories {
         }
     }
     maven("https://api.modrinth.com/maven") { content { includeGroup("maven.modrinth") } }
+    maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") {
+        name = "GeckoLib"
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
     mavenCentral()
 }
 
@@ -43,6 +49,7 @@ dependencies {
     modImplementation(fileTree("libs"))
     // Dependencies
     modImplementation(libs.fzzy.config)
+    modImplementation(libs.geckolib)
     // QoL
     modImplementation(libs.modmenu)
     modCompileOnly("${libs.emi.get()}:api")
