@@ -3,20 +3,14 @@ package org.teamvoided.starborn_soundscape.client.init
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.minecraft.client.render.entity.EmptyEntityRenderer
-import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
-import org.teamvoided.starborn_soundscape.client.renderer.BeamRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityRenderer
-import org.teamvoided.starborn_soundscape.client.renderer.SmallSpeakerEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.StarbornModelLayers
-import org.teamvoided.starborn_soundscape.client.entity.BeamRenderer
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 
 object StarbornSoundscapeRenderers {
     fun init() {
-        EntityRendererRegistry.register(StarbornSoundscapeEntities.SMALL_SPEAKER, ::EmptyEntityRenderer)
-        EntityRendererRegistry.register(StarbornSoundscapeEntities.BEAM_RENDERER, ::BeamRenderer)
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.COSMIC_BOLT
         ) { ctx ->
@@ -27,18 +21,5 @@ object StarbornSoundscapeRenderers {
             StarbornModelLayers.COSMIC_BOLT,
             CosmicBoltEntityModel::getTexturedModelData
         )
-
-        EntityRendererRegistry.register(
-            StarbornSoundscapeEntities.SMALL_SPEAKER,
-            ::SmallSpeakerEntityRenderer)
-
-        EntityModelLayerRegistry.registerModelLayer(
-            StarbornModelLayers.SMALL_SPEAKER,
-            CosmicBoltEntityModel::getTexturedModelData
-        )
-
-        EntityRendererRegistry.register(
-            StarbornSoundscapeEntities.BEAM_RENDERER,
-            ::BeamRenderer)
     }
 }

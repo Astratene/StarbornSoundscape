@@ -1,13 +1,8 @@
 package org.teamvoided.starborn_soundscape.entity
 
-import net.minecraft.command.argument.EntityArgumentType.entity
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -26,7 +21,6 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
-import kotlin.math.exp
 
 class CosmicBoltEntity : PersistentProjectileEntity {
 

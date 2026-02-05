@@ -20,12 +20,16 @@ import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
+import software.bernie.geckolib.animatable.GeoAnimatable
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
+import software.bernie.geckolib.animation.AnimatableManager
+import software.bernie.geckolib.util.GeckoLibUtil
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
-class SmallSpeakerEntity : Entity {
+class SmallSpeakerEntity : Entity, GeoAnimatable {
 
     var owner: LivingEntity? = null
 
@@ -235,5 +239,20 @@ class SmallSpeakerEntity : Entity {
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound?) {
+    }
+
+    private val animationCache: AnimatableInstanceCache =
+        GeckoLibUtil.createInstanceCache(this)
+
+    override fun registerControllers(p0: AnimatableManager.ControllerRegistrar?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAnimatableInstanceCache(): AnimatableInstanceCache? {
+        return animationCache
+    }
+
+    override fun getTick(p0: Any?): Double {
+        TODO("Not yet implemented")
     }
 }
