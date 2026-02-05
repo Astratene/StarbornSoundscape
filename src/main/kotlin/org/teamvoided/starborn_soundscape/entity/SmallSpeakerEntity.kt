@@ -16,6 +16,7 @@ import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import org.joml.Math
 import org.joml.Math.lerp
+import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
@@ -40,7 +41,7 @@ class SmallSpeakerEntity : Entity {
     var ticksTillShootLaser = 10
     var lifetimeTicks = 200
     var damage = 0.1f
-    var damageRadius = 1.0
+    var damageRadius = 0.5
     var damageRange = 100.0
     var targetGrabRadius = 5.0 // the radius from the centre of its vision it can grab a target from
     var targetGrabLength = 100.0
@@ -108,8 +109,7 @@ class SmallSpeakerEntity : Entity {
                     if (!targetEntity!!.isAlive) {
                         this.targetEntity = null
                         this.followingPastVelocity = true
-                    }
-                    else if (targetEntity!!.isAlive) {
+                    } else if (targetEntity!!.isAlive) {
                         targetVelocity = targetEntity!!.velocity
                     }
                 } else if (followingPastVelocity) {
@@ -171,21 +171,38 @@ class SmallSpeakerEntity : Entity {
     fun sendOutParticleBeam(size: Double, caster: SmallSpeakerEntity, length: Double) {
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
         val interval = length / size
-        for (i in 0..interval.roundToInt()) {
-            if (!this.world.isClient) {
-                val serverWorld = this.world as ServerWorld
-                serverWorld.spawnParticles(
-                    ParticleTypes.END_ROD,
-                    (lerp(this.eyePos.x, endPos.x, i / interval)),
-                    (lerp(this.eyePos.y - 0.5, endPos.y, i / interval)),
-                    (lerp(this.eyePos.z, endPos.z, i / interval)),
-                    1,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                )
-            }
+//        for (i in 0..interval.roundToInt()) {
+//            if (!this.world.isClient) {
+//                val serverWorld = this.world as ServerWorld
+//                serverWorld.spawnParticles(
+//                    ParticleTypes.END_ROD,
+//                    (lerp(this.eyePos.x, endPos.x, i / interval)),
+//                    (lerp(this.eyePos.y - 0.5, endPos.y, i / interval)),
+//                    (lerp(this.eyePos.z, endPos.z, i / interval)),
+//                    1,
+//                    0.0,
+//                    0.0,
+//                    0.0,
+//                    0.0
+//                )
+//            }
+//        }
+        if (this.age % 1 == 0) {
+            val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
+            beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x005d3e96)
+            beamRenderer.dataTracker.set(BeamRendererEntity.InterColour, 0x002b99ca)
+            beamRenderer.dataTracker.set(BeamRendererEntity.LiveTime, 1)
+            beamRenderer.dataTracker.set(BeamRendererEntity.ShrinkTime, 0)
+            beamRenderer.dataTracker.set(BeamRendererEntity.TargetPos, endPos.toVector3f())
+            beamRenderer.dataTracker.set(
+                BeamRendererEntity.OriginPos,
+                Vector3f(caster.x.toFloat(), (caster.y).toFloat(), caster.z.toFloat())
+            )
+            beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, 0.25f)
+            beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, 0.25f)
+            beamRenderer.dataTracker.set(BeamRendererEntity.InnerCubes, 2)
+            beamRenderer.setPosition(caster.x, caster.y, caster.z)
+            world.spawnEntity(beamRenderer)
         }
     }
 
