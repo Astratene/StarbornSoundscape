@@ -10,13 +10,12 @@ import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.SmallSpeakerEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.StarbornModelLayers
-import org.teamvoided.starborn_soundscape.client.entity.BeamRenderer
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 
 object StarbornSoundscapeRenderers {
     fun init() {
-        EntityRendererRegistry.register(StarbornSoundscapeEntities.SMALL_SPEAKER, ::EmptyEntityRenderer)
-        EntityRendererRegistry.register(StarbornSoundscapeEntities.BEAM_RENDERER, ::BeamRenderer)
+//        EntityRendererRegistry.register(StarbornSoundscapeEntities.SMALL_SPEAKER, ::SmallSpeakerEntityRenderer)
+//        EntityRendererRegistry.register(StarbornSoundscapeEntities.BEAM_RENDERER, ::BeamRenderer)
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.COSMIC_BOLT
         ) { ctx ->
