@@ -21,6 +21,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import software.bernie.geckolib.animatable.GeoAnimatable
+import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
 import software.bernie.geckolib.util.GeckoLibUtil
@@ -29,7 +30,7 @@ import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
-class SmallSpeakerEntity : Entity, GeoAnimatable {
+class SmallSpeakerEntity : Entity, GeoEntity {
 
     var owner: LivingEntity? = null
 
@@ -82,7 +83,7 @@ class SmallSpeakerEntity : Entity, GeoAnimatable {
                         followingPastVelocity = true
                         targetVelocity = Vec3d(
                             random.nextDouble().times(2).plus(-1),
-                            0.0,
+                            random.nextDouble().times(0.2).plus(-0.1),
                             random.nextDouble().times(2).plus(-1)
                         )
                     }
@@ -125,6 +126,9 @@ class SmallSpeakerEntity : Entity, GeoAnimatable {
                         lastFivePlacesTheTargetWas.last().add(Vec3d(targetVelocity.toVector3f()))
                     )
                 }
+            }
+            else {
+                discard()
             }
         }
     }
