@@ -314,8 +314,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
 
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 
-    val isTestEnchantedTri = false
-    val isTestEnchantedWell = true
+    val isTestEnchantedTri = true
+    val isTestEnchantedWell = false
     val isTestEnchantedGrizz = false
 
 

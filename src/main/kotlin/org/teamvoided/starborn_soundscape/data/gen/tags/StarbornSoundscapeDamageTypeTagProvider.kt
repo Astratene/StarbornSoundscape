@@ -16,5 +16,9 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
         getOrCreateTagBuilder(DamageTypeTags.BYPASSES_COOLDOWN)
             .add(StarbornSoundscapeDamageTypes.BOLT_EXPLOSION)
             .add(StarbornSoundscapeDamageTypes.BOLT_DIRECT)
+            .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
+
+        getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
+            .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
     }
 }

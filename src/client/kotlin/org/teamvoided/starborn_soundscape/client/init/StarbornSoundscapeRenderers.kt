@@ -8,5 +8,6 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 object StarbornSoundscapeRenderers {
     fun init() {
         EntityRendererRegistry.register(StarbornSoundscapeEntities.COSMIC_BOLT, ::EmptyEntityRenderer)
+        EntityRendererRegistry.register(StarbornSoundscapeEntities.SMALL_SPEAKER, ::EmptyEntityRenderer)
     }
 }
