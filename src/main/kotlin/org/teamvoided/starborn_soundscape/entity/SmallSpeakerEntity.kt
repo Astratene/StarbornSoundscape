@@ -60,8 +60,9 @@ class SmallSpeakerEntity : Entity, GeoAnimatable {
     val followingPostDeath = false
 
     override fun tick() {
-        if (this.owner == null) {
+        if (!world.isClient && owner == null) {
             discard()
+            return
         }
         if (this.owner != null) {
             if (ticksTillTrackTarget > 0) {
@@ -244,15 +245,14 @@ class SmallSpeakerEntity : Entity, GeoAnimatable {
     private val animationCache: AnimatableInstanceCache =
         GeckoLibUtil.createInstanceCache(this)
 
-    override fun registerControllers(p0: AnimatableManager.ControllerRegistrar?) {
-        TODO("Not yet implemented")
+    override fun registerControllers(registrar: AnimatableManager.ControllerRegistrar) {
+    }
+
+    override fun getTick(p0: Any?): Double {
+        return this.age.toDouble()
     }
 
     override fun getAnimatableInstanceCache(): AnimatableInstanceCache? {
         return animationCache
-    }
-
-    override fun getTick(p0: Any?): Double {
-        TODO("Not yet implemented")
     }
 }

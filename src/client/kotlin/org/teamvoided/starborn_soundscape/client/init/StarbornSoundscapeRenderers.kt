@@ -31,11 +31,6 @@ object StarbornSoundscapeRenderers {
             StarbornSoundscapeEntities.SMALL_SPEAKER,
             ::SmallSpeakerEntityRenderer)
 
-        EntityModelLayerRegistry.registerModelLayer(
-            StarbornModelLayers.SMALL_SPEAKER,
-            CosmicBoltEntityModel::getTexturedModelData
-        )
-
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.BEAM_RENDERER,
             ::BeamRenderer)
