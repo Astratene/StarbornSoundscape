@@ -1,13 +1,8 @@
 package org.teamvoided.starborn_soundscape.entity
 
-import net.minecraft.command.argument.EntityArgumentType.entity
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -26,7 +21,6 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
-import kotlin.math.exp
 
 class CosmicBoltEntity : PersistentProjectileEntity {
 
@@ -43,7 +37,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var directDamage = 10f
     var indirectDamage = 5f
     var timeTillBoom = 20
-    var explosionRadius = 1
+    var explosionRadius = 1.75
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
@@ -85,15 +79,39 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     pos.z - explosionRadius
                 )
             ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius }
-            for (entity in entities){
+            for (entity in entities) {
                 entity.customDamage(
                     StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
-                    directDamage,
+                    indirectDamage,
                     owner,
                     owner
                 )
             }
-            this.discard()
+            if (this.world is ServerWorld) {
+                val world = this.world as ServerWorld
+                world.spawnParticles(
+                    ParticleTypes.GLOW,
+                    this.x,
+                    this.y,
+                    this.z,
+                    5,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.2
+                )
+                world.playSound(
+                    null,
+                    this.x,
+                    this.y,
+                    this.z,
+                    SoundEvents.BLOCK_ENDER_CHEST_OPEN,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.5f
+                )
+                this.discard()
+            }
         }
     }
 
@@ -108,17 +126,18 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     }
 
     var ticksTillDrop = 5
-    val airResOnDrop = 0.5
-    val gravityOnDrop = -1.0
+    var airResOnDrop = 0.7
+    var gravityOnDrop = -0.5
 
     override fun tick() {
         if (ticksTillDrop > 0) ticksTillDrop--
-        else if (!this.inGround){
-            val velocity = this.velocity
-            velocity.multiply(airResOnDrop, 0.0, airResOnDrop)
-            velocity.add(0.0, gravityOnDrop, 0.0)
-            this.setVelocity(velocity)
-            this.velocityModified
+        else if (!this.inGround) {
+            var velocity = this.velocity
+            velocity = velocity.multiply(airResOnDrop, 1.0, airResOnDrop)
+            velocity = velocity.add(0.0, gravityOnDrop, 0.0)
+            println(velocity)
+            this.velocity = velocity
+            this.velocityDirty = true
         }
         super.tick()
     }

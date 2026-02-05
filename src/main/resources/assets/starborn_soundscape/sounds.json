@@ -1,0 +1,14 @@
+{
+  "metronome_1": {
+    "subtitle": "sounds.starborn_soundscape.metronome_1",
+    "sounds": [
+      "starborn_soundscape:metronome_1"
+    ]
+  },
+  "metronome_2": {
+    "subtitle": "sounds.starborn_soundscape.metronome_2",
+    "sounds": [
+      "starborn_soundscape:metronome_2"
+    ]
+  }
+}

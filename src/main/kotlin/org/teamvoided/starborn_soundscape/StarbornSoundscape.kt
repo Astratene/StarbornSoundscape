@@ -8,6 +8,7 @@ import org.teamvoided.starborn_soundscape.config.StarbornSoundscapeConfig
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 
 @Suppress("unused")
 object StarbornSoundscape {
@@ -24,6 +25,7 @@ object StarbornSoundscape {
         StarbornSoundscapeEntities.init()
         StarbornSoundscapeItems.init()
         StarbornSoundscapeDamageTypes
+        StarbornSoundscapeSounds.init()
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)
