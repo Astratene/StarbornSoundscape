@@ -1,11 +1,13 @@
 package org.teamvoided.starborn_soundscape.client.renderer
 
+import com.ibm.icu.util.CodePointTrie
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.Axis
 import net.minecraft.util.math.MathHelper
 import org.joml.Matrix4f
 import software.bernie.geckolib.renderer.GeoEntityRenderer
@@ -38,28 +40,21 @@ class SmallSpeakerEntityRenderer(
     ) {
         matrices.translate(0.0, -0.25, 0.0)
 
-        val pitch = MathHelper.lerp(
-            tick,
-            entity.dataTracker.get(SmallSpeakerEntity.TRACKED_PITCH),
-            entity.dataTracker.get(SmallSpeakerEntity.TRACKED_PITCH)
-        )
+        val pitch = entity.dataTracker.get(SmallSpeakerEntity.TRACKED_PITCH)
+        val yaw = entity.dataTracker.get(SmallSpeakerEntity.TRACKED_YAW)
 
-        val yaw = MathHelper.lerp(
-            tick,
-            entity.dataTracker.get(SmallSpeakerEntity.TRACKED_YAW),
-            entity.dataTracker.get(SmallSpeakerEntity.TRACKED_YAW)
-        )
 
-        matrices.multiply(
-            Matrix4f().rotateY(
-                Math.toRadians((entity.getYaw(-yaw)).toDouble()).toFloat()
-            )
+        matrices.rotateAround(
+            Axis.Y_POSITIVE.rotationDegrees(-yaw),
+            0f,
+            0f,
+            0f
         )
-
-        matrices.multiply(
-            Matrix4f().rotateX(
-                Math.toRadians((entity.getPitch(pitch)).toDouble()).toFloat()
-            )
+        matrices.rotateAround(
+            Axis.X_POSITIVE.rotationDegrees(pitch),
+            0f,
+            0f,
+            0f
         )
 
         super.preRender(

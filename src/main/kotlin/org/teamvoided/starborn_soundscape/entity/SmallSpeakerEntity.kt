@@ -22,6 +22,8 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
+import software.bernie.geckolib.animation.AnimationController
+import software.bernie.geckolib.animation.RawAnimation
 import software.bernie.geckolib.util.GeckoLibUtil
 import kotlin.math.roundToInt
 
@@ -41,6 +43,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var ticksTillTrackTarget = 20
     var ticksTillShootLaser = 10
     var lifetimeTicks = 200
+    var postStopTicks = 20
     var damage = 0.1f
     var damageRadius = 0.5
     var damageRange = 100.0
@@ -57,6 +60,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     val followingPostDeath = false
 
     override fun tick() {
+        this.faceBeam()
         if (!world.isClient && owner == null) {
             discard()
             return
@@ -69,7 +73,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 val ownerYaw = this.owner!!.yaw
                 val rotatedVec = this.relativeVec.rotateY(((ownerYaw) * (Math.PI.toFloat() / 180)) * -1)
                 this.setPosition(ownerPos.add(rotatedVec.x, rotatedVec.y, rotatedVec.z))
-                this.setRotation(this.owner!!.yaw, 0f)
+                this.setRotation(this.owner!!.yaw, 0f)//this.owner!!.pitch)
                 if (ticksTillTrackTarget <= 0) {
                     val temp = pickATarget()
                     if (temp != null) this.targetEntity = temp
@@ -102,6 +106,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     tempMultiplier += 1.0
                 }
             } else if (lifetimeTicks > 0) {
+                //triggerAnim(null) TODO just simply set the animation here, should work fine
                 lifetimeTicks--
                 if (targetEntity != null) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
@@ -123,25 +128,43 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     )
                 }
             }
+            else if (postStopTicks > 0) {
+                stopTriggeredAnim(null, null)
+                postStopTicks--
+            }
             else {
+                if (!this.world.isClient) {
+                    val serverWorld = this.world as ServerWorld
+                    serverWorld.spawnParticles(
+                        ParticleTypes.GLOW,
+                        this.x,
+                        this.y + 0.1,
+                        this.z,
+                        20,
+                        0.2,
+                        0.2,
+                        0.2,
+                        0.0
+                    )
+                }
                 discard()
             }
         }
     }
 
-    fun faceBeam(target: Vec3d) {
-        val dir = target.subtract(eyePos).normalize()
+    fun faceBeam() {
+//        val dir = target.subtract(eyePos).normalize()
+//
+//        val yawDeg =
+//            Math.toDegrees(kotlin.math.atan2(-dir.x, dir.z)).toFloat()
+//
+//        val pitchDeg =
+//            Math.toDegrees(kotlin.math.asin(-dir.y)).toFloat()
+//
+//        yaw = yawDeg
+//        prevYaw = yaw
 
-        val yawDeg =
-            Math.toDegrees(kotlin.math.atan2(-dir.x, dir.z)).toFloat()
-
-        val pitchDeg =
-            Math.toDegrees(kotlin.math.asin(-dir.y)).toFloat()
-
-        yaw = yawDeg
-        prevYaw = yaw
-
-        dataTracker.set(TRACKED_PITCH, pitchDeg)
+        dataTracker.set(TRACKED_PITCH, pitch)
         dataTracker.set(TRACKED_YAW, yaw)
 
     }
@@ -192,24 +215,6 @@ class SmallSpeakerEntity : Entity, GeoEntity {
 
     fun sendOutParticleBeam(size: Double, caster: SmallSpeakerEntity, length: Double) {
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
-        val interval = length / size
-//        for (i in 0..interval.roundToInt()) {
-//            if (!this.world.isClient) {
-//                val serverWorld = this.world as ServerWorld
-//                serverWorld.spawnParticles(
-//                    ParticleTypes.END_ROD,
-//                    (lerp(this.eyePos.x, endPos.x, i / interval)),
-//                    (lerp(this.eyePos.y - 0.5, endPos.y, i / interval)),
-//                    (lerp(this.eyePos.z, endPos.z, i / interval)),
-//                    1,
-//                    0.0,
-//                    0.0,
-//                    0.0,
-//                    0.0
-//                )
-//            }
-//        }
-        caster.faceBeam(endPos)
 
         if (this.age % 1 == 0) {
             val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
@@ -222,8 +227,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 BeamRendererEntity.OriginPos,
                 Vector3f(caster.x.toFloat(), (caster.y).toFloat(), caster.z.toFloat())
             )
-            beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, 0.25f)
-            beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, 0.25f)
+            beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, 0.2f)
+            beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, 0.2f)
             beamRenderer.dataTracker.set(BeamRendererEntity.InnerCubes, 2)
             beamRenderer.setPosition(caster.x, caster.y, caster.z)
             world.spawnEntity(beamRenderer)

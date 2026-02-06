@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.item
 
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission
@@ -29,11 +30,11 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         return TypedActionResult(ActionResult.CONSUME_PARTIAL, player.getStackInHand(hand))
     }
 
-    fun getChargeTicks(): Int {
-        return if (isTestEnchantedTri) 40 else if (isTestEnchantedWell) 60 else if (isTestEnchantedGrizz) 80 else 20 // will change based on enchantments
+    fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
+        return if (isTestEnchantedTri(user, stack)) 40 else if (isTestEnchantedWell(user, stack)) 60 else if (isTestEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
     }
-    fun getExtraFlareTicks(): Int {
-        return if (isTestEnchantedGrizz) 40 else -1
+    fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
+        return if (isTestEnchantedGrizz(user, stack)) 40 else -1
     }
 
     fun getAngleBetweenTriBolts(ticks: Int): Float {
@@ -48,13 +49,13 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         return 20 - (0.375f * max(ticks - 40, 0))
     }
 
-    fun getLaunchVelocity(ticks: Int): Float {
-        return (ticks / getChargeTicks().toFloat()).times(5f)
+    fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
+        return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
 
-    override fun usageTick(world: World, user: LivingEntity, stack: ItemStack?, remainingUseTicks: Int) {
-        val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks())
-        if (usedTicks == 20 || usedTicks == (getChargeTicks() -1 )|| usedTicks == getExtraFlareTicks()){
+    override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
+        val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
+        if (usedTicks == 19 || (usedTicks + 1) == (getChargeTicks(user, stack))|| usedTicks == getExtraFlareTicks(user, stack)){
             val vec3d: Vec3d = user.getLerpedEyePos(1f)
             val vec3d2: Vec3d = user.getRotationVec(1f)
             val vec3d3 = vec3d.add(vec3d2.x * 1, vec3d2.y * 1, vec3d2.z * 1)
@@ -83,34 +84,34 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         super.usageTick(world, user, stack, remainingUseTicks)
     }
 
-    override fun onStoppedUsing(stack: ItemStack?, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val usedTickes = min(USE_TICKS - remainingUseTicks, getChargeTicks())
+    override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+        val usedTickes = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
         if (usedTickes >= MIN_TICKS_TO_FIRE) {
-            fire(world, user, usedTickes)
+            fire(world, user, usedTickes, stack)
         }
         super.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
-    fun fire(world: World, user: LivingEntity, ticks: Int) {
-        if (isTestEnchantedTri) {
-            fireTriBolts(world, user, ticks)
-        } else if (isTestEnchantedWell) {
-            fireWellBolts(world, user, ticks)
-        } else if (isTestEnchantedGrizz) {
-            fireSoManyFuckingBolts(world, user, ticks)
+    fun fire(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        if (isTestEnchantedTri(user, stack)) {
+            fireTriBolts(world, user, ticks, stack)
+        } else if (isTestEnchantedWell(user, stack)) {
+            fireWellBolts(world, user, ticks, stack)
+        } else if (isTestEnchantedGrizz(user, stack)) {
+            fireSoManyFuckingBolts(world, user, ticks, stack)
         } else {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
-            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks), 0.0f)
+            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
             entity.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity)
         }
     }
 
-    fun fireTriBolts(world: World, user: LivingEntity, ticks: Int) {
+    fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
-        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks), 0.0f)
+        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
         entity.directDamage = 5f
         entity.pickupType = PickupPermission.DISALLOWED
         world.spawnEntity(entity)
@@ -122,7 +123,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw + getAngleBetweenTriBolts(ticks),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity2.directDamage = 5f
@@ -135,7 +136,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw - getAngleBetweenTriBolts(ticks),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity3.directDamage = 5f
@@ -149,7 +150,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch + getAngleBetweenTriBolts(ticks),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity2.directDamage = 5f
@@ -162,7 +163,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch - getAngleBetweenTriBolts(ticks),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity3.directDamage = 5f
@@ -171,10 +172,10 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         }
     }
 
-    fun fireWellBolts(world: World, user: LivingEntity, ticks: Int) {
+    fun fireWellBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
-        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks), 0.0f)
+        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
         entity.directDamage = 2.5f
         entity.indirectDamage = 2.5f
         entity.pickupType = PickupPermission.DISALLOWED
@@ -187,7 +188,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw + getAngleBetweenWellBolts(ticks),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity2.directDamage = 2.5f
@@ -201,7 +202,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw - getAngleBetweenWellBolts(ticks),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity3.directDamage = 2.5f
@@ -215,7 +216,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw + getAngleBetweenWellBolts(ticks).times(2),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity4.directDamage = 2.5f
@@ -229,7 +230,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch,
                 user.yaw - getAngleBetweenWellBolts(ticks).times(2),
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity5.directDamage = 2.5f
@@ -244,7 +245,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch + getAngleBetweenWellBolts(ticks),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity2.directDamage = 2.5f
@@ -258,7 +259,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch - getAngleBetweenWellBolts(ticks),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity3.directDamage = 2.5f
@@ -272,7 +273,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch + getAngleBetweenWellBolts(ticks).times(2),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity4.directDamage = 2.5f
@@ -286,7 +287,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 user.pitch - getAngleBetweenWellBolts(ticks).times(2),
                 user.yaw,
                 0.0f,
-                getLaunchVelocity(ticks),
+                getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
             entity5.directDamage = 2.5f
@@ -296,11 +297,11 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         }
     }
 
-    fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int) {
+    fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         repeat(9) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
-            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks), getMaxSpread(ticks))
+            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), getMaxSpread(ticks))
             entity.directDamage = 2f
             entity.indirectDamage = 2f
             entity.timeTillBoom = 20 + world.random.range(-5, 5)
@@ -310,13 +311,23 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         }
     }
 
-    override fun getUseAction(stack: ItemStack): UseAction = UseAction.BLOCK
+    override fun getUseAction(stack: ItemStack): UseAction = UseAction.CROSSBOW
 
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 
-    val isTestEnchantedTri = false
-    val isTestEnchantedWell = false
-    val isTestEnchantedGrizz = true
+    fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack) : Boolean {
+        return user.getStackReference(1).get() == stack
+    }
+    fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack) : Boolean {
+        return user.getStackReference(2).get() == stack
+    }
+    fun isTestEnchantedGrizz(user: LivingEntity, stack: ItemStack) : Boolean {
+        return user.getStackReference(3).get() == stack
+    }
+
+//    val isTestEnchantedTri = true
+//    val isTestEnchantedWell = false
+//    val isTestEnchantedGrizz = false
 
 
     companion object {
