@@ -35,7 +35,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     )
 
     var directDamage = 10f
-    var indirectDamage = 5f
+    var indirectDamage = 10f
     var timeTillBoom = 20
     var explosionRadius = 1.75
 

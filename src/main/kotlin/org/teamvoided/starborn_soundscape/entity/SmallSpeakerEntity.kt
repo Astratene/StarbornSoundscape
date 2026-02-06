@@ -44,7 +44,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var ticksTillShootLaser = 10
     var lifetimeTicks = 200
     var postStopTicks = 20
-    var damage = 0.1f
+    var damage = 0.5f
     var damageRadius = 0.5
     var damageRange = 100.0
     var targetGrabRadius = 5.0 // the radius from the centre of its vision it can grab a target from
@@ -110,7 +110,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 lifetimeTicks--
                 if (targetEntity != null) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
-                    dealDamageToEntitiesInBeam()
+                    if (this.age % 5 == 0) dealDamageToEntitiesInBeam()
+                    sendOutParticleBeam(damageRadius, this, damageRange)
                     lastFivePlacesTheTargetWas.removeFirst()
                     lastFivePlacesTheTargetWas.add(targetEntity!!.eyePos)
                     if (!targetEntity!!.isAlive) {
@@ -121,18 +122,17 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     }
                 } else if (followingPastVelocity) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
-                    dealDamageToEntitiesInBeam()
+                    if (this.age % 5 == 0) dealDamageToEntitiesInBeam()
+                    sendOutParticleBeam(damageRadius, this, damageRange)
                     lastFivePlacesTheTargetWas.removeFirst()
                     lastFivePlacesTheTargetWas.add(
                         lastFivePlacesTheTargetWas.last().add(Vec3d(targetVelocity.toVector3f()))
                     )
                 }
-            }
-            else if (postStopTicks > 0) {
+            } else if (postStopTicks > 0) {
                 stopTriggeredAnim(null, null)
                 postStopTicks--
-            }
-            else {
+            } else {
                 if (!this.world.isClient) {
                     val serverWorld = this.world as ServerWorld
                     serverWorld.spawnParticles(
@@ -188,7 +188,6 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 owner
             )
         }
-        sendOutParticleBeam(damageRadius, this, damageRange)
     }
 
     fun collectEntitiesInBeam(size: Double, caster: SmallSpeakerEntity, length: Double): MutableList<LivingEntity> {
@@ -215,7 +214,23 @@ class SmallSpeakerEntity : Entity, GeoEntity {
 
     fun sendOutParticleBeam(size: Double, caster: SmallSpeakerEntity, length: Double) {
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
-
+//        val interval = length / size
+//        for (i in 0..interval.roundToInt()) {
+//            if (!this.world.isClient) {
+//                val serverWorld = this.world as ServerWorld
+//                serverWorld.spawnParticles(
+//                    ParticleTypes.ELECTRIC_SPARK,
+//                    (lerp(this.eyePos.x, endPos.x, i / interval)),
+//                    (lerp(this.eyePos.y - 0.5, endPos.y, i / interval)),
+//                    (lerp(this.eyePos.z, endPos.z, i / interval)),
+//                    1,
+//                    0.0,
+//                    0.0,
+//                    0.0,
+//                    0.0
+//                )
+//            }
+//        }
         if (this.age % 1 == 0) {
             val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
             beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x005d3e96)

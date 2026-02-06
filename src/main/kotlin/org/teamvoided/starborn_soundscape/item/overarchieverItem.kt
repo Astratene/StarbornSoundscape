@@ -108,11 +108,13 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         }
     }
 
+
+    val TriDirectDamage = 10f
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
         setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
-        entity.directDamage = 5f
+        entity.directDamage = TriDirectDamage
         entity.pickupType = PickupPermission.DISALLOWED
         world.spawnEntity(entity)
         if (user.isOnGround) {
@@ -126,7 +128,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity2.directDamage = 5f
+            entity2.directDamage = TriDirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -139,7 +141,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity3.directDamage = 5f
+            entity3.directDamage = TriDirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
         } else {
@@ -153,7 +155,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity2.directDamage = 5f
+            entity2.directDamage = TriDirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -166,18 +168,20 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity3.directDamage = 5f
+            entity3.directDamage = TriDirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
         }
     }
 
+    val WellDirectDamage = 5f
+    val WellIndirectDamage = 5f
     fun fireWellBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
         setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
-        entity.directDamage = 2.5f
-        entity.indirectDamage = 2.5f
+        entity.directDamage = WellDirectDamage
+        entity.indirectDamage = WellIndirectDamage
         entity.pickupType = PickupPermission.DISALLOWED
         world.spawnEntity(entity)
         if (user.isOnGround) {
@@ -191,8 +195,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity2.directDamage = 2.5f
-            entity2.indirectDamage = 2.5f
+            entity2.directDamage = WellDirectDamage
+            entity2.indirectDamage = WellIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -205,8 +209,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity3.directDamage = 2.5f
-            entity3.indirectDamage = 2.5f
+            entity3.directDamage = WellDirectDamage
+            entity3.indirectDamage = WellIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
             val entity4 = CosmicBoltEntity(world, user)
@@ -219,8 +223,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity4.directDamage = 2.5f
-            entity4.indirectDamage = 2.5f
+            entity4.directDamage = WellDirectDamage
+            entity4.indirectDamage = WellIndirectDamage
             entity4.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity4)
             val entity5 = CosmicBoltEntity(world, user)
@@ -233,8 +237,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity5.directDamage = 2.5f
-            entity5.indirectDamage = 2.5f
+            entity5.directDamage = WellDirectDamage
+            entity5.indirectDamage = WellIndirectDamage
             entity5.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity5)
         } else {
@@ -248,8 +252,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity2.directDamage = 2.5f
-            entity2.indirectDamage = 2.5f
+            entity2.directDamage = WellDirectDamage
+            entity2.indirectDamage = WellIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -262,8 +266,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity3.directDamage = 2.5f
-            entity3.indirectDamage = 2.5f
+            entity3.directDamage = WellDirectDamage
+            entity3.indirectDamage = WellIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
             val entity4 = CosmicBoltEntity(world, user)
@@ -276,8 +280,8 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity4.directDamage = 2.5f
-            entity4.indirectDamage = 2.5f
+            entity4.directDamage = WellDirectDamage
+            entity4.indirectDamage = WellIndirectDamage
             entity4.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity4)
             val entity5 = CosmicBoltEntity(world, user)
@@ -290,20 +294,22 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                 getLaunchVelocity(ticks, user, stack),
                 0.0f
             )
-            entity5.directDamage = 2.5f
-            entity5.indirectDamage = 2.5f
+            entity5.directDamage = WellDirectDamage
+            entity5.indirectDamage = WellIndirectDamage
             entity5.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity5)
         }
     }
 
+    val GrizzDirectDamage = 2.5f
+    val GrizzIndirectDamage = 2.5f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         repeat(9) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), getMaxSpread(ticks))
-            entity.directDamage = 2f
-            entity.indirectDamage = 2f
+            entity.directDamage = GrizzDirectDamage
+            entity.indirectDamage = GrizzIndirectDamage
             entity.timeTillBoom = 20 + world.random.range(-5, 5)
             entity.pickupType = PickupPermission.DISALLOWED
             //entity.airResOnDrop = 0.5 + world.random.nextFloat().times(0.25)

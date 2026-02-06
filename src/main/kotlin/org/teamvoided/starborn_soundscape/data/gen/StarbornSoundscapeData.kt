@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistrySetBuilder
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.log
 import org.teamvoided.starborn_soundscape.data.registry.RegistryBootstrapper
 import org.teamvoided.starborn_soundscape.data.gen.StarbornSoundscapeRegistryBootstrapper
+import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeEnTranslationProvider
 import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeModelProvider
 import org.teamvoided.starborn_soundscape.data.gen.tags.StarbornSoundscapeDamageTypeTagProvider
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
@@ -24,6 +25,7 @@ object StarbornSoundscapeData : DataGeneratorEntrypoint {
 
         pack.addProvider(::StarbornSoundscapeDamageTypeTagProvider)
         pack.addProvider(::StarbornSoundscapeModelProvider)
+        pack.addProvider(::StarbornSoundscapeEnTranslationProvider)
         // Data
         pack.addProvider(::StarbornSoundscapeRegistryBootstrapper)
     }
