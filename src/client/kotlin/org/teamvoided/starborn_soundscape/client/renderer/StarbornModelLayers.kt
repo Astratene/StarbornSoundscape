@@ -10,9 +10,4 @@ object StarbornModelLayers {
         Identifier.of(StarbornSoundscape.MODID, "cosmic_bolt"),
         "main"
     )
-
-    val SMALL_SPEAKER = EntityModelLayer(
-        Identifier.of(StarbornSoundscape.MODID, "small_speaker"),
-        "main"
-    )
 }

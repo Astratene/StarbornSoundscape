@@ -1,18 +1,17 @@
 package org.teamvoided.starborn_soundscape.entity
 
-import com.ibm.icu.util.CodePointTrie
-import net.minecraft.command.argument.EntityAnchorArgumentType
 import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import org.joml.Math
 import org.joml.Math.lerp
@@ -20,14 +19,11 @@ import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
-import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
 import software.bernie.geckolib.util.GeckoLibUtil
-import kotlin.math.pow
 import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 
 class SmallSpeakerEntity : Entity, GeoEntity {
@@ -133,6 +129,23 @@ class SmallSpeakerEntity : Entity, GeoEntity {
         }
     }
 
+    fun faceBeam(target: Vec3d) {
+        val dir = target.subtract(eyePos).normalize()
+
+        val yawDeg =
+            Math.toDegrees(kotlin.math.atan2(-dir.x, dir.z)).toFloat()
+
+        val pitchDeg =
+            Math.toDegrees(kotlin.math.asin(-dir.y)).toFloat()
+
+        yaw = yawDeg
+        prevYaw = yaw
+
+        dataTracker.set(TRACKED_PITCH, pitchDeg)
+        dataTracker.set(TRACKED_YAW, yaw)
+
+    }
+
     fun pickATarget(): LivingEntity? {
         val entities = collectEntitiesInBeam(targetGrabRadius, this, targetGrabLength)
         if (entities.isNotEmpty()) {
@@ -196,6 +209,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
 //                )
 //            }
 //        }
+        caster.faceBeam(endPos)
+
         if (this.age % 1 == 0) {
             val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
             beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x005d3e96)
@@ -237,7 +252,9 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     }
 
 
-    override fun initDataTracker(builder: DataTracker.Builder?) {
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        builder.add(TRACKED_PITCH, 0f)
+        builder.add(TRACKED_YAW, 0f)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound?) {
@@ -259,4 +276,12 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     override fun getAnimatableInstanceCache(): AnimatableInstanceCache? {
         return animationCache
     }
+
+    companion object {
+        val TRACKED_PITCH: TrackedData<Float> =
+            DataTracker.registerData(SmallSpeakerEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        val TRACKED_YAW: TrackedData<Float> =
+            DataTracker.registerData(SmallSpeakerEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+    }
+
 }
