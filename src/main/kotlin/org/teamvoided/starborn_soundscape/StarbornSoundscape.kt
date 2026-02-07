@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.teamvoided.starborn_soundscape.config.StarbornSoundscapeConfig
+import org.teamvoided.starborn_soundscape.event.AxeBassEvents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
@@ -26,6 +27,7 @@ object StarbornSoundscape {
         StarbornSoundscapeItems.init()
         StarbornSoundscapeDamageTypes
         StarbornSoundscapeSounds.init()
+        AxeBassEvents.init()
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)
