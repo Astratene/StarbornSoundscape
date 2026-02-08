@@ -57,7 +57,6 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var randomlySelectedFollowPoint = Vec3d.ZERO
     var randomlySelectedFollowDistance = 50.0
     var tempMultiplier = 0.0
-    val followingPostDeath = false
 
     override fun tick() {
         this.faceBeam()
@@ -214,23 +213,6 @@ class SmallSpeakerEntity : Entity, GeoEntity {
 
     fun sendOutParticleBeam(size: Double, caster: SmallSpeakerEntity, length: Double) {
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
-//        val interval = length / size
-//        for (i in 0..interval.roundToInt()) {
-//            if (!this.world.isClient) {
-//                val serverWorld = this.world as ServerWorld
-//                serverWorld.spawnParticles(
-//                    ParticleTypes.ELECTRIC_SPARK,
-//                    (lerp(this.eyePos.x, endPos.x, i / interval)),
-//                    (lerp(this.eyePos.y - 0.5, endPos.y, i / interval)),
-//                    (lerp(this.eyePos.z, endPos.z, i / interval)),
-//                    1,
-//                    0.0,
-//                    0.0,
-//                    0.0,
-//                    0.0
-//                )
-//            }
-//        }
         if (this.age % 1 == 0) {
             val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
             beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x005d3e96)

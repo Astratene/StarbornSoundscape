@@ -44,7 +44,7 @@ class TesterItem(settings: Settings) : Item(settings) {
             speaker.setPosition(user.pos)
             world.spawnEntity(speaker)
         }
-        user.itemCooldownManager.set(user.getStackInHand(hand).item, 200)
+        user.itemCooldownManager.set(user.getStackInHand(hand).item, 1000)
         return super.use(world, user, hand)
     }
 }

@@ -34,5 +34,6 @@ object StarbornSoundscapeRenderers {
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.BEAM_RENDERER,
             ::BeamRenderer)
+        EntityRendererRegistry.register(StarbornSoundscapeEntities.BIG_SPEAKER, ::EmptyEntityRenderer)
     }
 }

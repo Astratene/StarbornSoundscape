@@ -10,6 +10,7 @@ import net.minecraft.util.Rarity
 import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
+import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import java.util.stream.Stream
@@ -20,6 +21,9 @@ object StarbornSoundscapeItems {
 
     val OVERARCHIEVER = register("overarchiever", overarchieverItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val BIGSPEAKERITEM = register("bigspeakeritem",
+        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
     val THE_AX = register(
         "the_ax",
         AxeBassItem(
