@@ -6,6 +6,8 @@ import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.BeamRenderer
+import org.teamvoided.starborn_soundscape.client.renderer.BigSpeakerEntityModel
+import org.teamvoided.starborn_soundscape.client.renderer.BigSpeakerEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.SmallSpeakerEntityRenderer
@@ -34,6 +36,10 @@ object StarbornSoundscapeRenderers {
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.BEAM_RENDERER,
             ::BeamRenderer)
-        EntityRendererRegistry.register(StarbornSoundscapeEntities.BIG_SPEAKER, ::EmptyEntityRenderer)
+        EntityRendererRegistry.register(StarbornSoundscapeEntities.BIG_SPEAKER, ::BigSpeakerEntityRenderer)
+        EntityModelLayerRegistry.registerModelLayer(
+            StarbornModelLayers.BIG_SPEAKER,
+            BigSpeakerEntityModel::getTexturedModelData
+        )
     }
 }

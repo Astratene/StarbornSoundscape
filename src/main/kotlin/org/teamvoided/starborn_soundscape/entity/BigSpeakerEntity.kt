@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -14,11 +16,13 @@ import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities.BIG_SPEAKER
+import java.util.UUID
 import kotlin.math.roundToInt
 
 class BigSpeakerEntity : Entity {
 
     var owner: LivingEntity? = null
+    var ownerUuid: UUID? = null
 
     constructor(entityType: EntityType<out BigSpeakerEntity?>?, world: World?) :
             super(entityType as EntityType<out Entity?>?, world)
@@ -26,6 +30,7 @@ class BigSpeakerEntity : Entity {
     constructor(world: World?, owner: LivingEntity?) :
             super(BIG_SPEAKER as EntityType<out Entity?>, world) {
         this.owner = owner
+        this.ownerUuid = owner?.uuid
     }
 
     val damageRadius = 5.0
@@ -36,15 +41,21 @@ class BigSpeakerEntity : Entity {
     var disipationTicks = 20
 
     override fun tick() {
-        if (this.owner == null) {
-            discard()
+        if (owner == null && ownerUuid != null && world is ServerWorld) {
+            owner = (world as ServerWorld).getEntity(ownerUuid!!) as? LivingEntity
         }
+        if (!world.isClient && owner == null) {
+            discard()
+            return
+        }
+
         super.tick()
         if (this.owner != null) {
             if (preFireTicks > 0) {
                 preFireTicks--
                 sendOutParticleBeam2(damageRadius, this, damageRange)
-                this.setRotation(this.owner!!.yaw, 0f)
+                this.yaw = owner!!.yaw
+                this.pitch = owner!!.pitch
                 if (preFireTicks == 0) {
                     sendOutParticleBeam(damageRadius, this, damageRange)
                 }
@@ -132,7 +143,33 @@ class BigSpeakerEntity : Entity {
         }
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder?) {
+    fun faceBeam() {
+//        val dir = target.subtract(eyePos).normalize()
+//
+//        val yawDeg =
+//            Math.toDegrees(kotlin.math.atan2(-dir.x, dir.z)).toFloat()
+//
+//        val pitchDeg =
+//            Math.toDegrees(kotlin.math.asin(-dir.y)).toFloat()
+//
+//        yaw = yawDeg
+//        prevYaw = yaw
+
+        dataTracker.set(TRACKED_YAW, yaw)
+        dataTracker.set(TRACKED_PITCH, pitch)
+
+    }
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        builder.add(TRACKED_PITCH, 0f)
+        builder.add(TRACKED_YAW, 0f)
+    }
+
+    companion object {
+        val TRACKED_PITCH: TrackedData<Float> =
+            DataTracker.registerData(BigSpeakerEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        val TRACKED_YAW: TrackedData<Float> =
+            DataTracker.registerData(BigSpeakerEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound?) {
