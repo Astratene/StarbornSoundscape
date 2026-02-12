@@ -18,7 +18,9 @@ import net.minecraft.util.UseAction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.joml.Math.lerp
+import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
 import org.teamvoided.starborn_soundscape.entity.CosmicBoltEntity
+import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
 import kotlin.math.max
 import kotlin.math.min
@@ -322,13 +324,13 @@ class overarchieverItem(settings: Settings) : Item(settings) {
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 
     fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack) : Boolean {
-        return user.getStackReference(1).get() == stack
+        return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
     }
     fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack) : Boolean {
-        return user.getStackReference(2).get() == stack
+        return stack.hasEnchantment(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
     }
     fun isTestEnchantedGrizz(user: LivingEntity, stack: ItemStack) : Boolean {
-        return user.getStackReference(3).get() == stack
+        return stack.hasEnchantment(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
     }
 
 //    val isTestEnchantedTri = true

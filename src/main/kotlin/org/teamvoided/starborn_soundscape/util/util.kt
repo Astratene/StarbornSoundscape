@@ -1,9 +1,15 @@
 package org.teamvoided.starborn_soundscape.util
 
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.projectile.ProjectileEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.Holder
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -28,3 +34,8 @@ fun World.playSound(pos: Vec3d, soundEvent: SoundEvent, category: SoundCategory,
 fun World.playSound(pos: Vec3d, soundEvent: Holder<SoundEvent>, category: SoundCategory, volume: Float, pitch: Float) {
     this.method_60511(null, pos.x, pos.y, pos.z, soundEvent, category, volume, pitch)
 }
+
+fun <T, R : Registry<T>> RegistryKey<R>.tag(id: Identifier) = TagKey.of(this, id)
+
+fun ItemStack.hasEnchantment(enchantment: RegistryKey<Enchantment>): Boolean =
+    this.enchantments.enchantments.any { it.isRegistryKey(enchantment) }

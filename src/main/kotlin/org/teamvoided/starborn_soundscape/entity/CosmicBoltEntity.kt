@@ -135,7 +135,6 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             var velocity = this.velocity
             velocity = velocity.multiply(airResOnDrop, 1.0, airResOnDrop)
             velocity = velocity.add(0.0, gravityOnDrop, 0.0)
-            println(velocity)
             this.velocity = velocity
             this.velocityDirty = true
         }

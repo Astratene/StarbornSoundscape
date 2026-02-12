@@ -31,6 +31,22 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
         gen.add("death.attack.bolt_explosion.item", "%s was pierced by millions of %s's %s's shrapnel")
         gen.add("death.attack.big_soundwaves.item", "%s was silenced by %s's %s's deafening roar")
+
+        gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
+        gen.add(
+            "enchantment.starborn_soundscape.tri_this.desc",
+            "Increases the number of bolts fired to 3 and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
+        )
+        gen.add("enchantment.starborn_soundscape.well_well_well", "Well Well Well...")
+        gen.add(
+            "enchantment.starborn_soundscape.well_well_well.desc",
+            "Increases the number of bolts fired to 5, increases the charge time heavily, and halves the damage of each bolt. Bolt spread is increased the longer the weapon is charged."
+        )
+        gen.add("enchantment.starborn_soundscape.grizzly_fate", "A Grizzly Fate")
+        gen.add(
+            "enchantment.starborn_soundscape.grizzly_fate.desc",
+            "Increases the number of bolts to 9 and gives them a random spread. Quarters the damage and increases the charge time severely. Spread is reduced the longer the weapon is charged."
+        )
     }
 
 
