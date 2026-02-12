@@ -1,11 +1,9 @@
 package org.teamvoided.starborn_soundscape.item
 
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission
 import net.minecraft.item.Item
-import net.minecraft.item.Item.Settings
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -17,7 +15,6 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import org.joml.Math.lerp
 import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
 import org.teamvoided.starborn_soundscape.entity.CosmicBoltEntity
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
