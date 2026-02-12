@@ -319,7 +319,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         }
     }
 
-    override fun getUseAction(stack: ItemStack): UseAction = UseAction.CROSSBOW
+    override fun getUseAction(stack: ItemStack): UseAction = UseAction.BOW
 
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 

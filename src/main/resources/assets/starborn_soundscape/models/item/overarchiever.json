@@ -1,0 +1,41 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "starborn_soundscape:item/overarchiever"
+	},
+	"overrides": [
+		{"predicate": {"pulling": 1}, "model": "starborn_soundscape:item/overarchiever_pulling_0"},
+		{"predicate": {"pulling": 1, "pull": 0.65}, "model": "starborn_soundscape:item/overarchiever_pulling_1"},
+		{"predicate": {"pulling": 1, "pull": 0.9}, "model": "starborn_soundscape:item/overarchiever_pulling_2"}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-95, -180, -45],
+			"translation": [0, 0.5, 2.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-95, -180, 45],
+			"translation": [0, 0.5, 2.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [-90, -30, -45],
+			"translation": [2.5, 2, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-90, -30, 45],
+			"translation": [2.5, 2, 0]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"gui": {
+			"translation": [0.5, -0.5, 0]
+		},
+		"on_shelf": {
+			"translation": [0, 0, -3.75]
+		}
+	}
+}
