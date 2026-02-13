@@ -11,6 +11,7 @@ object StarbornSoundscapeSounds {
 
     val METRONOME_1 = register("metronome_1")
     val METRONOME_2 = register("metronome_2")
+    val SOUND_SO_LOUD_IT_KILLS_YA = register("sound_so_loud_it_kills_ya")
 
     private fun register(id: String): SoundEvent = register(id(id))
     private fun register(id: Identifier): SoundEvent = register(id, id)

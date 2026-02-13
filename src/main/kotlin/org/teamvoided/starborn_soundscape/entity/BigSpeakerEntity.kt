@@ -28,6 +28,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities.BIG_SPEAKER
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -140,6 +141,7 @@ class BigSpeakerEntity : Entity {
             )
         }
         world.playSoundFromEntity(this, SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY, SoundCategory.PLAYERS, 1.0f, 1.0f)
+        world.playSoundFromEntity(this, StarbornSoundscapeSounds.SOUND_SO_LOUD_IT_KILLS_YA, SoundCategory.PLAYERS, 5.0f, 1.0f)
     }
 
     fun hitAir(world: World) {
