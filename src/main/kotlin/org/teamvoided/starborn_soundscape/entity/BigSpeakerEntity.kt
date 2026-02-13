@@ -19,6 +19,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -53,8 +54,8 @@ class BigSpeakerEntity : Entity {
     val damageRange = 1000.0
     val damage = 10f
     var preFireTicks = 50
-    var firingTicks = 200
-    var disipationTicks = 20
+    var firingTicks = 220
+    var disipationTicks = 15
     var isStillOnGround = true
     val hitEntities = mutableListOf<LivingEntity>()
 

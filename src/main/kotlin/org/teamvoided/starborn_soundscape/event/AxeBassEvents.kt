@@ -33,9 +33,9 @@ object AxeBassEvents {
 
                     val sound =
                         if (data.beatIndex % 4 == 0)
-                            SoundEvents.BLOCK_STONE_BREAK
+                            StarbornSoundscapeSounds.METRONOME_1
                         else
-                            SoundEvents.BLOCK_DEEPSLATE_BREAK
+                            StarbornSoundscapeSounds.METRONOME_2
 
                     player.world.playSound(
                         null,
