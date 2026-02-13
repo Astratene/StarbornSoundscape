@@ -21,9 +21,11 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
         getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.BIG_SOUNDWAVES)
+            .add(StarbornSoundscapeDamageTypes.CRUSHED)
 
         getOrCreateTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.BIG_SOUNDWAVES)
+            .add(StarbornSoundscapeDamageTypes.CRUSHED)
     }
 }

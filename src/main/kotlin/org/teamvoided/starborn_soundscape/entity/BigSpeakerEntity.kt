@@ -50,11 +50,12 @@ class BigSpeakerEntity : Entity {
 
     val damageRadius = 5.0
     val damageRange = 1000.0
-    val damage = 5f
-    var preFireTicks = 20
+    val damage = 10f
+    var preFireTicks = 50
     var firingTicks = 200
     var disipationTicks = 20
     var isStillOnGround = true
+    val hitEntities = mutableListOf<LivingEntity>()
 
     override fun tick() {
         faceBeam()
@@ -77,27 +78,49 @@ class BigSpeakerEntity : Entity {
                     //this.yaw = owner!!.yaw
                     //this.pitch = owner!!.pitch
                     if (preFireTicks == 0) {
-                        sendOutParticleBeam(damageRadius, this, 100.0, 11.0)
-                        sendOutParticleBeam3(damageRadius, this, 10.0, 1.0)
+                        sendOutParticleBeam(damageRadius, this, 100.0, 11.0, 1)
+                        sendOutParticleBeam3(damageRadius, this, 10.0, 1.0, 1)
                     }
-                }
-                if (preFireTicks < 1 && firingTicks > 0) {
+                } else if (firingTicks > 0) {
                     dealDamageToEntitiesInBeam()
                     firingTicks--
+                    val random = random.nextFloat().plus(-0.5f)
+                    sendOutParticleBeam(damageRadius + random, this, 100.0, 11.0, 1)
+                    sendOutParticleBeam3(damageRadius + random, this, 10.0, 1.0, 1)
                 } else if (disipationTicks > 0) {
                     disipationTicks--
-                } else discard()
+                } else {
+                    if (!this.world.isClient) {
+                        val serverWorld = this.world as ServerWorld
+                        serverWorld.spawnParticles(
+                            ParticleTypes.GLOW,
+                            this.x,
+                            this.y + 0.1,
+                            this.z,
+                            200,
+                            1.0,
+                            1.5,
+                            1.0,
+                            0.0
+                        )
+                    }
+                    discard()
+                }
             }
         }
         if (!this.isOnGround) {
             this.velocity = this.velocity.add(0.0, -0.1, 0.0)
             this.velocityDirty = true
+            if (isStillOnGround) {
+                dealDamageToEntitiesInSpeaker(10f, world)
+            }
         } else {
             this.velocity = Vec3d.ZERO
             this.velocityDirty = true
             if (isStillOnGround) {
                 HitGround(world)
                 isStillOnGround = false
+                dealDamageToEntitiesInSpeaker(25f, world)
             }
         }
     }
@@ -119,6 +142,23 @@ class BigSpeakerEntity : Entity {
         world.playSoundFromEntity(this, SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY, SoundCategory.PLAYERS, 1.0f, 1.0f)
     }
 
+    fun hitAir(world: World) {
+        if (world is ServerWorld) {
+            world.spawnParticles(
+                ParticleTypes.ELECTRIC_SPARK,
+                this.x,
+                this.y,
+                this.z,
+                100,
+                1.0,
+                0.0,
+                1.0,
+                0.5
+            )
+        }
+        world.playSoundFromEntity(this, SoundEvents.ITEM_MACE_SMASH_AIR, SoundCategory.PLAYERS, 1.0f, 1.0f)
+    }
+
     fun dealDamageToEntitiesInBeam() {
         val entities = collectEntitiesInBeam(damageRadius, this, damageRange)
         for (entity in entities) {
@@ -128,6 +168,34 @@ class BigSpeakerEntity : Entity {
                 owner,
                 owner
             )
+        }
+    }
+    fun dealDamageToEntitiesInSpeaker(damage: Float, world: World) {
+        val entities = mutableListOf<Entity>()
+        entities.addAll(
+            world.getOtherEntities(
+                this, Box(
+                    this.pos.x + 2.0,
+                    this.pos.y + 3.0,
+                    this.pos.z + 2.0,
+                    this.pos.x - 2.0,
+                    this.pos.y - 1.0,
+                    this.pos.z - 2.0
+                )
+            ).filter { it is LivingEntity && it != this.owner && (!hitEntities.contains(it) || damage > 15f) }
+        )
+        for (entity in entities) {
+            entity.customDamage(
+                StarbornSoundscapeDamageTypes.CRUSHED,
+                damage,
+                owner,
+                owner
+            )
+            hitEntities.add(entity as LivingEntity)
+        }
+        if (entities.isNotEmpty()) {
+            this.velocity = Vec3d.ZERO
+            hitAir(world)
         }
     }
 
@@ -152,36 +220,36 @@ class BigSpeakerEntity : Entity {
         return entities as MutableList<LivingEntity>
     }
 
-    fun sendOutParticleBeam(size: Double, caster: BigSpeakerEntity, length: Double, startLength: Double) {
-        val endPos = caster.pos.add(caster.rotationVector.multiply(length)).add(0.0,1.0,0.0)
-        val startPos = caster.pos.add(caster.rotationVector.multiply(startLength)).add(0.0,1.0,0.0)
+    fun sendOutParticleBeam(size: Double, caster: BigSpeakerEntity, length: Double, startLength: Double, ticks: Int) {
+        val endPos = caster.pos.add(caster.rotationVector.multiply(length)).add(0.0, 1.0, 0.0)
+        val startPos = caster.pos.add(caster.rotationVector.multiply(startLength)).add(0.0, 1.0, 0.0)
 
         val beamRenderer = BeamRendererEntity(world, startPos.x, startPos.y, startPos.z)
         beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x005d3e96)
         beamRenderer.dataTracker.set(BeamRendererEntity.InterColour, 0x002b99ca)
-        beamRenderer.dataTracker.set(BeamRendererEntity.LiveTime, 200)
-        beamRenderer.dataTracker.set(BeamRendererEntity.ShrinkTime, 20)
+        beamRenderer.dataTracker.set(BeamRendererEntity.LiveTime, ticks)
+        beamRenderer.dataTracker.set(BeamRendererEntity.ShrinkTime, 0)
         beamRenderer.dataTracker.set(BeamRendererEntity.TargetPos, endPos.toVector3f())
         beamRenderer.dataTracker.set(
             BeamRendererEntity.OriginPos,
             Vector3f(startPos.x.toFloat(), (startPos.y).toFloat(), startPos.z.toFloat())
         )
-        beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, 5.0f)
-        beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, 5.0f)
+        beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, size.toFloat())
+        beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, size.toFloat())
         beamRenderer.dataTracker.set(BeamRendererEntity.InnerCubes, 3)
         beamRenderer.setPosition(startPos)
         world.spawnEntity(beamRenderer)
     }
 
-    fun sendOutParticleBeam3(size: Double, caster: BigSpeakerEntity, length: Double, startLength: Double) {
-        val endPos = caster.pos.add(caster.rotationVector.multiply(length)).add(0.0,1.0,0.0)
-        val startPos = caster.pos.add(caster.rotationVector.multiply(startLength)).add(0.0,1.0,0.0)
+    fun sendOutParticleBeam3(size: Double, caster: BigSpeakerEntity, length: Double, startLength: Double, ticks: Int) {
+        val endPos = caster.pos.add(caster.rotationVector.multiply(length)).add(0.0, 1.0, 0.0)
+        val startPos = caster.pos.add(caster.rotationVector.multiply(startLength)).add(0.0, 1.0, 0.0)
 
         val coneRenderer = ConeRendererEntity(world, caster.x, caster.y, caster.z)
         coneRenderer.dataTracker.set(ConeRendererEntity.OuterColour, 0x005d3e96)
         coneRenderer.dataTracker.set(ConeRendererEntity.InterColour, 0x002b99ca)
-        coneRenderer.dataTracker.set(ConeRendererEntity.LiveTime, 200)
-        coneRenderer.dataTracker.set(ConeRendererEntity.ShrinkTime, 20)
+        coneRenderer.dataTracker.set(ConeRendererEntity.LiveTime, ticks)
+        coneRenderer.dataTracker.set(ConeRendererEntity.ShrinkTime, 0)
         coneRenderer.dataTracker.set(ConeRendererEntity.TargetPos, endPos.toVector3f())
         coneRenderer.dataTracker.set(
             ConeRendererEntity.OriginPos,
@@ -205,7 +273,7 @@ class BigSpeakerEntity : Entity {
                 serverWorld.spawnParticles(
                     ParticleTypes.ELECTRIC_SPARK,
                     (lerp(this.eyePos.x, endPos.x, i / interval)),
-                    (lerp(this.pos.y - 0.5, endPos.y, i / interval)),
+                    (lerp(this.pos.y + 1, endPos.y + 1, i / interval)),
                     (lerp(this.eyePos.z, endPos.z, i / interval)),
                     10,
                     0.3,
@@ -240,5 +308,9 @@ class BigSpeakerEntity : Entity {
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound?) {
+    }
+
+    override fun isCollidable(): Boolean {
+        return true
     }
 }

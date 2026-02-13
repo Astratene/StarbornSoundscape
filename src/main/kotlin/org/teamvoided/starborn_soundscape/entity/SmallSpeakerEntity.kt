@@ -111,7 +111,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 if (targetEntity != null) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
                     if (this.age % 5 == 0) dealDamageToEntitiesInBeam()
-                    sendOutParticleBeam(damageRadius, this, damageRange)
+                    sendOutParticleBeam(0.2f, this, damageRange)
                     lastFivePlacesTheTargetWas.removeFirst()
                     lastFivePlacesTheTargetWas.add(targetEntity!!.eyePos)
                     if (!targetEntity!!.isAlive) {
@@ -123,7 +123,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 } else if (followingPastVelocity) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
                     if (this.age % 5 == 0) dealDamageToEntitiesInBeam()
-                    sendOutParticleBeam(damageRadius, this, damageRange)
+                    val random = random.nextFloat().plus(-0.5f).times(0.025f)
+                    sendOutParticleBeam(0.2f + random, this, damageRange)
                     lastFivePlacesTheTargetWas.removeFirst()
                     lastFivePlacesTheTargetWas.add(
                         lastFivePlacesTheTargetWas.last().add(Vec3d(targetVelocity.toVector3f()))
@@ -221,7 +222,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     }
 
 
-    fun sendOutParticleBeam(size: Double, caster: SmallSpeakerEntity, length: Double) {
+    fun sendOutParticleBeam(size: Float, caster: SmallSpeakerEntity, length: Double) {
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
         if (this.age % 1 == 0) {
             val beamRenderer = BeamRendererEntity(world, caster.x, caster.y, caster.z)
@@ -234,8 +235,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 BeamRendererEntity.OriginPos,
                 Vector3f(caster.x.toFloat(), (caster.y).toFloat(), caster.z.toFloat())
             )
-            beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, 0.2f)
-            beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, 0.2f)
+            beamRenderer.dataTracker.set(BeamRendererEntity.OuterThickness, size)
+            beamRenderer.dataTracker.set(BeamRendererEntity.MaxOuterThickness, size)
             beamRenderer.dataTracker.set(BeamRendererEntity.InnerCubes, 2)
             beamRenderer.setPosition(caster.x, caster.y, caster.z)
             world.spawnEntity(beamRenderer)

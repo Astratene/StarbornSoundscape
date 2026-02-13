@@ -26,11 +26,13 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.bolt_direct", "%s was pierced straight through by %s")
         gen.add("death.attack.bolt_explosion", "%s was pierced by millions of %s's shrapnel")
         gen.add("death.attack.big_soundwaves", "%s was violently shown %s's music taste")
+        gen.add("death.attack.crushed", "%s was squished by %s's big ass speaker")
 
         gen.add("death.attack.small_soundwaves.item", "%s got blasted by %s's %s")
         gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
         gen.add("death.attack.bolt_explosion.item", "%s was pierced by millions of %s's %s's shrapnel")
         gen.add("death.attack.big_soundwaves.item", "%s was silenced by %s's %s's deafening roar")
+        gen.add("death.attack.crushed.item", "%s was squished by %s's %s's unreasonably large speaker")
 
         gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
         gen.add(
