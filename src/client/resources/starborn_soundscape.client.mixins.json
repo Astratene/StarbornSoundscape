@@ -4,7 +4,8 @@
   "package": "org.teamvoided.starborn_soundscape.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ExampleMixin"
+    "ExampleMixin",
+    "HoldingRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
