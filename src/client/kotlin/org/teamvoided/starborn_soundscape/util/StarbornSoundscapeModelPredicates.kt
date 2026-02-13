@@ -2,7 +2,6 @@ package org.teamvoided.starborn_soundscape.util
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.util.Identifier
-import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
 
