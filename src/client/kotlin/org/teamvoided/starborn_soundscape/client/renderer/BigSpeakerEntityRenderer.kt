@@ -41,7 +41,7 @@ class BigSpeakerEntityRenderer(
         val yaw = entity.dataTracker.get(BigSpeakerEntity.TRACKED_YAW)
 
         matrices.rotateAround(
-            Axis.Y_POSITIVE.rotationDegrees(yaw),
+            Axis.Y_POSITIVE.rotationDegrees(-yaw),
             0f,
             0f,
             0f

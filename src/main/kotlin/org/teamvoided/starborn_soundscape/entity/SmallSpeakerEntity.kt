@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -171,6 +172,15 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     fun pickATarget(): LivingEntity? {
         val entities = collectEntitiesInBeam(targetGrabRadius, this, targetGrabLength)
         if (entities.isNotEmpty()) {
+            for (entity in entities) {
+                if (entity is PlayerEntity) {
+                    for (entiity in entities) {
+                        if (entiity !is PlayerEntity) {
+                            entities.remove(entiity)
+                        }
+                    }
+                }
+            }
             entities.shuffle()
             return entities.first()
         }

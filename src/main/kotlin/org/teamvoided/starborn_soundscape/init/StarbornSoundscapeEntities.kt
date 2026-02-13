@@ -33,12 +33,18 @@ object StarbornSoundscapeEntities {
     val BIG_SPEAKER = register(
         "big_speaker",
         EntityType.Builder.create(EntityType.EntityFactory(::BigSpeakerEntity), SpawnGroup.MISC)
-            .setDimensions(6.0f, 9.0f).maxTrackingRange(4).build()
+            .setDimensions(2.0f, 3.0f).maxTrackingRange(4).build()
     )
 
     val BEAM_RENDERER = register(
         "beam_renderer",
         EntityType.Builder.create(EntityType.EntityFactory(::BeamRendererEntity), SpawnGroup.MISC)
+            .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
+    )
+
+    val CONE_RENDERER = register(
+        "cone_renderer",
+        EntityType.Builder.create(EntityType.EntityFactory(::ConeRendererEntity), SpawnGroup.MISC)
             .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
     )
 

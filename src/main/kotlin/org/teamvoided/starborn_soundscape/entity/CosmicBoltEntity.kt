@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -137,6 +138,14 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             velocity = velocity.add(0.0, gravityOnDrop, 0.0)
             this.velocity = velocity
             this.velocityDirty = true
+        }
+        if (!this.inGround) {
+            if (world is ServerWorld) (world as ServerWorld).spawnParticles(
+                ParticleTypes.GLOW, this.x, this.y, this.z,
+                1,
+                0.0, 0.0, 0.0,
+                0.0
+            )
         }
         super.tick()
     }

@@ -47,8 +47,9 @@ class BigSpeakerTestItem(settings: Settings) : Item(settings) {
 //            world.spawnEntity(speaker)
 //        }
         val speaker = BigSpeakerEntity(world, user)
-        val relativeVec = Vec3d(0.0, 0.0, 3.0).rotateY((user.yaw) * (Math.PI.toFloat() / 180) * -1)
+        val relativeVec = Vec3d(0.0, 3.0, 3.0).rotateY((user.yaw) * (Math.PI.toFloat() / 180) * -1)
         speaker.setPosition(user.pos.add(relativeVec))
+        speaker.yaw = user.yaw
         world.spawnEntity(speaker)
         //user.itemCooldownManager.set(user.getStackInHand(hand).item, 1000)
         return super.use(world, user, hand)

@@ -41,7 +41,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
     }
 
     fun getAngleBetweenWellBolts(ticks: Int): Float {
-        return (ticks - 20).times(0.2f)
+        return (ticks - 20).times(0.2f).plus(1f)
     }
 
     fun getMaxSpread(ticks: Int): Float {
@@ -105,6 +105,7 @@ class overarchieverItem(settings: Settings) : Item(settings) {
             entity.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity)
         }
+        world.playSoundFromEntity(user, SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, 0.75f)
     }
 
 

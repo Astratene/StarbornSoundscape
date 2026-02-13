@@ -2,12 +2,10 @@ package org.teamvoided.starborn_soundscape.client.init
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
-import net.minecraft.client.render.entity.EmptyEntityRenderer
-import net.minecraft.client.render.entity.EntityRenderer
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.BeamRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.BigSpeakerEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.BigSpeakerEntityRenderer
+import org.teamvoided.starborn_soundscape.client.renderer.ConeRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.SmallSpeakerEntityRenderer
@@ -36,6 +34,11 @@ object StarbornSoundscapeRenderers {
         EntityRendererRegistry.register(
             StarbornSoundscapeEntities.BEAM_RENDERER,
             ::BeamRenderer)
+
+        EntityRendererRegistry.register(
+            StarbornSoundscapeEntities.CONE_RENDERER,
+            ::ConeRenderer)
+
         EntityRendererRegistry.register(StarbornSoundscapeEntities.BIG_SPEAKER, ::BigSpeakerEntityRenderer)
         EntityModelLayerRegistry.registerModelLayer(
             StarbornModelLayers.BIG_SPEAKER,

@@ -110,10 +110,10 @@ class BeamRenderer(context: EntityRendererFactory.Context?) :
         val a = thickness/2
         val b = (pos.y - entity.y).toFloat()
 
-        buffer.xyz(matrices.peek(), Vector3f(0f, b, 0f)).color(red, green, blue, opacity)
-        buffer.xyz(matrices.peek(), Vector3f(thickness, b, 0f)).color(red, green, blue, opacity)
-        buffer.xyz(matrices.peek(), Vector3f(thickness, b, thickness)).color(red, green, blue, opacity)
-        buffer.xyz(matrices.peek(), Vector3f(0f, b, thickness)).color(red, green, blue, opacity)
+//        buffer.xyz(matrices.peek(), Vector3f(0f, b, 0f)).color(red, green, blue, opacity)
+//        buffer.xyz(matrices.peek(), Vector3f(thickness, b, 0f)).color(red, green, blue, opacity)
+//        buffer.xyz(matrices.peek(), Vector3f(thickness, b, thickness)).color(red, green, blue, opacity)
+//        buffer.xyz(matrices.peek(), Vector3f(0f, b, thickness)).color(red, green, blue, opacity)
 
         buffer.xyz(matrices.peek(), Vector3f(0f, modifiedDistance, 0f)).color(red, green, blue, opacity)
         buffer.xyz(matrices.peek(), Vector3f(thickness, modifiedDistance, 0f)).color(red, green, blue, opacity)
