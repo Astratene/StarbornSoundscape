@@ -12,6 +12,6 @@ object StarbornSoundscapeClient {
     fun init() {
         StarbornSoundscape.log.info("Hello from Client")
         StarbornSoundscapeRenderers.init()
-        StarbornSoundscapeModelPredicates().init()
+        StarbornSoundscapeModelPredicates.init()
     }
 }

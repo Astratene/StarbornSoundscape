@@ -1,0 +1,6 @@
+{
+  "parent": "starborn_soundscape:item/overarchiever",
+  "textures": {
+    "layer0": "starborn_soundscape:item/overarchiever_pulling_0"
+  }
+}
