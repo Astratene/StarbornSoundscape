@@ -40,6 +40,8 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
             val speaker = SmallSpeakerEntity(world, user)
             speaker.relativeVec = positions[it]
             speaker.ticksTillTrackTarget = ((it.floorDiv(2)) * 10) + 20
+            speaker.lifetimeTicks = 200 - ((it.floorDiv(2)) * 10)
+            speaker.postStopTicks = ((it.floorDiv(2)) * 10) + 20
             speaker.setPosition(user.pos)
             speaker.pitch2 = 1.25f + ((it.floorDiv(2)) * 0.1f)
             world.spawnEntity(speaker)

@@ -109,7 +109,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     SoundEvents.BLOCK_ENDER_CHEST_OPEN,
                     SoundCategory.PLAYERS,
                     1.0F,
-                    1.5f
+                    1.5f + world.random.nextFloat().plus(-0.5f).times(0.5f),
                 )
                 this.discard()
             }

@@ -147,18 +147,21 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity.setPosition(user.eyePos)
             setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
             entity.pickupType = PickupPermission.DISALLOWED
+            entity.damage = baseDamage
             world.spawnEntity(entity)
         }
         world.playSoundFromEntity(user, SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, 0.75f)
     }
 
 
-    val TriDirectDamage = 10f
+    val TriDirectDamage = 7.5f
+    val TriIndirectDamage = 5f
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
         setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
         entity.directDamage = TriDirectDamage
+        entity.indirectDamage = TriIndirectDamage
         entity.pickupType = PickupPermission.DISALLOWED
         world.spawnEntity(entity)
         if (user.isOnGround) {
@@ -173,6 +176,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
                 0.0f
             )
             entity2.directDamage = TriDirectDamage
+            entity2.indirectDamage = TriIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -186,6 +190,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
                 0.0f
             )
             entity3.directDamage = TriDirectDamage
+            entity3.indirectDamage = TriIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
         } else {
@@ -200,6 +205,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
                 0.0f
             )
             entity2.directDamage = TriDirectDamage
+            entity2.indirectDamage = TriIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
@@ -213,6 +219,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
                 0.0f
             )
             entity3.directDamage = TriDirectDamage
+            entity3.indirectDamage = TriIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
             world.spawnEntity(entity3)
         }
@@ -345,8 +352,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         }
     }
 
-    val GrizzDirectDamage = 2.5f
-    val GrizzIndirectDamage = 2.5f
+    val GrizzDirectDamage = 4f
+    val GrizzIndirectDamage = 3.5f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         repeat(9) {
             val entity = CosmicBoltEntity(world, user)
@@ -388,7 +395,9 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         const val USE_TICKS = 72000
         const val MIN_TICKS_TO_FIRE = 20
 
-        const val BAR_LIMIT = 12f
+        const val baseDamage = 10.0
+
+        const val BAR_LIMIT = 13f
         fun funnyMath(x: Int, y: Int) = clamp(round(BAR_LIMIT - x * BAR_LIMIT / y).toLong(), 0, BAR_LIMIT.toInt())
     }
 
