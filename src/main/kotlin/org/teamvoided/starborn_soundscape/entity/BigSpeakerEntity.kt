@@ -51,7 +51,7 @@ class BigSpeakerEntity : Entity {
     }
 
     val damageRadius = 5.0
-    val damageRange = 1000.0
+    val damageRange = 300.0
     val damage = 10f
     var preFireTicks = 50
     var firingTicks = 220
@@ -80,15 +80,15 @@ class BigSpeakerEntity : Entity {
                     //this.yaw = owner!!.yaw
                     //this.pitch = owner!!.pitch
                     if (preFireTicks == 0) {
-                        sendOutParticleBeam(damageRadius, this, 100.0, 11.0, 1)
-                        sendOutParticleBeam3(damageRadius, this, 10.0, 1.0, 1)
+                        sendOutParticleBeam(damageRadius, this, 300.0, 11.0, 1)
+                        sendOutParticleBeam3(damageRadius, this, 11.0, 0.0, 1)
                     }
                 } else if (firingTicks > 0) {
                     dealDamageToEntitiesInBeam()
                     firingTicks--
                     val random = random.nextFloat().plus(-0.5f)
-                    sendOutParticleBeam(damageRadius + random, this, 100.0, 11.0, 1)
-                    sendOutParticleBeam3(damageRadius + random, this, 10.0, 1.0, 1)
+                    sendOutParticleBeam(damageRadius + random, this, 300.0, 11.0, 1)
+                    sendOutParticleBeam3(damageRadius + random, this, 11.0, 0.0, 1)
                 } else if (disipationTicks > 0) {
                     disipationTicks--
                 } else {
@@ -106,6 +106,7 @@ class BigSpeakerEntity : Entity {
                             0.0
                         )
                     }
+                    playDeactivationSound()
                     discard()
                 }
             }
@@ -126,6 +127,18 @@ class BigSpeakerEntity : Entity {
             }
         }
     }
+    fun playDeactivationSound(){
+        this.world.playSound(
+            null,
+            this.x,
+            this.y,
+            this.z,
+            SoundEvents.BLOCK_VAULT_CLOSE_SHUTTER,
+            SoundCategory.PLAYERS,
+            1.0f,
+            0.5f
+        )
+    }
 
     fun HitGround(world: World) {
         if (world is ServerWorld) {
@@ -142,7 +155,7 @@ class BigSpeakerEntity : Entity {
             )
         }
         world.playSoundFromEntity(this, SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY, SoundCategory.PLAYERS, 1.0f, 1.0f)
-        world.playSoundFromEntity(this, StarbornSoundscapeSounds.SOUND_SO_LOUD_IT_KILLS_YA, SoundCategory.PLAYERS, 5.0f, 1.0f)
+        world.playSoundFromEntity(this, StarbornSoundscapeSounds.SOUND_SO_LOUD_IT_KILLS_YA, SoundCategory.PLAYERS, 10.0f, 1.0f)
     }
 
     fun hitAir(world: World) {
@@ -163,7 +176,7 @@ class BigSpeakerEntity : Entity {
     }
 
     fun dealDamageToEntitiesInBeam() {
-        val entities = collectEntitiesInBeam(damageRadius, this, damageRange)
+        val entities = collectEntitiesInBeamWithMinPos(damageRadius, this, damageRange, 6.0)
         for (entity in entities) {
             entity.customDamage(
                 StarbornSoundscapeDamageTypes.BIG_SOUNDWAVES,
@@ -202,20 +215,21 @@ class BigSpeakerEntity : Entity {
         }
     }
 
-    fun collectEntitiesInBeam(size: Double, caster: BigSpeakerEntity, length: Double): MutableList<LivingEntity> {
+    fun collectEntitiesInBeamWithMinPos(size: Double, caster: BigSpeakerEntity, length: Double, minPos: Double): MutableList<LivingEntity> {
         val entities = mutableListOf<Entity>()
-        val endPos = caster.eyePos.add(caster.rotationVector.multiply(length))
+        val endPos = caster.eyePos.add(caster.rotationVector.multiply(length)).add(0.0, 1.0, 0.0)
+        val startPos = caster.eyePos.add(caster.rotationVector.multiply(minPos)).add(0.0, 1.0, 0.0)
         val interval = length / size
         for (i in 0..interval.roundToInt()) {
             entities.addAll(
                 world.getOtherEntities(
                     caster, Box(
-                        (lerp(caster.eyePos.x, endPos.x, i / interval)) + size,
-                        (lerp(caster.eyePos.y - size, endPos.y, i / interval)) + size,
-                        (lerp(caster.eyePos.z, endPos.z, i / interval)) + size,
-                        (lerp(caster.eyePos.x, endPos.x, i / interval)) - size,
-                        (lerp(caster.eyePos.y - size, endPos.y, i / interval)) - size,
-                        (lerp(caster.eyePos.z, endPos.z, i / interval)) - size
+                        (lerp(startPos.x, endPos.x, i / interval)) + size,
+                        (lerp(startPos.y + 2 - size, endPos.y, i / interval)) + size,
+                        (lerp(startPos.z, endPos.z, i / interval)) + size,
+                        (lerp(startPos.x, endPos.x, i / interval)) - size,
+                        (lerp(startPos.y + 2 - size, endPos.y, i / interval)) - size,
+                        (lerp(startPos.z, endPos.z, i / interval)) - size
                     )
                 ).filter { it is LivingEntity && it != this.owner }
             )

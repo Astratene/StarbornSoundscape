@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.teamvoided.starborn_soundscape.config.StarbornSoundscapeConfig
 import org.teamvoided.starborn_soundscape.event.AxeBassEvents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
@@ -28,6 +29,7 @@ object StarbornSoundscape {
         StarbornSoundscapeDamageTypes
         StarbornSoundscapeSounds.init()
         AxeBassEvents.init()
+        StarbornSoundscapeDataComponents.init()
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)

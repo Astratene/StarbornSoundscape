@@ -13,6 +13,8 @@ import org.teamvoided.starborn_soundscape.item.AxeBassItem
 import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
+import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
 import java.util.stream.Stream
 
 @Suppress("unused")
@@ -20,10 +22,10 @@ object StarbornSoundscapeItems {
         fun init() = Unit
 
     val OVERARCHIEVER = register("overarchiever", overarchieverItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val BIGSPEAKERITEM = register("bigspeakeritem",
-        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
+//    val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+//    val BIGSPEAKERITEM = register("bigspeakeritem",
+//        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+//    )
     val THE_AX = register(
         "the_ax",
         AxeBassItem(
@@ -31,6 +33,9 @@ object StarbornSoundscapeItems {
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 4, -2.4F))
         )
     )
+    val FOUND_DEAD_FT_DEF4N = register("found_dead_ft._deaf4n", FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val BREAKING_THE_CORE_FT_LOOK0UT = register("breaking_the_core_ft._look0ut", BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
 
     fun items(): Set<Item> {
         return Registries.ITEM.holders().astItems()

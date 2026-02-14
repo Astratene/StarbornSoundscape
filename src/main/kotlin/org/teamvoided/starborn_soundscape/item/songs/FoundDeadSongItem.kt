@@ -1,22 +1,21 @@
-package org.teamvoided.starborn_soundscape.item
+package org.teamvoided.starborn_soundscape.item.songs
 
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item
 import net.minecraft.item.Item.Settings
-import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.joml.Math
 import org.teamvoided.starborn_soundscape.entity.BigSpeakerEntity
-import org.teamvoided.starborn_soundscape.entity.SmallSpeakerEntity
+import org.teamvoided.starborn_soundscape.item.song_selection.SongItem
 
-class BigSpeakerTestItem(settings: Settings) : Item(settings) {
+class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?>? {
+    override fun useSong(user: LivingEntity, world: World) {
         if (!world.isClient) {
             val serverWorld = world as ServerWorld
             serverWorld.spawnParticles(
@@ -50,7 +49,21 @@ class BigSpeakerTestItem(settings: Settings) : Item(settings) {
         speaker.setPosition(user.pos.add(relativeVec))
         speaker.yaw = user.yaw
         world.spawnEntity(speaker)
-        //user.itemCooldownManager.set(user.getStackInHand(hand).item, 1000)
-        return super.use(world, user, hand)
+
+    }
+
+    override fun getNameColor(): Formatting {
+        return Formatting.DARK_GRAY
+    }
+
+    override fun getBarColor(): java.awt.Color {
+        return java.awt.Color.DARK_GRAY
+    }
+
+    override fun addDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.foundDeadDesc.tooltip")
+                .formatted(Formatting.GRAY)
+        )
     }
 }

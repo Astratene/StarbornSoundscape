@@ -11,6 +11,8 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -20,6 +22,7 @@ import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
@@ -58,6 +61,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var randomlySelectedFollowPoint = Vec3d.ZERO
     var randomlySelectedFollowDistance = 50.0
     var tempMultiplier = 0.0
+    var playedSound = false
+    var pitch2 = 1.25f
 
     override fun tick() {
         this.faceBeam()
@@ -107,6 +112,10 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                 }
             } else if (lifetimeTicks > 0) {
                 //triggerAnim(null) TODO just simply set the animation here, should work fine
+                if (!playedSound) {
+                    playedSound = true
+                    playSound()
+                }
                 lifetimeTicks--
                 if (targetEntity != null) {
                     this.lookAt(EntityAnchor.EYES, lastFivePlacesTheTargetWas.first())
@@ -148,9 +157,35 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                         0.0
                     )
                 }
+                playDeactivationSound()
                 discard()
             }
         }
+    }
+
+    fun playSound() {
+        this.world.playSound(
+            null,
+            this.x,
+            this.y,
+            this.z,
+            StarbornSoundscapeSounds.RAW_DEADLY_SOUND,
+            SoundCategory.PLAYERS,
+            5.0f,
+            pitch2
+        )
+    }
+    fun playDeactivationSound(){
+        this.world.playSound(
+            null,
+            this.x,
+            this.y,
+            this.z,
+            SoundEvents.BLOCK_VAULT_CLOSE_SHUTTER,
+            SoundCategory.PLAYERS,
+            1.0f,
+            (2 - pitch2)
+        )
     }
 
     fun faceBeam() {

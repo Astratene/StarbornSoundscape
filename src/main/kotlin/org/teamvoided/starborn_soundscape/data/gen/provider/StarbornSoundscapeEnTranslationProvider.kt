@@ -49,6 +49,20 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "enchantment.starborn_soundscape.grizzly_fate.desc",
             "Increases the number of bolts to 9 and gives them a random spread. Quarters the damage and increases the charge time severely. Spread is reduced the longer the weapon is charged."
         )
+
+        // oh god think of the descripdren!
+        gen.add("tooltip.soundscape.requires_song.tooltip",
+            "Insert a song and get your groove on!")
+        gen.add("tooltip.soundscape.song.tooltip",
+            "Song inserted:")
+        gen.add("tooltip.soundscape.song_can_be_inserted.tooltip",
+            "Insert this song into a weapon and get schmovin!")
+        gen.add("tooltip.soundscape.nullSong.tooltip",
+            "Someone forgot to give this song a description, guess you'll have to find out what it does")
+        gen.add("tooltip.soundscape.foundDeadDesc.tooltip",
+            " - Summons a giant speaker to slam onto your foes! Let it sit and it starts blasting music louder then you thought could be handled! And you'd be right about that...")
+        gen.add("tooltip.soundscape.breakingCoreDesc.tooltip",
+            " - Summons a wave of 6 speakers that will target players and deal constant damage to them.")
     }
 
 

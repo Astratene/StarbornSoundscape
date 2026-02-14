@@ -15,13 +15,17 @@ class StarbornSoundscapeItemTagProvider(
     registriesFuture: CompletableFuture<HolderLookup.Provider>
 ) : FabricTagProvider.ItemTagProvider(output, registriesFuture) {
     override fun configure(wrapperLookup: HolderLookup.Provider) {
-        vanillaTags()
+        modTags()
         enchantTags()
         conventionalTags()
     }
 
-    private fun vanillaTags() {
+    private fun modTags() {
+        getOrCreateTagBuilder(StarbornSoundscapeItemTags.SONG_ITEMS)
+            .add(StarbornSoundscapeItems.FOUND_DEAD_FT_DEF4N)
+            .add(StarbornSoundscapeItems.BREAKING_THE_CORE_FT_LOOK0UT)
     }
+
     private fun conventionalTags() {
         getOrCreateTagBuilder(ConventionalItemTags.ENCHANTABLES).add(StarbornSoundscapeItems.OVERARCHIEVER)
         getOrCreateTagBuilder(ConventionalItemTags.TOOLS).add(StarbornSoundscapeItems.OVERARCHIEVER)

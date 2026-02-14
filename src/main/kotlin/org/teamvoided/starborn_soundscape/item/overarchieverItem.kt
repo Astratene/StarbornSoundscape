@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.item
 
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission
@@ -15,23 +16,37 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
 import org.teamvoided.starborn_soundscape.entity.CosmicBoltEntity
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
+import java.awt.Color
+import java.lang.Math.clamp
+import kotlin.compareTo
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.round
 
-class overarchieverItem(settings: Settings) : Item(settings) {
+class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
 
     override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         player.setCurrentHand(hand)
         return TypedActionResult(ActionResult.CONSUME_PARTIAL, player.getStackInHand(hand))
     }
 
+    //override fun post
+
     fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isTestEnchantedTri(user, stack)) 40 else if (isTestEnchantedWell(user, stack)) 60 else if (isTestEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
+        return if (isTestEnchantedTri(user, stack)) 40 else if (isTestEnchantedWell(
+                user,
+                stack
+            )
+        ) 60 else if (isTestEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
     }
+
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
         return if (isTestEnchantedGrizz(user, stack)) 40 else -1
     }
@@ -52,17 +67,44 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
 
+    override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
+        val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
+        if (data.charge < 1000) {
+            val newCharge = data.charge + 1
+            stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+        }
+        super.inventoryTick(stack, world, entity, slot, selected)
+    }
+
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
+        if (user.handSwingTicks > 0 && user.handSwingTicks < 10) {
+            val data =
+                stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
+            if (data.charge >= getOverarchieverUseCharge(stack)) {
+                useSong(stack, user, world)
+                user.stopUsingItem()
+                if (user is PlayerEntity) {
+                    user.itemCooldownManager.set(stack.item, 10)
+                }
+                val newCharge = data.charge - getOverarchieverUseCharge(stack)
+                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+            }
+        }
+
         val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
-        if (usedTicks == 19 || (usedTicks + 1) == (getChargeTicks(user, stack))|| usedTicks == getExtraFlareTicks(user, stack)){
+        if (usedTicks == 19 || (usedTicks + 1) == (getChargeTicks(user, stack)) || usedTicks == getExtraFlareTicks(
+                user,
+                stack
+            )
+        ) {
             val vec3d: Vec3d = user.getLerpedEyePos(1f)
             val vec3d2: Vec3d = user.getRotationVec(1f)
             val vec3d3 = vec3d.add(vec3d2.x * 1, vec3d2.y * 1, vec3d2.z * 1)
-            if (world is ServerWorld){
+            if (world is ServerWorld) {
                 world.spawnParticles(
                     ParticleTypes.GLOW,
                     vec3d3.x,
-                    vec3d3.y - 0.5,
+                    vec3d3.y - 0.25,
                     vec3d3.z,
                     5,
                     0.0,
@@ -70,14 +112,16 @@ class overarchieverItem(settings: Settings) : Item(settings) {
                     0.0,
                     0.2
                 )
-                world.playSound(null,
+                world.playSound(
+                    null,
                     user.x,
                     user.y,
                     user.z,
                     SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,
                     SoundCategory.PLAYERS,
                     6.0F,
-                    1.0f)
+                    1.0f
+                )
             }
         }
         super.usageTick(world, user, stack, remainingUseTicks)
@@ -307,7 +351,14 @@ class overarchieverItem(settings: Settings) : Item(settings) {
         repeat(9) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
-            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), getMaxSpread(ticks))
+            setPropertiesTwo(
+                entity,
+                user.pitch,
+                user.yaw,
+                0.0f,
+                getLaunchVelocity(ticks, user, stack),
+                getMaxSpread(ticks)
+            )
             entity.directDamage = GrizzDirectDamage
             entity.indirectDamage = GrizzIndirectDamage
             entity.timeTillBoom = 20 + world.random.range(-5, 5)
@@ -321,23 +372,42 @@ class overarchieverItem(settings: Settings) : Item(settings) {
 
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 
-    fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack) : Boolean {
+    fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
     }
-    fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack) : Boolean {
+
+    fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
     }
-    fun isTestEnchantedGrizz(user: LivingEntity, stack: ItemStack) : Boolean {
+
+    fun isTestEnchantedGrizz(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
     }
-
-//    val isTestEnchantedTri = true
-//    val isTestEnchantedWell = false
-//    val isTestEnchantedGrizz = false
-
 
     companion object {
         const val USE_TICKS = 72000
         const val MIN_TICKS_TO_FIRE = 20
+
+        const val BAR_LIMIT = 12f
+        fun funnyMath(x: Int, y: Int) = clamp(round(BAR_LIMIT - x * BAR_LIMIT / y).toLong(), 0, BAR_LIMIT.toInt())
+    }
+
+    override fun getItemBarColor(stack: ItemStack): Int {
+        return getBarColor(stack)
+    }
+
+    override fun getItemBarStep(stack: ItemStack): Int {
+        val data =
+            stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
+        return data?.let {
+            funnyMath(
+                1000 - it.charge,
+                1000
+            )
+        } ?: BAR_LIMIT.toInt()
+    }
+
+    override fun isItemBarVisible(stack: ItemStack): Boolean {
+        return hasASongToSing(stack)
     }
 }

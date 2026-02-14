@@ -1,20 +1,19 @@
-package org.teamvoided.starborn_soundscape.item
+package org.teamvoided.starborn_soundscape.item.songs
 
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item.Settings
-import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.entity.SmallSpeakerEntity
+import org.teamvoided.starborn_soundscape.item.song_selection.SongItem
 
-class TesterItem(settings: Settings) : Item(settings) {
+class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?>? {
+    override fun useSong(user: LivingEntity, world: World) {
         if (!world.isClient) {
             val serverWorld = world as ServerWorld
             serverWorld.spawnParticles(
@@ -45,7 +44,19 @@ class TesterItem(settings: Settings) : Item(settings) {
             speaker.pitch2 = 1.25f + ((it.floorDiv(2)) * 0.1f)
             world.spawnEntity(speaker)
         }
-        //user.itemCooldownManager.set(user.getStackInHand(hand).item, 1000)
-        return super.use(world, user, hand)
+    }
+    override fun getNameColor(): Formatting {
+        return Formatting.RED
+    }
+
+    override fun getBarColor(): java.awt.Color {
+        return java.awt.Color.RED
+    }
+
+    override fun addDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.breakingCoreDesc.tooltip")
+                .formatted(Formatting.GRAY)
+        )
     }
 }

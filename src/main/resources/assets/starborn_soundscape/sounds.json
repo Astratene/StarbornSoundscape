@@ -16,5 +16,11 @@
     "sounds": [
       "starborn_soundscape:sound_so_loud_it_kills_ya"
     ]
+  },
+  "raw_deadly_sound": {
+    "subtitle": "sounds.starborn_soundscape.raw_deadly_sound",
+    "sounds": [
+      "starborn_soundscape:raw_deadly_sound"
+    ]
   }
 }

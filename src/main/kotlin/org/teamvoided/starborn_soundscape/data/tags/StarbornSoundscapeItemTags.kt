@@ -10,6 +10,7 @@ object StarbornSoundscapeItemTags {
     val ALL_TAGS = mutableSetOf<TagKey<Item>>()
 
     val ORVERARCHIEVER_ENCHANTABLE = create("overarchiever_enchantable")
+    val SONG_ITEMS = create("song_items")
 
 
     private fun create(id: String): TagKey<Item> {
