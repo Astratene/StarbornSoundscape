@@ -22,5 +22,11 @@
     "sounds": [
       "starborn_soundscape:raw_deadly_sound"
     ]
+  },
+  "small_speaker_startup": {
+    "subtitle": "sounds.starborn_soundscape.small_speaker_startup",
+    "sounds": [
+      "starborn_soundscape:small_speaker_startup"
+    ]
   }
 }

@@ -94,6 +94,17 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     }
                 }
             } else if (ticksTillShootLaser > 0) {
+                if(ticksTillShootLaser == 3){
+                    this.world.playSound(
+                        null,
+                        this.x,
+                        this.y,
+                        this.z,
+                        StarbornSoundscapeSounds.SMALL_SPEAKER_STARTUP,
+                        SoundCategory.PLAYERS,
+                        3.0f,
+                        1.0f
+                    )                }
                 ticksTillShootLaser--
                 if (targetEntity != null) {
                     lastFivePlacesTheTargetWas.add(targetEntity!!.eyePos)
