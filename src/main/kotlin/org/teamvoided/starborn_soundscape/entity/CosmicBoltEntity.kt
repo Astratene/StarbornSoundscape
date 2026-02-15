@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.entity
 
+import com.ibm.icu.text.MessagePattern
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
@@ -175,8 +176,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             }
             if (this.world is ServerWorld) {
                 val world = this.world as ServerWorld
+                val particle = if(tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
                 world.spawnParticles(
-                    ParticleTypes.GLOW,
+                    particle,
                     this.x,
                     this.y,
                     this.z,
@@ -225,8 +227,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             this.velocityDirty = true
         }
         if (!this.inGround) {
+            val particle = if(tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
             if (world is ServerWorld) (world as ServerWorld).spawnParticles(
-                ParticleTypes.GLOW, this.x, this.y, this.z,
+                particle, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
                 0.0

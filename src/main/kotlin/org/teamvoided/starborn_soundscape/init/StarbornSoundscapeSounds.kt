@@ -14,6 +14,8 @@ object StarbornSoundscapeSounds {
     val SOUND_SO_LOUD_IT_KILLS_YA = register("sound_so_loud_it_kills_ya")
     val RAW_DEADLY_SOUND = register("raw_deadly_sound")
     val SMALL_SPEAKER_STARTUP = register("small_speaker_startup")
+    val SPEAKER_STARTUP = register("speaker_startup")
+    val YOU_REALLY_GOT_ME = register("you_really_got_me")
 
     private fun register(id: String): SoundEvent = register(id(id))
     private fun register(id: Identifier): SoundEvent = register(id, id)

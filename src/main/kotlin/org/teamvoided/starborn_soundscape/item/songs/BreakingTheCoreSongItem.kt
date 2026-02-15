@@ -4,11 +4,13 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item.Settings
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.entity.SmallSpeakerEntity
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.item.song_selection.SongItem
 
 class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
@@ -27,6 +29,30 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
                 1.0,
                 0.0
             )
+            if (world.random.range(0, 100) == 100) {
+                world.playSound(
+                    null,
+                    user.pos.x,
+                    user.pos.y,
+                    user.pos.z,
+                    StarbornSoundscapeSounds.YOU_REALLY_GOT_ME,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0f
+                )
+            }
+            else {
+                world.playSound(
+                    null,
+                    user.pos.x,
+                    user.pos.y,
+                    user.pos.z,
+                    StarbornSoundscapeSounds.SPEAKER_STARTUP,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0f
+                )
+            }
         }
         val positions =
             mutableListOf(Vec3d(1.0, 2.5, -0.5),

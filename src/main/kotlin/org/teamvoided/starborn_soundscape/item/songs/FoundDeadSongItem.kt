@@ -5,12 +5,16 @@ import net.minecraft.item.Item
 import net.minecraft.item.Item.Settings
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.joml.Math
+import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.entity.BigSpeakerEntity
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.item.song_selection.SongItem
 
 class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
@@ -29,6 +33,30 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
                 1.0,
                 0.0
             )
+            if (world.random.range(0, 100) == 100) {
+                world.playSound(
+                    null,
+                    user.pos.x,
+                    user.pos.y,
+                    user.pos.z,
+                    StarbornSoundscapeSounds.YOU_REALLY_GOT_ME,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0f
+                )
+            }
+            else {
+                world.playSound(
+                    null,
+                    user.pos.x,
+                    user.pos.y,
+                    user.pos.z,
+                    StarbornSoundscapeSounds.SPEAKER_STARTUP,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0f
+                )
+            }
         }
         val speaker = BigSpeakerEntity(world, user)
         val relativeVec = Vec3d(0.0, 3.0, 3.0).rotateY((user.yaw) * (Math.PI.toFloat() / 180) * -1)

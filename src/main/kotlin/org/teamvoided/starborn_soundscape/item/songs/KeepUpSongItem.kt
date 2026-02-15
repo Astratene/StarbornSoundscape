@@ -18,6 +18,28 @@ class KeepUpSongItem(settings: Settings) : SongItem(settings) {
 
     val FORWARD_BOOST = 1.0
     override fun useSong(user: LivingEntity, world: World) {
+        world.playSound(
+            null,
+            user.x,
+            user.y,
+            user.z,
+            SoundEvents.ENTITY_BREEZE_WIND_BURST.value(),
+            SoundCategory.PLAYERS,
+            1.0F,
+            1.5f
+        )
+        if (world is ServerWorld) {
+            world.spawnParticles(
+                ParticleTypes.GLOW, user.x, user.y, user.z,
+                25,
+                0.0, 0.0, 0.0,
+                0.25)
+            world.spawnParticles(
+                ParticleTypes.GLOW_SQUID_INK, user.x, user.y, user.z,
+                25,
+                0.0, 0.0, 0.0,
+                0.1)
+        }
         if (user is PlayerEntity) {
             if (world !is ServerWorld) {
                 val boo = FORWARD_BOOST

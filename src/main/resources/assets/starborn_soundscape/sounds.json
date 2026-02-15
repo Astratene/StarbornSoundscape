@@ -28,5 +28,18 @@
     "sounds": [
       "starborn_soundscape:small_speaker_startup"
     ]
+  },
+  "speaker_startup": {
+    "subtitle": "sounds.starborn_soundscape.speaker_starup",
+    "sounds": [
+      "starborn_soundscape:speaker_startup_0",
+      "starborn_soundscape:speaker_startup_1"
+    ]
+  },
+  "you_really_got_me": {
+    "subtitle": "sounds.starborn_soundscape.you_really_got_me",
+    "sounds": [
+      "starborn_soundscape:you_really_got_me"
+    ]
   }
 }
