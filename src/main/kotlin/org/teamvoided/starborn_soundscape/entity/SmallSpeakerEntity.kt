@@ -227,6 +227,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                             entities.remove(entiity)
                         }
                     }
+                    break
                 }
             }
             entities.shuffle()
