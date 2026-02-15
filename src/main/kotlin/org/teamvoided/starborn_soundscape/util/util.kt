@@ -39,3 +39,6 @@ fun <T, R : Registry<T>> RegistryKey<R>.tag(id: Identifier) = TagKey.of(this, id
 
 fun ItemStack.hasEnchantment(enchantment: RegistryKey<Enchantment>): Boolean =
     this.enchantments.enchantments.any { it.isRegistryKey(enchantment) }
+
+fun <T> Registry<T>.registerHolder(id: Identifier, entry: T): Holder.Reference<T> =
+    Registry.registerHolder(this, id, entry)

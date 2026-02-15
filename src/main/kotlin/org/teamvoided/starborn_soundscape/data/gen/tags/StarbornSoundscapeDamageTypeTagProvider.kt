@@ -17,6 +17,7 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
             .add(StarbornSoundscapeDamageTypes.BOLT_EXPLOSION)
             .add(StarbornSoundscapeDamageTypes.BOLT_DIRECT)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
+            .add(StarbornSoundscapeDamageTypes.CRUSHED)
 
         getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
@@ -27,5 +28,8 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.BIG_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.CRUSHED)
+
+        getOrCreateTagBuilder(DamageTypeTags.IS_PROJECTILE)
+            .add(StarbornSoundscapeDamageTypes.BOLT_DIRECT)
     }
 }

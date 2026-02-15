@@ -52,7 +52,7 @@ class BigSpeakerEntity : Entity {
 
     val damageRadius = 5.0
     val damageRange = 300.0
-    val damage = 10f
+    val damage = 20f
     var preFireTicks = 50
     var firingTicks = 220
     var disipationTicks = 15

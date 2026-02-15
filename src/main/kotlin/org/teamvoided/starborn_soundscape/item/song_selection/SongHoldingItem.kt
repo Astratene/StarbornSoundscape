@@ -188,14 +188,14 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
         }
     }
 
-    fun getOverarchieverUseCharge(stack: ItemStack) : Int {
+    fun getOverarchieverUseCharge(stack: ItemStack, user: LivingEntity) : Int {
         val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
         if (bundleContents != null && !bundleContents.isEmpty) {
             val songInWeapon = bundleContents.copyContents()
             for (item in songInWeapon) {
                 if (item.item is SongItem) {
                     val actualItem = item.item as SongItem
-                    return actualItem.getOverArchIeverChargeReduction()
+                    return actualItem.getOverArchIeverChargeReduction(user)
                 }
             }
         }

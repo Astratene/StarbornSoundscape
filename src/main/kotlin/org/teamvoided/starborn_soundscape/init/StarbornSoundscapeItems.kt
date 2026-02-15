@@ -15,6 +15,8 @@ import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
 import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
+import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
+import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
 import java.util.stream.Stream
 
 @Suppress("unused")
@@ -35,7 +37,8 @@ object StarbornSoundscapeItems {
     )
     val FOUND_DEAD_FT_DEF4N = register("found_dead_ft._deaf4n", FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val BREAKING_THE_CORE_FT_LOOK0UT = register("breaking_the_core_ft._look0ut", BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-
+    val GOING_UP_IN_THE_WORLD_FT_SKI_HI = register("going_up_in_the_world_ft._ski_hi", SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val KEEP_UP_FT_STEP2IT = register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     fun items(): Set<Item> {
         return Registries.ITEM.holders().astItems()

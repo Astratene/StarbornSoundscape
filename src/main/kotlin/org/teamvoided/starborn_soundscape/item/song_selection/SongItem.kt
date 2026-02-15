@@ -43,7 +43,7 @@ open class SongItem(settings: Settings) : Item(settings) {
         return java.awt.Color.MAGENTA
     }
 
-    open fun getOverArchIeverChargeReduction(): Int {
-        return 1000
+    open fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
+        return 10000
     }
 }

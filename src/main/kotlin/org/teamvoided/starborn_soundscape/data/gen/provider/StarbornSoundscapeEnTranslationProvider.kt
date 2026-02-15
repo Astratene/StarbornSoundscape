@@ -37,17 +37,17 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
         gen.add(
             "enchantment.starborn_soundscape.tri_this.desc",
-            "Increases the number of bolts fired to 3 and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
+            "Increases the number of bolts fired to 3, slightly reduces each bolts damage, and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
         )
         gen.add("enchantment.starborn_soundscape.well_well_well", "Well Well Well...")
         gen.add(
             "enchantment.starborn_soundscape.well_well_well.desc",
-            "Increases the number of bolts fired to 5, increases the charge time heavily, and halves the damage of each bolt. Bolt spread is increased the longer the weapon is charged."
+            "Increases the number of bolts fired to 5, reduces the damage of each bolt, and increases the charge time heavily. Bolt spread is increased the longer the weapon is charged."
         )
         gen.add("enchantment.starborn_soundscape.grizzly_fate", "A Grizzly Fate")
         gen.add(
             "enchantment.starborn_soundscape.grizzly_fate.desc",
-            "Increases the number of bolts to 9 and gives them a random spread. Quarters the damage and increases the charge time severely. Spread is reduced the longer the weapon is charged."
+            "Increases the number of bolts to 18 and gives them a random spread. Bolts do almost no direct damage but keep decent indirect damage. Increases the charge time severely. Spread is reduced the longer the weapon is charged."
         )
 
         // oh god think of the descripdren!
@@ -63,6 +63,14 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             " - Summons a giant speaker to slam onto your foes! Let it sit and it starts blasting music louder then you thought could be handled! And you'd be right about that...")
         gen.add("tooltip.soundscape.breakingCoreDesc.tooltip",
             " - Summons a wave of 6 speakers that will target players and deal constant damage to them.")
+        gen.add("tooltip.soundscape.skihi.tooltip",
+            " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over.")
+        gen.add("tooltip.soundscape.keepup.tooltip",
+            " - Launches you in the direction you are facing.")
+
+
+        gen.add("effect.starborn_soundscape.hover",
+            "Hover")
     }
 
 

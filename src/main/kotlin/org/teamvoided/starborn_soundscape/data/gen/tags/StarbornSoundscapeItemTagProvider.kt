@@ -24,6 +24,8 @@ class StarbornSoundscapeItemTagProvider(
         getOrCreateTagBuilder(StarbornSoundscapeItemTags.SONG_ITEMS)
             .add(StarbornSoundscapeItems.FOUND_DEAD_FT_DEF4N)
             .add(StarbornSoundscapeItems.BREAKING_THE_CORE_FT_LOOK0UT)
+            .add(StarbornSoundscapeItems.GOING_UP_IN_THE_WORLD_FT_SKI_HI)
+            .add(StarbornSoundscapeItems.KEEP_UP_FT_STEP2IT)
     }
 
     private fun conventionalTags() {

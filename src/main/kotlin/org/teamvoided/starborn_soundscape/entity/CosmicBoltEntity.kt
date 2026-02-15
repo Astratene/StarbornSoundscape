@@ -63,8 +63,44 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     1.0f
                 )
             }
-            //this.discard()
+            if (this.owner != null) {
+                this.world.playSound(
+                    null,
+                    this.owner!!.pos.x,
+                    this.owner!!.eyePos.y,
+                    this.owner!!.pos.z,
+                    SoundEvents.BLOCK_END_PORTAL_FRAME_FILL,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    2.0f
+                )
+                if (world is ServerWorld) (world as ServerWorld).spawnParticles(
+                    ParticleTypes.END_ROD, this.x, this.y, this.z,
+                    5,
+                    0.0, 0.0, 0.0,
+                    0.5
+                )
+            }
+            if (this.owner != null && !hit.isAlive) {
+                this.world.playSound(
+                    null,
+                    this.owner!!.pos.x,
+                    this.owner!!.eyePos.y,
+                    this.owner!!.pos.z,
+                    SoundEvents.ENTITY_ARROW_HIT_PLAYER,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    0.5f
+                )
+                if (world is ServerWorld) (world as ServerWorld).spawnParticles(
+                    ParticleTypes.GLOW, this.x, this.y, this.z,
+                    20,
+                    0.0, 0.0, 0.0,
+                    0.5
+                )
+            }
         }
+
     }
 
     override fun age() {
@@ -80,6 +116,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     pos.z - explosionRadius
                 )
             ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius }
+            var hasPlayedSound = false
             for (entity in entities) {
                 entity.customDamage(
                     StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
@@ -87,6 +124,32 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     owner,
                     owner
                 )
+                if (this.owner != null && !hasPlayedSound) {
+                    hasPlayedSound = true
+                    this.world.playSound(
+                        null,
+                        this.owner!!.pos.x,
+                        this.owner!!.eyePos.y,
+                        this.owner!!.pos.z,
+                        SoundEvents.ENTITY_ARROW_HIT_PLAYER,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        2.0f
+                    )
+                }
+                if (this.owner != null && !entity.isAlive) {
+                    hasPlayedSound = true
+                    this.world.playSound(
+                        null,
+                        this.owner!!.pos.x,
+                        this.owner!!.eyePos.y,
+                        this.owner!!.pos.z,
+                        SoundEvents.ENTITY_ARROW_HIT_PLAYER,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        0.5f
+                    )
+                }
             }
             if (this.world is ServerWorld) {
                 val world = this.world as ServerWorld

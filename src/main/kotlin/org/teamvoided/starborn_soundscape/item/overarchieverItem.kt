@@ -60,33 +60,36 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     }
 
     fun getMaxSpread(ticks: Int): Float {
-        return 20 - (0.375f * max(ticks - 40, 0))
+        return 30 - (0.375f * max(ticks - 40, 0))
     }
 
     fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
         return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
 
+    val maxCharge = 10000
+    val chargePerTick = 4
     override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
-        if (data.charge < 1000) {
-            val newCharge = data.charge + 1
+        if (data.charge < maxCharge) {
+            val newCharge = data.charge + chargePerTick
             stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
         }
         super.inventoryTick(stack, world, entity, slot, selected)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        if (user.handSwingTicks > 0 && user.handSwingTicks < 10) {
+        if (user.handSwingTicks in 1..<10) {
             val data =
                 stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
-            if (data.charge >= getOverarchieverUseCharge(stack)) {
+            if (data.charge >= getOverarchieverUseCharge(stack, user)) {
+                val newCharge = data.charge - getOverarchieverUseCharge(stack, user)
                 useSong(stack, user, world)
-                user.stopUsingItem()
                 if (user is PlayerEntity) {
-                    user.itemCooldownManager.set(stack.item, 10)
+                    user.itemCooldownManager.set(stack.item, 5)
                 }
-                val newCharge = data.charge - getOverarchieverUseCharge(stack)
+                user.stopUsingItem()
+                user.handSwingTicks = 11
                 stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
             }
         }
@@ -154,7 +157,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     }
 
 
-    val TriDirectDamage = 7.5f
+    val TriDirectDamage = 7.0f
     val TriIndirectDamage = 5f
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
@@ -225,8 +228,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         }
     }
 
-    val WellDirectDamage = 5f
-    val WellIndirectDamage = 5f
+    val WellDirectDamage = 4.5f
+    val WellIndirectDamage = 4.0f
     fun fireWellBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
@@ -352,10 +355,10 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         }
     }
 
-    val GrizzDirectDamage = 4f
-    val GrizzIndirectDamage = 3.5f
+    val GrizzDirectDamage = 0.2f
+    val GrizzIndirectDamage = 5f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
-        repeat(9) {
+        repeat(18) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             setPropertiesTwo(
@@ -410,8 +413,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
         return data?.let {
             funnyMath(
-                1000 - it.charge,
-                1000
+                maxCharge - it.charge,
+                maxCharge
             )
         } ?: BAR_LIMIT.toInt()
     }
