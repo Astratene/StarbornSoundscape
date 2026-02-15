@@ -44,6 +44,9 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
             speaker.postStopTicks = ((it.floorDiv(2)) * 10) + 20
             speaker.setPosition(user.pos)
             speaker.pitch2 = 1.25f + ((it.floorDiv(2)) * 0.1f)
+            if (it < 3){
+                speaker.shouldPlayStartup = true
+            }
             world.spawnEntity(speaker)
         }
     }

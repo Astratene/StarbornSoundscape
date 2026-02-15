@@ -151,6 +151,9 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
             entity.pickupType = PickupPermission.DISALLOWED
             entity.damage = baseDamage
+            if (isTestEnchantedTracer(user, stack)) {
+                entity.tracerRound = true
+            }
             world.spawnEntity(entity)
         }
         world.playSoundFromEntity(user, SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, 0.75f)
@@ -384,6 +387,9 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
 
     fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
+    }
+    fun isTestEnchantedTracer(user: LivingEntity, stack: ItemStack): Boolean {
+        return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRACER)
     }
 
     fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {

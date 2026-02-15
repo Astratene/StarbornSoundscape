@@ -49,6 +49,11 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "enchantment.starborn_soundscape.grizzly_fate.desc",
             "Increases the number of bolts to 18 and gives them a random spread. Bolts do almost no direct damage but keep decent indirect damage. Increases the charge time severely. Spread is reduced the longer the weapon is charged."
         )
+        gen.add("enchantment.starborn_soundscape.tracer", "Tracer Round")
+        gen.add(
+            "enchantment.starborn_soundscape.tracer.desc",
+            "The bolt fired is a tracer round, causing targets hit to glow."
+        )
 
         // oh god think of the descripdren!
         gen.add("tooltip.soundscape.requires_song.tooltip",

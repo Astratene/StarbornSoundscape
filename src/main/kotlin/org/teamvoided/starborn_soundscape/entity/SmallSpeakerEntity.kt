@@ -63,6 +63,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var tempMultiplier = 0.0
     var playedSound = false
     var pitch2 = 1.25f
+    var shouldPlayStartup = false
 
     override fun tick() {
         this.faceBeam()
@@ -94,7 +95,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     }
                 }
             } else if (ticksTillShootLaser > 0) {
-                if(ticksTillShootLaser == 3){
+                if(ticksTillShootLaser == 3 && shouldPlayStartup) {
                     this.world.playSound(
                         null,
                         this.x,

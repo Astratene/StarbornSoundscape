@@ -3,6 +3,8 @@ package org.teamvoided.starborn_soundscape.entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.mob.EndermanEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -20,6 +22,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
 
@@ -39,6 +42,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var indirectDamage = 10f
     var timeTillBoom = 20
     var explosionRadius = 1.75
+    var tracerRound = false
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
@@ -50,6 +54,15 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 owner,
                 owner
             )
+            if (tracerRound) {
+                hit.addStatusEffect(
+                    StatusEffectInstance(
+                        StatusEffects.GLOWING,
+                        200, 0,
+                        false, false, true
+                    )
+                )
+            }
             if (hit is EndermanEntity) return
             if (world is ServerWorld) {
                 this.world.playSound(
@@ -124,6 +137,15 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     owner,
                     owner
                 )
+                if (tracerRound && entity is LivingEntity) {
+                    entity.addStatusEffect(
+                        StatusEffectInstance(
+                            StatusEffects.GLOWING,
+                            100, 0,
+                            false, false, true
+                        )
+                    )
+                }
                 if (this.owner != null && !hasPlayedSound) {
                     hasPlayedSound = true
                     this.world.playSound(
