@@ -95,7 +95,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                     }
                 }
             } else if (ticksTillShootLaser > 0) {
-                if(ticksTillShootLaser == 3 && shouldPlayStartup) {
+                if (ticksTillShootLaser == 3 && shouldPlayStartup) {
                     this.world.playSound(
                         null,
                         this.x,
@@ -105,7 +105,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                         SoundCategory.PLAYERS,
                         3.0f,
                         1.0f
-                    )                }
+                    )
+                }
                 ticksTillShootLaser--
                 if (targetEntity != null) {
                     lastFivePlacesTheTargetWas.add(targetEntity!!.eyePos)
@@ -187,7 +188,8 @@ class SmallSpeakerEntity : Entity, GeoEntity {
             pitch2
         )
     }
-    fun playDeactivationSound(){
+
+    fun playDeactivationSound() {
         this.world.playSound(
             null,
             this.x,
@@ -219,19 +221,25 @@ class SmallSpeakerEntity : Entity, GeoEntity {
 
     fun pickATarget(): LivingEntity? {
         val entities = collectEntitiesInBeam(targetGrabRadius, this, targetGrabLength)
+        val entities2 = mutableListOf<LivingEntity>()
         if (entities.isNotEmpty()) {
             for (entity in entities) {
                 if (entity is PlayerEntity) {
                     for (entiity in entities) {
-                        if (entiity !is PlayerEntity) {
-                            entities.remove(entiity)
+                        if (entiity is PlayerEntity) {
+                            entities2.add(entity)
                         }
                     }
                     break
                 }
             }
-            entities.shuffle()
-            return entities.first()
+            if (entities2.isNotEmpty()) {
+                entities2.shuffle()
+                return entities2.first()
+            } else {
+                entities.shuffle()
+                return entities.first()
+            }
         }
         return null
     }
