@@ -38,7 +38,7 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
             (entity as LivingEntity).addStatusEffect(
                 StatusEffectInstance(
                     StarbornSoundscapeEffects.CLOSED_EYES,
-                    200, 0,
+                    400, 0,
                     false, false, true
                 )
             )
@@ -46,7 +46,7 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         user.addStatusEffect(
             StatusEffectInstance(
                 StatusEffects.GLOWING,
-                200, 0,
+                400, 0,
                 false, false, true
             )
         )

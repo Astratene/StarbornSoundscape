@@ -30,12 +30,12 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
                 1.0F,
                 2.0f
             )
-            user.setVelocity(0.0, 0.75, 0.0)
+            user.setVelocity(0.0, 0.5, 0.0)
             if (world is ServerWorld) {
                 user.addStatusEffect(
                     StatusEffectInstance(
                         StarbornSoundscapeEffects.HOVER,
-                        200, 0,
+                        100, 0,
                         false, false, true
                     )
                 )
