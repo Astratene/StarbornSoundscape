@@ -13,7 +13,9 @@ import org.teamvoided.starborn_soundscape.item.AxeBassItem
 import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
+import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
 import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
 import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
@@ -39,6 +41,8 @@ object StarbornSoundscapeItems {
     val BREAKING_THE_CORE_FT_LOOK0UT = register("breaking_the_core_ft._look0ut", BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val GOING_UP_IN_THE_WORLD_FT_SKI_HI = register("going_up_in_the_world_ft._ski_hi", SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val KEEP_UP_FT_STEP2IT = register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val THROUGH_THE_BURNING_AND_THE_BLAZE = register("through_the_burning_and_the_blaze", BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val CANT_TAKE_MY_EYES_OFF_YOU = register("cant_take_my_eyes_off_you", AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     fun items(): Set<Item> {
         return Registries.ITEM.holders().astItems()

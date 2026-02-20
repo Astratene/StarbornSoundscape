@@ -44,6 +44,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var timeTillBoom = 20
     var explosionRadius = 1.75
     var tracerRound = false
+    var fireRound = false
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
@@ -63,6 +64,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         false, false, true
                     )
                 )
+            }
+            if (fireRound){
+                hit.setOnFireFor(100)
             }
             if (hit is EndermanEntity) return
             if (world is ServerWorld) {
@@ -147,6 +151,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         )
                     )
                 }
+                if (fireRound && entity is LivingEntity){
+                    entity.setOnFireFor(50)
+                }
                 if (this.owner != null && !hasPlayedSound) {
                     hasPlayedSound = true
                     this.world.playSound(
@@ -188,6 +195,19 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     0.0,
                     0.2
                 )
+                if (fireRound){
+                    world.spawnParticles(
+                        ParticleTypes.FLAME,
+                        this.x,
+                        this.y,
+                        this.z,
+                        3,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.2
+                    )
+                }
                 world.playSound(
                     null,
                     this.x,
@@ -233,6 +253,12 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 1,
                 0.0, 0.0, 0.0,
                 0.0
+            )
+            if (world is ServerWorld && fireRound) (world as ServerWorld).spawnParticles(
+                ParticleTypes.FLAME, this.x, this.y, this.z,
+                1,
+                0.0, 0.0, 0.0,
+                0.1
             )
         }
         super.tick()

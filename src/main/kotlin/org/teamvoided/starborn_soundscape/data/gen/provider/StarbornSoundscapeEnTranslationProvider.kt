@@ -72,10 +72,16 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over.")
         gen.add("tooltip.soundscape.keepup.tooltip",
             " - Launches you in the direction you are facing.")
+        gen.add("tooltip.soundscape.burnblaze.tooltip",
+            " - Lights opponents on fire.")
+        gen.add("tooltip.soundscape.eyes.tooltip",
+            " - Blinds nearby opponents and makes you glow. You're the star of the show!")
 
 
         gen.add("effect.starborn_soundscape.hover",
             "Hover")
+        gen.add("effect.starborn_soundscape.closed_eyes",
+            "Watching the stars!")
 
         gen.add("sounds.starborn_soundscape.metronome_1",
             "Metronome ticks")

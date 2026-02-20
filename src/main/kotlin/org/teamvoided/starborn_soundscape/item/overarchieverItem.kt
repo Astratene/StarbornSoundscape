@@ -17,10 +17,12 @@ import net.minecraft.util.UseAction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
+import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
 import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
 import org.teamvoided.starborn_soundscape.entity.CosmicBoltEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
+import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
 import java.awt.Color
@@ -69,11 +71,23 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
 
     val maxCharge = 10000
     val chargePerTick = 4
-    override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity, slot: Int, selected: Boolean) {
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
-        if (data.charge < maxCharge) {
-            val newCharge = data.charge + chargePerTick
-            stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+        val data2 =
+            stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
+        if (!data2.passivelyDraining) {
+            if (data.charge < maxCharge) {
+                val newCharge = data.charge + chargePerTick
+                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+            }
+        } else {
+            if (data.charge > 0 && hasASongToSing(stack) && entity is LivingEntity) {
+                val newCharge = data.charge - getOverarchieverPassiveDrain(stack, entity)
+                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+            } else {
+                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
+                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2(false))
+            }
         }
         super.inventoryTick(stack, world, entity, slot, selected)
     }
@@ -83,14 +97,18 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             val data =
                 stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
             if (data.charge >= getOverarchieverUseCharge(stack, user)) {
-                val newCharge = data.charge - getOverarchieverUseCharge(stack, user)
-                useSong(stack, user, world)
+                if (isPassive(stack)) {
+                    stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2(true))
+                } else {
+                    val newCharge = data.charge - getOverarchieverUseCharge(stack, user)
+                    useSong(stack, user, world)
+                    stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
+                }
                 if (user is PlayerEntity) {
                     user.itemCooldownManager.set(stack.item, 5)
                 }
                 user.stopUsingItem()
                 user.handSwingTicks = 11
-                stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(newCharge))
             }
         }
 
@@ -139,6 +157,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     }
 
     fun fire(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
         if (isTestEnchantedTri(user, stack)) {
             fireTriBolts(world, user, ticks, stack)
         } else if (isTestEnchantedWell(user, stack)) {
@@ -154,6 +173,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (isTestEnchantedTracer(user, stack)) {
                 entity.tracerRound = true
             }
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity.fireRound = true
+                }
+            }
             world.spawnEntity(entity)
         }
         world.playSoundFromEntity(user, SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, 0.75f)
@@ -163,12 +187,18 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     val TriDirectDamage = 7.0f
     val TriIndirectDamage = 5f
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
         setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
         entity.directDamage = TriDirectDamage
         entity.indirectDamage = TriIndirectDamage
         entity.pickupType = PickupPermission.DISALLOWED
+        if (data.passivelyDraining){
+            if (getSongItem(stack) is BurningAndBlazeSongItem){
+                entity.fireRound = true
+            }
+        }
         world.spawnEntity(entity)
         if (user.isOnGround) {
             val entity2 = CosmicBoltEntity(world, user)
@@ -184,6 +214,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity2.directDamage = TriDirectDamage
             entity2.indirectDamage = TriIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity2.fireRound = true
+                }
+            }
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
             entity3.setPosition(user.eyePos)
@@ -198,6 +233,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity3.directDamage = TriDirectDamage
             entity3.indirectDamage = TriIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity3.fireRound = true
+                }
+            }
             world.spawnEntity(entity3)
         } else {
             val entity2 = CosmicBoltEntity(world, user)
@@ -213,6 +253,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity2.directDamage = TriDirectDamage
             entity2.indirectDamage = TriIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity2.fireRound = true
+                }
+            }
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
             entity3.setPosition(user.eyePos)
@@ -227,6 +272,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity3.directDamage = TriDirectDamage
             entity3.indirectDamage = TriIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity3.fireRound = true
+                }
+            }
             world.spawnEntity(entity3)
         }
     }
@@ -234,12 +284,18 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     val WellDirectDamage = 4.5f
     val WellIndirectDamage = 4.0f
     fun fireWellBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
         val entity = CosmicBoltEntity(world, user)
         entity.setPosition(user.eyePos)
         setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
         entity.directDamage = WellDirectDamage
         entity.indirectDamage = WellIndirectDamage
         entity.pickupType = PickupPermission.DISALLOWED
+        if (data.passivelyDraining){
+            if (getSongItem(stack) is BurningAndBlazeSongItem){
+                entity.fireRound = true
+            }
+        }
         world.spawnEntity(entity)
         if (user.isOnGround) {
             val entity2 = CosmicBoltEntity(world, user)
@@ -255,6 +311,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity2.directDamage = WellDirectDamage
             entity2.indirectDamage = WellIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity2.fireRound = true
+                }
+            }
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
             entity3.setPosition(user.eyePos)
@@ -269,6 +330,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity3.directDamage = WellDirectDamage
             entity3.indirectDamage = WellIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity3.fireRound = true
+                }
+            }
             world.spawnEntity(entity3)
             val entity4 = CosmicBoltEntity(world, user)
             entity4.setPosition(user.eyePos)
@@ -283,6 +349,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity4.directDamage = WellDirectDamage
             entity4.indirectDamage = WellIndirectDamage
             entity4.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity4.fireRound = true
+                }
+            }
             world.spawnEntity(entity4)
             val entity5 = CosmicBoltEntity(world, user)
             entity5.setPosition(user.eyePos)
@@ -297,6 +368,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity5.directDamage = WellDirectDamage
             entity5.indirectDamage = WellIndirectDamage
             entity5.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity5.fireRound = true
+                }
+            }
             world.spawnEntity(entity5)
         } else {
             val entity2 = CosmicBoltEntity(world, user)
@@ -312,6 +388,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity2.directDamage = WellDirectDamage
             entity2.indirectDamage = WellIndirectDamage
             entity2.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity2.fireRound = true
+                }
+            }
             world.spawnEntity(entity2)
             val entity3 = CosmicBoltEntity(world, user)
             entity3.setPosition(user.eyePos)
@@ -326,6 +407,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity3.directDamage = WellDirectDamage
             entity3.indirectDamage = WellIndirectDamage
             entity3.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity3.fireRound = true
+                }
+            }
             world.spawnEntity(entity3)
             val entity4 = CosmicBoltEntity(world, user)
             entity4.setPosition(user.eyePos)
@@ -340,6 +426,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity4.directDamage = WellDirectDamage
             entity4.indirectDamage = WellIndirectDamage
             entity4.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity4.fireRound = true
+                }
+            }
             world.spawnEntity(entity4)
             val entity5 = CosmicBoltEntity(world, user)
             entity5.setPosition(user.eyePos)
@@ -354,6 +445,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity5.directDamage = WellDirectDamage
             entity5.indirectDamage = WellIndirectDamage
             entity5.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity5.fireRound = true
+                }
+            }
             world.spawnEntity(entity5)
         }
     }
@@ -361,6 +457,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     val GrizzDirectDamage = 0.2f
     val GrizzIndirectDamage = 5f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
         repeat(18) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
@@ -376,6 +473,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             entity.indirectDamage = GrizzIndirectDamage
             entity.timeTillBoom = 20 + world.random.range(-5, 5)
             entity.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining){
+                if (getSongItem(stack) is BurningAndBlazeSongItem){
+                    entity.fireRound = true
+                }
+            }
             //entity.airResOnDrop = 0.5 + world.random.nextFloat().times(0.25)
             world.spawnEntity(entity)
         }
@@ -388,6 +490,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
     }
+
     fun isTestEnchantedTracer(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRACER)
     }
