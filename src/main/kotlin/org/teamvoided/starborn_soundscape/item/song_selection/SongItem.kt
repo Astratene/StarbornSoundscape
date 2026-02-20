@@ -12,7 +12,20 @@ import net.minecraft.world.World
 
 open class SongItem(settings: Settings) : Item(settings) {
 
-    open fun useSong(user: LivingEntity, world: World){
+    open fun useSong(user: LivingEntity, world: World){}
+
+    open fun passiveSong(user: LivingEntity, world: World) {}
+
+    open fun passiveAxSong(user: LivingEntity, world: World) {
+        passiveSong(user, world)
+    }
+
+    open fun useAxSong(user: LivingEntity, world: World) {
+        useSong(user, world)
+    }
+
+    open fun isPassive() : Boolean {
+        return false
     }
 
     open fun addDescription(tooltip: MutableList<Text?>,) {
@@ -45,5 +58,9 @@ open class SongItem(settings: Settings) : Item(settings) {
 
     open fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
         return 10000
+    }
+
+    open fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
+        return 20
     }
 }

@@ -19,6 +19,10 @@ object StarbornSoundscapeEffects {
                 EntityAttributes.GENERIC_GRAVITY, id("effect.hover"),
                 -0.08, EntityAttributeModifier.Operation.ADD_VALUE
             )
+            .addAttributeModifier(
+                EntityAttributes.GENERIC_ARMOR_TOUGHNESS, id("effect.hover"),
+                -4.0, EntityAttributeModifier.Operation.ADD_VALUE
+            )
     )
 
     private fun register(id: String, entry: StatusEffect): Holder<StatusEffect> =

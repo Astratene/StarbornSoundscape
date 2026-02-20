@@ -175,43 +175,65 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
     }
 
     fun useSong(stack: ItemStack, user: LivingEntity, world: World) {
-        val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
-        if (bundleContents != null && !bundleContents.isEmpty) {
-            val songInWeapon = bundleContents.copyContents()
-            for (item in songInWeapon) {
-                if (item.item is SongItem) {
-                    val actualItem = item.item as SongItem
-                    actualItem.useSong(user, world)
-                    break
-                }
-            }
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            songItem.useSong(user, world)
+            return
         }
     }
 
+    fun useAxSong(stack: ItemStack, user: LivingEntity, world: World) {
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            songItem.useAxSong(user, world)
+            return
+        }
+    }
+
+    fun PassiveSong(stack: ItemStack, user: LivingEntity, world: World) {
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            songItem.passiveSong(user, world)
+            return
+        }
+    }
+
+    fun AxPassiveSong(stack: ItemStack, user: LivingEntity, world: World) {
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            songItem.passiveAxSong(user, world)
+            return
+        }
+    }
+
+    fun isPassive(stack: ItemStack): Boolean {
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            return songItem.isPassive()
+        }
+        return false
+    }
+
     fun getOverarchieverUseCharge(stack: ItemStack, user: LivingEntity) : Int {
-        val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
-        if (bundleContents != null && !bundleContents.isEmpty) {
-            val songInWeapon = bundleContents.copyContents()
-            for (item in songInWeapon) {
-                if (item.item is SongItem) {
-                    val actualItem = item.item as SongItem
-                    return actualItem.getOverArchIeverChargeReduction(user)
-                }
-            }
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            return songItem.getOverArchIeverChargeReduction(user)
+        }
+        return 100000
+    }
+
+    fun getOverarchieverPassiveDrain(stack: ItemStack, user: LivingEntity) : Int {
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            return songItem.getOverArchIeverPassiveDrain(user)
         }
         return 100000
     }
 
     fun getBarColor(stack: ItemStack) : Int {
-        val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
-        if (bundleContents != null && !bundleContents.isEmpty) {
-            val songInWeapon = bundleContents.copyContents()
-            for (item in songInWeapon) {
-                if (item.item is SongItem) {
-                    val actualItem = item.item as SongItem
-                    return actualItem.getBarColor().rgb
-                }
-            }
+        val songItem = getSongItem(stack)
+        if (songItem != null){
+            return songItem.getBarColor().rgb
         }
         return Color.RED.color
     }
@@ -227,5 +249,18 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
             }
         }
         return false
+    }
+
+    fun getSongItem(stack: ItemStack): SongItem? {
+        val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
+        if (bundleContents != null && !bundleContents.isEmpty) {
+            val songInWeapon = bundleContents.copyContents()
+            for (item in songInWeapon) {
+                if (item.item is SongItem) {
+                    return item.item as SongItem
+                }
+            }
+        }
+        return null
     }
 }
