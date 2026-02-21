@@ -22,7 +22,7 @@ class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider
     }
 
     override fun generateItemModels(gen: ItemModelGenerator) {
-        StarbornSoundscapeItems.items().filterNot(hasModel::contains).filterNot { it == StarbornSoundscapeItems.OVERARCHIEVER }.forEach { gen.register(it, Models.HANDHELD) }
+        StarbornSoundscapeItems.items().filterNot(hasModel::contains).filterNot { it == StarbornSoundscapeItems.OVERARCHIEVER || it == StarbornSoundscapeItems.BAND_STAMP }.forEach { gen.register(it, Models.HANDHELD) }
     }
 
     private fun Block.blockModel(): Identifier = Registries.BLOCK.getId(this).withPrefix("block/")

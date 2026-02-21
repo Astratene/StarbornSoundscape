@@ -114,6 +114,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
 
         gen.add("itemgroup.starborn_soundscape.tab",
             "Starborn Soundscape")
+
     }
 
 

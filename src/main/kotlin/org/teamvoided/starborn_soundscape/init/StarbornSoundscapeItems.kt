@@ -31,8 +31,8 @@ object StarbornSoundscapeItems {
 //    val BIGSPEAKERITEM = register("bigspeakeritem",
 //        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
 //    )
-    val THE_AX = register(
-        "the_ax",
+    val THE_METRONOME = register(
+        "the_metronome",
         AxeBassItem(
             (Item.Settings()).fireproof().rarity(Rarity.EPIC)
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 4, -2.4F))
