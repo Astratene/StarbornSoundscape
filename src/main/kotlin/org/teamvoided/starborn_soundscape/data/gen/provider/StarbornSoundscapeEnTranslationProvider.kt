@@ -111,6 +111,9 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
 
         gen.add("sounds.starborn_soundscape.you_really_got_me",
             "You really got me riff plays")
+
+        gen.add("itemgroup.starborn_soundscape.tab",
+            "Starborn Soundscape")
     }
 
 

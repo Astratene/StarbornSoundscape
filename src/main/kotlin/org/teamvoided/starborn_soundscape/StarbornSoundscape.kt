@@ -12,6 +12,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeTabs
 
 @Suppress("unused")
 object StarbornSoundscape {
@@ -32,6 +33,7 @@ object StarbornSoundscape {
         AxeBassEvents.init()
         StarbornSoundscapeDataComponents.init()
         StarbornSoundscapeEffects.init()
+        StarbornSoundscapeTabs.init()
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)
