@@ -13,8 +13,10 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 
 class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider(o) {
 
+    // Put items that already have models in here :3
     val hasModel = listOf<Item>(
-
+        StarbornSoundscapeItems.OVERARCHIEVER,
+        StarbornSoundscapeItems.BAND_STAMP
     )
 
     override fun generateBlockStateModels(p0: BlockStateModelGenerator?) {
@@ -22,7 +24,7 @@ class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider
     }
 
     override fun generateItemModels(gen: ItemModelGenerator) {
-        StarbornSoundscapeItems.items().filterNot(hasModel::contains).filterNot { it == StarbornSoundscapeItems.OVERARCHIEVER || it == StarbornSoundscapeItems.BAND_STAMP }.forEach { gen.register(it, Models.HANDHELD) }
+        StarbornSoundscapeItems.items().filterNot(hasModel::contains).forEach { gen.register(it, Models.HANDHELD) }
     }
 
     private fun Block.blockModel(): Identifier = Registries.BLOCK.getId(this).withPrefix("block/")
