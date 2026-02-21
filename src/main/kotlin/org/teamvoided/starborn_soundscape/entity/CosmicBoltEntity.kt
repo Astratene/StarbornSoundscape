@@ -49,6 +49,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
             val hit = entityHitResult.entity as LivingEntity
+            if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
             val mult = if (hit is PlayerEntity) 1f else 1f
             hit.customDamage(
                 StarbornSoundscapeDamageTypes.BOLT_DIRECT,
@@ -56,6 +57,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 owner,
                 owner
             )
+            if (hit is EndermanEntity) return
             if (tracerRound) {
                 hit.addStatusEffect(
                     StatusEffectInstance(
@@ -68,7 +70,6 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             if (fireRound){
                 hit.setOnFireFor(100)
             }
-            if (hit is EndermanEntity) return
             if (world is ServerWorld) {
                 this.world.playSound(
                     null,
@@ -133,7 +134,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     pos.y - explosionRadius,
                     pos.z - explosionRadius
                 )
-            ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius }
+            ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)}
             var hasPlayedSound = false
             for (entity in entities) {
                 entity.customDamage(

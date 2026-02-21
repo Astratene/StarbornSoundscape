@@ -21,6 +21,7 @@ import org.joml.Math.lerp
 import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import software.bernie.geckolib.animatable.GeoEntity
@@ -271,7 +272,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
                         (Math.lerp(caster.eyePos.y - size, endPos.y, i / interval)) - size,
                         (Math.lerp(caster.eyePos.z, endPos.z, i / interval)) - size
                     )
-                ).filter { it is LivingEntity && it != this.owner }
+                ).filter { it is LivingEntity && it != this.owner && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED) }
             )
         }
         return entities as MutableList<LivingEntity>

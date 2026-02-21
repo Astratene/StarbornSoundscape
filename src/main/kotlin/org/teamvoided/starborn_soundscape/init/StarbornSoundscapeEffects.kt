@@ -29,6 +29,10 @@ object StarbornSoundscapeEffects {
         "closed_eyes", StarbornSoundscapeBasicEffect(StatusEffectType.HARMFUL, 6684672)
     )
 
+    val BAND_APPROVED = register(
+        "band_approved", StarbornSoundscapeBasicEffect(StatusEffectType.BENEFICIAL, 6684672)
+    )
+
     private fun register(id: String, entry: StatusEffect): Holder<StatusEffect> =
         Registries.STATUS_EFFECT.registerHolder(id(id), entry)
 }

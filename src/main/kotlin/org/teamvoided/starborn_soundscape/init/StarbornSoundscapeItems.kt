@@ -10,6 +10,7 @@ import net.minecraft.util.Rarity
 import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
+import org.teamvoided.starborn_soundscape.item.BandStampItem
 import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
@@ -43,6 +44,8 @@ object StarbornSoundscapeItems {
     val KEEP_UP_FT_STEP2IT = register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val THROUGH_THE_BURNING_AND_THE_BLAZE = register("through_the_burning_and_the_blaze", BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
     val CANT_TAKE_MY_EYES_OFF_YOU = register("cant_take_my_eyes_off_you", AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
+    val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     fun items(): Set<Item> {
         return Registries.ITEM.holders().astItems()

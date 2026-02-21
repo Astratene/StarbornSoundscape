@@ -76,12 +76,23 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             " - Lights opponents on fire.")
         gen.add("tooltip.soundscape.eyes.tooltip",
             " - Blinds nearby opponents and makes you glow. You're the star of the show!")
+        gen.add("tooltip.soundscape.stamp1.tooltip",
+            "Right click to toggle your safety in the band, and hit others to make them safe or not")
 
 
         gen.add("effect.starborn_soundscape.hover",
             "Hover")
         gen.add("effect.starborn_soundscape.closed_eyes",
             "Watching the stars!")
+        gen.add("effect.starborn_soundscape.band_approved",
+            "Band Approved")
+
+        gen.add("effect.starborn_soundscape.hover.desc",
+            "Removes a persons gravity")
+        gen.add("effect.starborn_soundscape.closed_eyes.desc",
+            "Blinds you, but doesn't inhibit your legs.")
+        gen.add("effect.starborn_soundscape.band_approved.desc",
+            "Protects you from the harm the band may hit you with")
 
         gen.add("sounds.starborn_soundscape.metronome_1",
             "Metronome ticks")
