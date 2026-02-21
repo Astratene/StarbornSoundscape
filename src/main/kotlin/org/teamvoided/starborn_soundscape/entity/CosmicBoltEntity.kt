@@ -11,8 +11,11 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.network.packet.s2c.play.SoundPlayS2CPacket
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.registry.Holder
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -67,7 +70,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     )
                 )
             }
-            if (fireRound){
+            if (fireRound) {
                 hit.setOnFireFor(100)
             }
             if (world is ServerWorld) {
@@ -83,16 +86,20 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             }
             if (this.owner != null) {
-                this.world.playSound(
-                    null,
-                    this.owner!!.pos.x,
-                    this.owner!!.eyePos.y,
-                    this.owner!!.pos.z,
-                    SoundEvents.BLOCK_END_PORTAL_FRAME_FILL,
-                    SoundCategory.PLAYERS,
-                    1.0F,
-                    2.0f
-                )
+                if (this.owner is ServerPlayerEntity) {
+                    (this.owner as ServerPlayerEntity).networkHandler.send(
+                        SoundPlayS2CPacket(
+                            Holder.createDirect(SoundEvents.BLOCK_END_PORTAL_FRAME_FILL),
+                            SoundCategory.PLAYERS,
+                            this.owner!!.x,
+                            this.owner!!.y,
+                            this.owner!!.z,
+                            1.6F,
+                            2.0f,
+                            world.getRandom().nextLong()
+                        )
+                    )
+                }
                 if (world is ServerWorld) (world as ServerWorld).spawnParticles(
                     ParticleTypes.END_ROD, this.x, this.y, this.z,
                     5,
@@ -101,15 +108,17 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             }
             if (this.owner != null && !hit.isAlive) {
-                this.world.playSound(
-                    null,
-                    this.owner!!.pos.x,
-                    this.owner!!.eyePos.y,
-                    this.owner!!.pos.z,
-                    SoundEvents.ENTITY_ARROW_HIT_PLAYER,
-                    SoundCategory.PLAYERS,
-                    1.0F,
-                    0.5f
+                (this.owner as ServerPlayerEntity).networkHandler.send(
+                    SoundPlayS2CPacket(
+                        Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                        SoundCategory.PLAYERS,
+                        this.owner!!.x,
+                        this.owner!!.y,
+                        this.owner!!.z,
+                        1.6F,
+                        2.0f,
+                        world.getRandom().nextLong()
+                    )
                 )
                 if (world is ServerWorld) (world as ServerWorld).spawnParticles(
                     ParticleTypes.GLOW, this.x, this.y, this.z,
@@ -134,7 +143,11 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     pos.y - explosionRadius,
                     pos.z - explosionRadius
                 )
-            ).filter { it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)}
+            ).filter {
+                it != this.owner && it is LivingEntity && this.distanceTo(it) <= explosionRadius && !it.hasStatusEffect(
+                    StarbornSoundscapeEffects.BAND_APPROVED
+                )
+            }
             var hasPlayedSound = false
             for (entity in entities) {
                 entity.customDamage(
@@ -152,39 +165,43 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         )
                     )
                 }
-                if (fireRound && entity is LivingEntity){
+                if (fireRound && entity is LivingEntity) {
                     entity.setOnFireFor(50)
                 }
                 if (this.owner != null && !hasPlayedSound) {
                     hasPlayedSound = true
-                    this.world.playSound(
-                        null,
-                        this.owner!!.pos.x,
-                        this.owner!!.eyePos.y,
-                        this.owner!!.pos.z,
-                        SoundEvents.ENTITY_ARROW_HIT_PLAYER,
-                        SoundCategory.PLAYERS,
-                        1.0F,
-                        2.0f
+                    (this.owner as ServerPlayerEntity).networkHandler.send(
+                        SoundPlayS2CPacket(
+                            Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                            SoundCategory.PLAYERS,
+                            this.owner!!.x,
+                            this.owner!!.y,
+                            this.owner!!.z,
+                            1.6F,
+                            2.0f,
+                            world.getRandom().nextLong()
+                        )
                     )
                 }
                 if (this.owner != null && !entity.isAlive) {
                     hasPlayedSound = true
-                    this.world.playSound(
-                        null,
-                        this.owner!!.pos.x,
-                        this.owner!!.eyePos.y,
-                        this.owner!!.pos.z,
-                        SoundEvents.ENTITY_ARROW_HIT_PLAYER,
-                        SoundCategory.PLAYERS,
-                        1.0F,
-                        0.5f
+                    (this.owner as ServerPlayerEntity).networkHandler.send(
+                        SoundPlayS2CPacket(
+                            Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                            SoundCategory.PLAYERS,
+                            this.owner!!.x,
+                            this.owner!!.y,
+                            this.owner!!.z,
+                            1.6F,
+                            0.5f,
+                            world.getRandom().nextLong()
+                        )
                     )
                 }
             }
             if (this.world is ServerWorld) {
                 val world = this.world as ServerWorld
-                val particle = if(tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
+                val particle = if (tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
                 world.spawnParticles(
                     particle,
                     this.x,
@@ -196,7 +213,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     0.0,
                     0.2
                 )
-                if (fireRound){
+                if (fireRound) {
                     world.spawnParticles(
                         ParticleTypes.FLAME,
                         this.x,
@@ -248,7 +265,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             this.velocityDirty = true
         }
         if (!this.inGround) {
-            val particle = if(tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
+            val particle = if (tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
             if (world is ServerWorld) (world as ServerWorld).spawnParticles(
                 particle, this.x, this.y, this.z,
                 1,
