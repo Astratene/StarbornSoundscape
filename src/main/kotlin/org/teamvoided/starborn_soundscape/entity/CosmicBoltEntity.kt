@@ -108,18 +108,20 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             }
             if (this.owner != null && !hit.isAlive) {
-                (this.owner as ServerPlayerEntity).networkHandler.send(
-                    SoundPlayS2CPacket(
-                        Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
-                        SoundCategory.PLAYERS,
-                        this.owner!!.x,
-                        this.owner!!.y,
-                        this.owner!!.z,
-                        1.6F,
-                        2.0f,
-                        world.getRandom().nextLong()
+                if (this.owner is ServerPlayerEntity) {
+                    (this.owner as ServerPlayerEntity).networkHandler.send(
+                        SoundPlayS2CPacket(
+                            Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                            SoundCategory.PLAYERS,
+                            this.owner!!.x,
+                            this.owner!!.y,
+                            this.owner!!.z,
+                            1.6F,
+                            2.0f,
+                            world.getRandom().nextLong()
+                        )
                     )
-                )
+                }
                 if (world is ServerWorld) (world as ServerWorld).spawnParticles(
                     ParticleTypes.GLOW, this.x, this.y, this.z,
                     20,
@@ -170,33 +172,37 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 }
                 if (this.owner != null && !hasPlayedSound) {
                     hasPlayedSound = true
-                    (this.owner as ServerPlayerEntity).networkHandler.send(
-                        SoundPlayS2CPacket(
-                            Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
-                            SoundCategory.PLAYERS,
-                            this.owner!!.x,
-                            this.owner!!.y,
-                            this.owner!!.z,
-                            1.6F,
-                            2.0f,
-                            world.getRandom().nextLong()
+                    if (this.owner is ServerPlayerEntity) {
+                        (this.owner as ServerPlayerEntity).networkHandler.send(
+                            SoundPlayS2CPacket(
+                                Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                                SoundCategory.PLAYERS,
+                                this.owner!!.x,
+                                this.owner!!.y,
+                                this.owner!!.z,
+                                1.6F,
+                                2.0f,
+                                world.getRandom().nextLong()
+                            )
                         )
-                    )
+                    }
                 }
                 if (this.owner != null && !entity.isAlive) {
                     hasPlayedSound = true
-                    (this.owner as ServerPlayerEntity).networkHandler.send(
-                        SoundPlayS2CPacket(
-                            Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
-                            SoundCategory.PLAYERS,
-                            this.owner!!.x,
-                            this.owner!!.y,
-                            this.owner!!.z,
-                            1.6F,
-                            0.5f,
-                            world.getRandom().nextLong()
+                    if (this.owner is ServerPlayerEntity) {
+                        (this.owner as ServerPlayerEntity).networkHandler.send(
+                            SoundPlayS2CPacket(
+                                Holder.createDirect(SoundEvents.ENTITY_ARROW_HIT_PLAYER),
+                                SoundCategory.PLAYERS,
+                                this.owner!!.x,
+                                this.owner!!.y,
+                                this.owner!!.z,
+                                1.6F,
+                                0.5f,
+                                world.getRandom().nextLong()
+                            )
                         )
-                    )
+                    }
                 }
             }
             if (this.world is ServerWorld) {

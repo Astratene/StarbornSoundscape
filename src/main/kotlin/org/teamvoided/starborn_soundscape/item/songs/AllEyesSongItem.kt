@@ -25,14 +25,14 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         entities.addAll(
             world.getOtherEntities(
                 user, Box(
-                    user.pos.x + 5.0,
-                    user.pos.y + 3.0,
-                    user.pos.z + 5.0,
-                    user.pos.x - 5.0,
+                    user.pos.x + 10.0,
+                    user.pos.y + 6.0,
+                    user.pos.z + 10.0,
+                    user.pos.x - 10.0,
                     user.pos.y - 1.0,
-                    user.pos.z - 5.0
+                    user.pos.z - 10.0
                 )
-            ).filter { it is LivingEntity && it != user }
+            ).filter { it is LivingEntity && it != user && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)}
         )
         for (entity in entities){
             (entity as LivingEntity).addStatusEffect(
