@@ -60,7 +60,8 @@ open class SongItem(settings: Settings) : Item(settings) {
         return 10000
     }
 
+    // this is now also used as a songs modifier to charge speed
     open fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
-        return 20
+        return 4
     }
 }

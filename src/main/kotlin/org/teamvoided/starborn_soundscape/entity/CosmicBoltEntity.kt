@@ -48,11 +48,21 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var explosionRadius = 1.75
     var tracerRound = false
     var fireRound = false
+    var breakRound = false
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
             val hit = entityHitResult.entity as LivingEntity
-            if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
+
+            if (hit is PlayerEntity && hit.blockedByShield(
+                    this.damageSources.create(
+                        StarbornSoundscapeDamageTypes.BOLT_DIRECT,
+                        owner,
+                        owner
+                    )
+                )
+            ) if (breakRound) {hit.itemCooldownManager.set(Items.SHIELD, 40); hit.stopUsingItem()} else return
+                if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
             val mult = if (hit is PlayerEntity) 1f else 1f
             hit.customDamage(
                 StarbornSoundscapeDamageTypes.BOLT_DIRECT,
@@ -60,6 +70,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 owner,
                 owner
             )
+
             if (hit is EndermanEntity) return
             if (tracerRound) {
                 hit.addStatusEffect(
@@ -152,6 +163,14 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             }
             var hasPlayedSound = false
             for (entity in entities) {
+                if (entity is PlayerEntity && entity.blockedByShield(
+                        this.damageSources.create(
+                            StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
+                            owner,
+                            owner
+                        )
+                    )
+                ) if (breakRound) {entity.itemCooldownManager.set(Items.SHIELD, 40); entity.stopUsingItem()} else return
                 entity.customDamage(
                     StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
                     indirectDamage,
@@ -232,6 +251,19 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         0.2
                     )
                 }
+                if (fireRound) {
+                    world.spawnParticles(
+                        ParticleTypes.CRIT,
+                        this.x,
+                        this.y,
+                        this.z,
+                        3,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.2
+                    )
+                }
                 world.playSound(
                     null,
                     this.x,
@@ -280,6 +312,12 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             )
             if (world is ServerWorld && fireRound) (world as ServerWorld).spawnParticles(
                 ParticleTypes.FLAME, this.x, this.y, this.z,
+                1,
+                0.0, 0.0, 0.0,
+                0.1
+            )
+            if (world is ServerWorld && breakRound) (world as ServerWorld).spawnParticles(
+                ParticleTypes.CRIT, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
                 0.1

@@ -82,11 +82,11 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
     }
 
     override fun getNameColor(): Formatting {
-        return Formatting.DARK_GRAY
+        return Formatting.GRAY
     }
 
     override fun getBarColor(): java.awt.Color {
-        return java.awt.Color.DARK_GRAY
+        return java.awt.Color.GRAY
     }
 
     override fun addDescription(tooltip: MutableList<Text?>) {

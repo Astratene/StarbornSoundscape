@@ -1,10 +1,8 @@
 package org.teamvoided.starborn_soundscape
 
-import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.teamvoided.starborn_soundscape.config.StarbornSoundscapeConfig
 import org.teamvoided.starborn_soundscape.event.AxeBassEvents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
@@ -20,9 +18,6 @@ object StarbornSoundscape {
 
     @JvmField
     val log: Logger = LoggerFactory.getLogger(StarbornSoundscape::class.simpleName)
-
-    @JvmField
-    var config = ConfigApi.registerAndLoadConfig(::StarbornSoundscapeConfig)
 
     fun init() {
         log.info("Stars coming straight to your ears!")

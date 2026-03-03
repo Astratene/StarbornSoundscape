@@ -28,6 +28,7 @@ class StarbornSoundscapeItemTagProvider(
             .add(StarbornSoundscapeItems.KEEP_UP_FT_STEP2IT)
             .add(StarbornSoundscapeItems.THROUGH_THE_BURNING_AND_THE_BLAZE)
             .add(StarbornSoundscapeItems.CANT_TAKE_MY_EYES_OFF_YOU)
+            .add(StarbornSoundscapeItems.BREAK_RIGHT_THROUGH)
     }
 
     private fun conventionalTags() {

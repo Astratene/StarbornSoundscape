@@ -49,7 +49,7 @@ class SmallSpeakerEntity : Entity, GeoEntity {
     var ticksTillShootLaser = 10
     var lifetimeTicks = 200
     var postStopTicks = 20
-    var damage = 0.5f
+    var damage = 0.4f
     var damageRadius = 0.5
     var damageRange = 100.0
     var targetGrabRadius = 5.0 // the radius from the centre of its vision it can grab a target from

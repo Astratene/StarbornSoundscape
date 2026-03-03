@@ -76,6 +76,11 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
             world.spawnEntity(speaker)
         }
     }
+
+    override fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
+        return 3
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.RED
     }

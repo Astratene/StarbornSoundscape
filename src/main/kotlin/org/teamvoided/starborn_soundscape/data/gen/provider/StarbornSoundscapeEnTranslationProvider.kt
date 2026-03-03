@@ -76,6 +76,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             " - Lights opponents on fire.")
         gen.add("tooltip.soundscape.eyes.tooltip",
             " - Blinds nearby opponents and makes you glow. You're the star of the show!")
+        gen.add("tooltip.soundscape.break.tooltip",
+            " - Lets bolts break right through shields")
         gen.add("tooltip.soundscape.stamp1.tooltip",
             "Right click to toggle your safety in the band, and hit others to make them safe or not")
 

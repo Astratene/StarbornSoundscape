@@ -1,6 +1,8 @@
 package org.teamvoided.starborn_soundscape.init
 
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.item.Item
+import net.minecraft.item.MiningToolItem
 import net.minecraft.item.ToolMaterials
 import net.minecraft.registry.Holder
 import net.minecraft.registry.HolderLookup.RegistryLookup
@@ -15,6 +17,7 @@ import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
+import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
@@ -24,10 +27,17 @@ import java.util.stream.Stream
 
 @Suppress("unused")
 object StarbornSoundscapeItems {
-        fun init() = Unit
+    fun init() = Unit
 
-    val OVERARCHIEVER = register("overarchiever", overarchieverItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-//    val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val OVERARCHIEVER =
+        register(
+            "overarchiever", overarchieverItem(
+                Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)
+
+            )
+        )
+
+    //    val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 //    val BIGSPEAKERITEM = register("bigspeakeritem",
 //        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
 //    )
@@ -38,12 +48,32 @@ object StarbornSoundscapeItems {
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 4, -2.4F))
         )
     )
-    val FOUND_DEAD_FT_DEF4N = register("found_dead_ft._deaf4n", FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val BREAKING_THE_CORE_FT_LOOK0UT = register("breaking_the_core_ft._look0ut", BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val GOING_UP_IN_THE_WORLD_FT_SKI_HI = register("going_up_in_the_world_ft._ski_hi", SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val KEEP_UP_FT_STEP2IT = register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val THROUGH_THE_BURNING_AND_THE_BLAZE = register("through_the_burning_and_the_blaze", BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val CANT_TAKE_MY_EYES_OFF_YOU = register("cant_take_my_eyes_off_you", AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val FOUND_DEAD_FT_DEF4N = register(
+        "found_dead_ft._deaf4n",
+        FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+    val BREAKING_THE_CORE_FT_LOOK0UT = register(
+        "breaking_the_core_ft._look0ut",
+        BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+    val GOING_UP_IN_THE_WORLD_FT_SKI_HI = register(
+        "going_up_in_the_world_ft._ski_hi",
+        SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+    val KEEP_UP_FT_STEP2IT =
+        register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val THROUGH_THE_BURNING_AND_THE_BLAZE = register(
+        "through_the_burning_and_the_blaze",
+        BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+    val CANT_TAKE_MY_EYES_OFF_YOU = register(
+        "cant_take_my_eyes_off_you",
+        AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+    val BREAK_RIGHT_THROUGH = register(
+        "break_right_through",
+        BreakRightThroughSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
 
     val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
