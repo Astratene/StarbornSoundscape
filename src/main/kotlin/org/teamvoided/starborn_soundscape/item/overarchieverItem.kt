@@ -514,7 +514,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        repeat(18) {
+        repeat(9) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             setPropertiesTwo(
