@@ -1,6 +1,8 @@
 package org.teamvoided.starborn_soundscape.util
 
 import net.minecraft.enchantment.Enchantment
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Holder
@@ -23,6 +25,17 @@ public fun setPropertiesTwo(
     val g = -MathHelper.sin((pitch + roll) * (Math.PI.toFloat() / 180))
     val h = MathHelper.cos(yaw * (Math.PI.toFloat() / 180)) * MathHelper.cos(pitch * (Math.PI.toFloat() / 180))
     entity.setVelocity(f.toDouble(), g.toDouble(), h.toDouble(), speed, modifierXYZ)
+}
+
+fun setPropertiesBasedOnPlayerLookingDirection(entity: ProjectileEntity, pos: Vec3d, secondaryPos: Vec3d, speed: Float, modifierXYZ: Float){
+    val f = pos.x - secondaryPos.x
+    val g = pos.y - secondaryPos.y
+    val h = pos.z - secondaryPos.z
+    entity.setVelocity(-f, -g, -h, speed, modifierXYZ)
+}
+
+fun getPlayerLookingDirectionPos(entity: LivingEntity) : Vec3d{
+    return entity.eyePos.add(entity.rotationVector)
 }
 
 fun Vector3f.toVec3d(): Vec3d = Vec3d(x.toDouble(), y.toDouble(), z.toDouble())

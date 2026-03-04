@@ -26,7 +26,9 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
+import org.teamvoided.starborn_soundscape.util.getPlayerLookingDirectionPos
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
+import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
 import java.awt.Color
 import java.lang.Math.clamp
@@ -175,7 +177,14 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         } else {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
-            setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
+            //setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
+            setPropertiesBasedOnPlayerLookingDirection(
+                entity,
+                user.eyePos,
+                getPlayerLookingDirectionPos(user),
+                getLaunchVelocity(ticks, user, stack),
+                0.0f
+            )
             entity.pickupType = PickupPermission.DISALLOWED
             entity.damage = baseDamage
             if (isTestEnchantedTracer(user, stack)) {
@@ -184,8 +193,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
                 }
             }
@@ -209,8 +217,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         if (data.passivelyDraining) {
             if (getSongItem(stack) is BurningAndBlazeSongItem) {
                 entity.fireRound = true
-            }
-            else if (getSongItem(stack) is BreakRightThroughSongItem) {
+            } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                 entity.breakRound = true
             }
         }
@@ -232,8 +239,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity2.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity2.breakRound = true
                 }
             }
@@ -254,8 +260,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity3.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity3.breakRound = true
                 }
             }
@@ -277,8 +282,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity2.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity2.breakRound = true
                 }
             }
@@ -299,8 +303,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity3.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity3.breakRound = true
                 }
             }
@@ -322,8 +325,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         if (data.passivelyDraining) {
             if (getSongItem(stack) is BurningAndBlazeSongItem) {
                 entity.fireRound = true
-            }
-            else if (getSongItem(stack) is BreakRightThroughSongItem) {
+            } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                 entity.breakRound = true
             }
         }
@@ -345,8 +347,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity2.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity2.breakRound = true
                 }
             }
@@ -367,8 +368,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity3.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity3.breakRound = true
                 }
             }
@@ -389,8 +389,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity4.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity4.breakRound = true
                 }
             }
@@ -411,8 +410,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity5.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity5.breakRound = true
                 }
             }
@@ -434,8 +432,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity2.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity2.breakRound = true
                 }
             }
@@ -456,8 +453,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity3.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity3.breakRound = true
                 }
             }
@@ -478,8 +474,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity4.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity4.breakRound = true
                 }
             }
@@ -500,8 +495,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity5.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity5.breakRound = true
                 }
             }
@@ -532,8 +526,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity.fireRound = true
-                }
-                else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
                 }
             }
