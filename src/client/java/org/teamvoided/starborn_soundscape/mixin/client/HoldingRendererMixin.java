@@ -28,7 +28,7 @@ public abstract class HoldingRendererMixin extends
                                              CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.isOf(StarbornSoundscapeItems.INSTANCE.getOVERARCHIEVER())) {
+        if (stack.isOf(StarbornSoundscapeItems.INSTANCE.getOVERARCHIEVER()) || stack.isOf(StarbornSoundscapeItems.INSTANCE.getEDGE_OF_THE_UNIVERSE())) {
             if (player.isUsingItem() && player.getActiveHand() == hand) {
                 return;
             }

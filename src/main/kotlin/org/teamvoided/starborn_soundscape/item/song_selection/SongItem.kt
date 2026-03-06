@@ -14,13 +14,11 @@ open class SongItem(settings: Settings) : Item(settings) {
 
     open fun useSong(user: LivingEntity, world: World){}
 
-    open fun passiveSong(user: LivingEntity, world: World) {}
-
-    open fun passiveAxSong(user: LivingEntity, world: World) {
-        passiveSong(user, world)
+    open fun useMetronomeSong(user: LivingEntity, world: World) {
+        useSong(user, world)
     }
 
-    open fun useAxSong(user: LivingEntity, world: World) {
+    open fun useBanjolectricSong(user: LivingEntity, world: World){
         useSong(user, world)
     }
 
@@ -56,12 +54,23 @@ open class SongItem(settings: Settings) : Item(settings) {
         return java.awt.Color.MAGENTA
     }
 
-    open fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
-        return 10000
+    open fun getOverarchieverChargeReduction(user: LivingEntity): Int {
+        return 100000
     }
 
-    // this is now also used as a songs modifier to charge speed
+    open fun getOverArchIeverChargeUp(user: LivingEntity): Int {
+        return 40
+    }
+
+    open fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 24
+    }
+
+    open fun getBanjoPassiveDrain(user: LivingEntity): Int {
+        return 1
+    }
+
     open fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
-        return 4
+        return 40
     }
 }

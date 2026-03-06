@@ -7,6 +7,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.entity.*
+import org.teamvoided.starborn_soundscape.entity.astra_stuff_dont_peep.*
 
 object StarbornSoundscapeEntities {
     fun init() = Unit
@@ -22,6 +23,11 @@ object StarbornSoundscapeEntities {
         "cosmic_bolt",
         EntityType.Builder.create(EntityType.EntityFactory(::CosmicBoltEntity), SpawnGroup.MISC)
             .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
+    )
+    val STAR_PROJECTILE = register(
+        "star_projectile",
+        EntityType.Builder.create(EntityType.EntityFactory(::StarProjectileEntity), SpawnGroup.MISC)
+            .setDimensions(0.1f, 0.1f).maxTrackingRange(4).build()
     )
 
     val SMALL_SPEAKER = register(

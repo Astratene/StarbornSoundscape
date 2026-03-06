@@ -1,0 +1,50 @@
+{
+	"format_version": "1.21.1",
+	"credit": "Made with Blockbench",
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "starborn_soundscape:item/edge_of_the_universe_inv"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 75, 55],
+			"translation": [-0.25, 17.25, 5.25],
+			"scale": [2, 2, 1]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 90, -51],
+			"translation": [0, 17, -0.75],
+			"scale": [2, 2, 1]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 90, 35],
+			"translation": [0, 17, -2.25],
+			"scale": [2, 2, 1]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, -51],
+			"translation": [0, 17, -0.75],
+			"scale": [2, 2, 1]
+		},
+		"ground": {
+			"rotation": [90, 0, 0],
+			"translation": [2.75, -4, 3.25],
+			"scale": [2, 2, 1]
+		},
+		"gui": {
+			"translation": [0.5, -0.5, 0]
+		},
+		"head": {
+			"rotation": [0, 0, 180],
+			"translation": [-3.25, -24.25, 4.5],
+			"scale": [3, 3, 1.5]
+		},
+		"fixed": {
+			"translation": [2.75, 3, 0],
+			"scale": [2, 2, 1]
+		},
+		"on_shelf": {
+			"translation": [0, 0, -3.75]
+		}
+	}
+}

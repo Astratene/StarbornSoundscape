@@ -76,11 +76,6 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         }
     }
 
-    override fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
-        return 10000
-
-    }
-
     override fun getNameColor(): Formatting {
         return Formatting.GRAY
     }

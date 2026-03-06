@@ -8,16 +8,14 @@ import org.teamvoided.starborn_soundscape.item.song_selection.SongItem
 
 class BreakRightThroughSongItem(settings: Settings) : SongItem(settings) {
 
-    override fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
-        return 10000
-    }
+
 
     override fun isPassive(): Boolean {
         return true
     }
 
     override fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
-        return 25
+        return 250
     }
 
     override fun getNameColor(): Formatting {

@@ -16,7 +16,8 @@ class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider
     // Put items that already have models in here :3
     val hasModel = listOf<Item>(
         StarbornSoundscapeItems.OVERARCHIEVER,
-        StarbornSoundscapeItems.BAND_STAMP
+        StarbornSoundscapeItems.BAND_STAMP,
+        StarbornSoundscapeItems.EDGE_OF_THE_UNIVERSE
     )
 
     override fun generateBlockStateModels(p0: BlockStateModelGenerator?) {

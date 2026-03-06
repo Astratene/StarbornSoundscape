@@ -3,6 +3,7 @@ package org.teamvoided.starborn_soundscape.init
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.item.Item
 import net.minecraft.item.MiningToolItem
+import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolMaterials
 import net.minecraft.registry.Holder
 import net.minecraft.registry.HolderLookup.RegistryLookup
@@ -15,6 +16,7 @@ import org.teamvoided.starborn_soundscape.item.AxeBassItem
 import org.teamvoided.starborn_soundscape.item.BandStampItem
 import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
+import org.teamvoided.starborn_soundscape.item.astra_only_no_snooping.UniverseEdgeItem
 import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
@@ -46,6 +48,13 @@ object StarbornSoundscapeItems {
         AxeBassItem(
             (Item.Settings()).fireproof().rarity(Rarity.EPIC)
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 4, -2.4F))
+        )
+    )
+    val EDGE_OF_THE_UNIVERSE = register(
+        "edge_of_the_universe",
+        UniverseEdgeItem(
+            (Item.Settings()).fireproof().rarity(Rarity.EPIC)
+                .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3.1F))
         )
     )
     val FOUND_DEAD_FT_DEF4N = register(

@@ -30,6 +30,7 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+    maven("https://maven.ladysnake.org/releases") {name = "CardinalComponents"}
     mavenCentral()
 }
 
@@ -48,8 +49,10 @@ modSettings {
 dependencies {
     modImplementation(fileTree("libs"))
     // Dependencies
-    //modImplementation(libs.fzzy.config)
     modImplementation(libs.geckolib)
+    modImplementation(libs.mokuslib)
+    modImplementation(libs.cardinal.components.base)
+    modImplementation(libs.cardinal.components.entity)
     // QoL
     modImplementation(libs.modmenu)
     modCompileOnly("${libs.emi.get()}:api")

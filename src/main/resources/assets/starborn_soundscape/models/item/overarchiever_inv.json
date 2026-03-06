@@ -3,33 +3,31 @@
 	"credit": "Made with Blockbench",
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "starborn_soundscape:item/overarchiever"
+		"layer0": "starborn_soundscape:item/overarchiever_inv"
 	},
 	"overrides": [
 		{
 			"predicate": { "minecraft:pulling": 1 },
-			"model": "starborn_soundscape:item/overarchiever_pulling_0"
+			"model": "starborn_soundscape:item/overarchiever_pulling_0_inv"
 		},
 		{
 			"predicate": { "minecraft:pulling": 1, "minecraft:pull": 0.65 },
-			"model": "starborn_soundscape:item/overarchiever_pulling_1"
+			"model": "starborn_soundscape:item/overarchiever_pulling_1_inv"
 		},
 		{
 			"predicate": { "minecraft:pulling": 1, "minecraft:pull": 0.9 },
-			"model": "starborn_soundscape:item/overarchiever_pulling_2"
+			"model": "starborn_soundscape:item/overarchiever_pulling_2_inv"
 		}
 	]
 ,
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [-95, -180, -45],
-			"translation": [0, 0.5, 2.75],
-			"scale": [1.25, 1.25, 1]
+			"translation": [0, 0.5, 2.75]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [-95, -180, 45],
-			"translation": [0, 0.5, 2.75],
-			"scale": [1.25, 1.25, 1]
+			"translation": [0, 0.5, 2.75]
 		},
 		"firstperson_righthand": {
 			"rotation": [-90, -30, -45],

@@ -8,26 +8,21 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.StackReference
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
+import net.minecraft.item.ToolItem
+import net.minecraft.item.ToolMaterials
 import net.minecraft.screen.slot.Slot
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
-import org.teamvoided.starborn_soundscape.StarbornSoundscape
-import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
-import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
-import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import software.bernie.geckolib.util.Color
-import java.util.*
+import java.util.ArrayList
 
-open class SongHoldingItem(settings: Settings) : Item(settings) {
-
+open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, settings)  {
 
     //all the bundle stuff
     override fun onClickedOnOther(stack: ItemStack, slot: Slot, clickType: ClickType?, player: PlayerEntity): Boolean {
@@ -54,9 +49,6 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryTransfer(slot, player)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is overarchieverItem){
-                            stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
-                        }
                     }
                 }
                 stack.set<BundleContentsComponent?>(DataComponentTypes.BUNDLE_CONTENTS, builder.build())
@@ -90,9 +82,6 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryAdd(otherStack)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is overarchieverItem){
-                            stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
-                        }
                     }
                 }
 
@@ -182,8 +171,9 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
     private fun playInsertSound(entity: Entity) {
         entity.playSound(SoundEvents.ITEM_BUNDLE_INSERT, 0.8f, 0.8f + entity.getWorld().getRandom().nextFloat() * 0.4f)
     }
+    // waow
 
-    fun useSong(stack: ItemStack, user: LivingEntity, world: World) {
+    fun useMetronomeSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
         if (songItem != null){
             songItem.useSong(user, world)
@@ -191,36 +181,28 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
         }
     }
 
-    fun isPassive(stack: ItemStack): Boolean {
+    fun useBanjolectricSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
         if (songItem != null){
-            return songItem.isPassive()
+            songItem.useSong(user, world)
+            return
         }
-        return false
     }
 
-    fun getOverarchieverUseCharge(stack: ItemStack, user: LivingEntity) : Int {
+    fun getBanjoChargeReduction(stack: ItemStack, user: LivingEntity) : Int {
         val songItem = getSongItem(stack)
         if (songItem != null){
-            return songItem.getOverarchieverChargeReduction(user)
+            return songItem.getBanjoChargeReduction(user)
         }
-        return 100000
+        return 24
     }
 
-    fun getOverarchieverPassiveDrain(stack: ItemStack, user: LivingEntity) : Int {
+    fun getBanjoPassiveDrain(stack: ItemStack, user: LivingEntity) : Int {
         val songItem = getSongItem(stack)
         if (songItem != null){
-            return songItem.getOverArchIeverPassiveDrain(user)
+            return songItem.getBanjoPassiveDrain(user)
         }
-        return 100000
-    }
-
-    fun getOverarchieverChargeUp(stack: ItemStack, user: LivingEntity): Int{
-        val songItem = getSongItem(stack)
-        if (songItem != null){
-            return songItem.getOverArchIeverChargeUp(user)
-        }
-        return 4
+        return 1
     }
 
     fun getBarColor(stack: ItemStack) : Int {
@@ -256,4 +238,5 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
         }
         return null
     }
+
 }

@@ -50,8 +50,8 @@ class KeepUpSongItem(settings: Settings) : SongItem(settings) {
         }
     }
 
-    override fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
-        return 2500
+    override fun getOverarchieverChargeReduction(user: LivingEntity): Int {
+        return 25000
 
     }
 

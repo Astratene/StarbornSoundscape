@@ -18,6 +18,7 @@ import net.minecraft.util.UseAction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
 import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
@@ -37,11 +38,15 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
+class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomItemModel {
 
     override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         player.setCurrentHand(hand)
         return TypedActionResult(ActionResult.CONSUME_PARTIAL, player.getStackInHand(hand))
+    }
+
+    override fun hasInventoryModel(): Boolean {
+        return true
     }
 
     //override fun post
@@ -74,8 +79,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
 
-    val maxCharge = 10000
-    val chargePerTick = 4
+    val maxCharge = 100000
+    val chargePerTick = 40
     override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity, slot: Int, selected: Boolean) {
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
         val data2 =
@@ -83,7 +88,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings) {
         if (!data2.passivelyDraining) {
             if (data.charge < maxCharge) {
                 val newCharge =
-                    data.charge + if (this.hasASongToSing(stack) && entity is LivingEntity && !this.isPassive(stack)) getOverarchieverPassiveDrain(
+                    data.charge + if (this.hasASongToSing(stack) && entity is LivingEntity) getOverarchieverChargeUp(
                         stack,
                         entity
                     ) else chargePerTick

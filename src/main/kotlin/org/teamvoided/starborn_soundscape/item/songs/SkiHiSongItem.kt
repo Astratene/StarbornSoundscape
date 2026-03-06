@@ -55,11 +55,11 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
 
     }
 
-    override fun getOverArchIeverChargeReduction(user: LivingEntity): Int {
+    override fun getOverarchieverChargeReduction(user: LivingEntity): Int {
         if (user.hasStatusEffect(StarbornSoundscapeEffects.HOVER)) {
             return 0
         }
-        return 5000
+        return 50000
 
     }
 

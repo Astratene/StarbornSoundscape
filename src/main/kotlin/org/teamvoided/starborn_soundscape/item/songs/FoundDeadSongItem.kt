@@ -80,8 +80,8 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
 
     }
 
-    override fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
-        return 3
+    override fun getOverArchIeverChargeUp(user: LivingEntity): Int {
+        return 30
     }
 
     override fun getNameColor(): Formatting {
