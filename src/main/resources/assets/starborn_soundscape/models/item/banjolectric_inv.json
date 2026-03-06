@@ -1,0 +1,41 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:item/handheld",
+	"textures": {
+		"layer0": "starborn_soundscape:item/banjolectric_inv"
+	},
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [15.29, 89.54, -167.51],
+			"translation": [-0.5, -2, 0.5],
+			"scale": [1.5, 1.5, 1]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-74.71, 89.54, -167.51],
+			"translation": [-0.5, -2, 0.5],
+			"scale": [1.5, 1.5, 1]
+		},
+		"firstperson_righthand": {
+			"rotation": [135, -90, 0],
+			"translation": [3.25, 3.25, 0],
+			"scale": [1.5, 1.5, 1]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-135, -90, 0],
+			"translation": [3.25, 3.25, 0],
+			"scale": [1.5, 1.5, 1]
+		},
+		"ground": {
+			"translation": [0, 4.5, 0]
+		},
+		"head": {
+			"translation": [0, -15.5, 3.75]
+		},
+		"fixed": {
+			"translation": [0.75, 1, 0],
+			"scale": [1.25, 1.25, 1]
+		}
+	}
+}
