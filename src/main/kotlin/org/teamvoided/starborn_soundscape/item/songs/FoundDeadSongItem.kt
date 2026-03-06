@@ -94,7 +94,7 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
 
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
-            Text.translatable("tooltip.soundscape.foundDeadDesc.tooltip")
+            Text.translatable("tooltip.soundscape.foundDead.tooltip")
                 .formatted(Formatting.GRAY)
         )
     }

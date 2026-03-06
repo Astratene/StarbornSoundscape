@@ -22,68 +22,15 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             .distinctBy { it.translationKey }
             .forEach { gen.add(it, genLang(it.id)) }
 
-        gen.add("death.attack.small_soundwaves", "%s couldn't handle %s's vibes")
-        gen.add("death.attack.bolt_direct", "%s was pierced straight through by %s")
-        gen.add("death.attack.bolt_explosion", "%s was pierced by millions of %s's shrapnel")
-        gen.add("death.attack.big_soundwaves", "%s was violently shown %s's music taste")
-        gen.add("death.attack.crushed", "%s was squished by %s's big ass speaker")
-        gen.add("death.attack.starstruck", "%s watched %s's stars")
-
-        gen.add("death.attack.small_soundwaves.item", "%s got blasted by %s's %s")
-        gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
-        gen.add("death.attack.bolt_explosion.item", "%s was pierced by millions of %s's %s's shrapnel")
-        gen.add("death.attack.big_soundwaves.item", "%s was silenced by %s's %s's deafening roar")
-        gen.add("death.attack.crushed.item", "%s was squished by %s's %s's unreasonably large speaker")
-        gen.add("death.attack.starstruck.item", "%s was struck by awe while watching %s's %s's stars")
-
-        gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
-        gen.add(
-            "enchantment.starborn_soundscape.tri_this.desc",
-            "Increases the number of bolts fired to 3, slightly reduces each bolts damage, and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
-        )
-        gen.add("enchantment.starborn_soundscape.well_well_well", "Well Well Well...")
-        gen.add(
-            "enchantment.starborn_soundscape.well_well_well.desc",
-            "Increases the number of bolts fired to 5, reduces the damage of each bolt, and increases the charge time heavily. Bolt spread is increased the longer the weapon is charged."
-        )
-        gen.add("enchantment.starborn_soundscape.grizzly_fate", "A Grizzly Fate")
-        gen.add(
-            "enchantment.starborn_soundscape.grizzly_fate.desc",
-            "Increases the number of bolts to 18 and gives them a random spread. Bolts do almost no direct damage but keep decent indirect damage. Increases the charge time severely. Spread is reduced the longer the weapon is charged."
-        )
-        gen.add("enchantment.starborn_soundscape.tracer", "Tracer Round")
-        gen.add(
-            "enchantment.starborn_soundscape.tracer.desc",
-            "The bolt fired is a tracer round, causing targets hit to glow."
-        )
-
-        // oh god think of the descripdren!
-        gen.add("tooltip.soundscape.requires_song.tooltip",
-            "Insert a song and get your groove on!")
-        gen.add("tooltip.soundscape.song.tooltip",
-            "Song inserted:")
-        gen.add("tooltip.soundscape.song_can_be_inserted.tooltip",
-            "Insert this song into a weapon and get schmovin!")
-        gen.add("tooltip.soundscape.nullSong.tooltip",
-            "Someone forgot to give this song a description, guess you'll have to find out what it does")
-        gen.add("tooltip.soundscape.foundDeadDesc.tooltip",
-            " - Summons a giant speaker to slam onto your foes! Let it sit and it starts blasting music louder then you thought could be handled! And you'd be right about that...")
-        gen.add("tooltip.soundscape.breakingCoreDesc.tooltip",
-            " - Summons a wave of 6 speakers that will target players and deal constant damage to them.")
-        gen.add("tooltip.soundscape.skihi.tooltip",
-            " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over.")
-        gen.add("tooltip.soundscape.keepup.tooltip",
-            " - Launches you in the direction you are facing.")
-        gen.add("tooltip.soundscape.burnblaze.tooltip",
-            " - Lights opponents on fire.")
-        gen.add("tooltip.soundscape.eyes.tooltip",
-            " - Blinds nearby opponents and makes you glow. You're the star of the show!")
-        gen.add("tooltip.soundscape.break.tooltip",
-            " - Lets bolts break right through shields")
-        gen.add("tooltip.soundscape.stamp1.tooltip",
-            "Right click to toggle your safety in the band, and hit others to make them safe or not")
 
 
+
+        //dude this pisses me off im fixing it
+
+
+
+
+        //status effects
         gen.add("effect.starborn_soundscape.hover",
             "Hover")
         gen.add("effect.starborn_soundscape.closed_eyes",
@@ -98,6 +45,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("effect.starborn_soundscape.band_approved.desc",
             "Protects you from the harm the band may hit you with")
 
+        //captions
         gen.add("sounds.starborn_soundscape.metronome_1",
             "Metronome ticks")
         gen.add("sounds.starborn_soundscape.metronome_2",
@@ -116,8 +64,86 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("sounds.starborn_soundscape.you_really_got_me",
             "You really got me riff plays")
 
+        //item grouup
         gen.add("itemgroup.starborn_soundscape.tab",
             "Starborn Soundscape")
+
+        //death messages
+        gen.add("death.attack.small_soundwaves", "%s couldn't handle %s's vibes")
+        gen.add("death.attack.bolt_direct", "%s was pierced straight through by %s")
+        gen.add("death.attack.bolt_explosion", "%s was pierced by millions of %s's shrapnel")
+        gen.add("death.attack.big_soundwaves", "%s was violently shown %s's music taste")
+        gen.add("death.attack.crushed", "%s was squished by %s's big ass speaker")
+        gen.add("death.attack.starstruck", "%s watched %s's stars")
+
+        gen.add("death.attack.small_soundwaves.item", "%s got blasted by %s's %s")
+        gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
+        gen.add("death.attack.bolt_explosion.item", "%s was pierced by millions of %s's %s's shrapnel")
+        gen.add("death.attack.big_soundwaves.item", "%s was silenced by %s's %s's deafening roar")
+        gen.add("death.attack.crushed.item", "%s was squished by %s's %s's unreasonably large speaker")
+        gen.add("death.attack.starstruck.item", "%s was struck by awe while watching %s's %s's stars")
+
+        //enchantments start
+
+        //Tri This!
+        gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
+        gen.add(
+            "enchantment.starborn_soundscape.tri_this.desc",
+            "Increases the number of bolts fired to 3, slightly reduces each bolts damage, and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
+        )
+        //Well Well Well...
+        gen.add("enchantment.starborn_soundscape.well_well_well", "Well Well Well...")
+        gen.add(
+            "enchantment.starborn_soundscape.well_well_well.desc",
+            "Increases the number of bolts fired to 5, reduces the damage of each bolt, and increases the charge time heavily. Bolt spread is increased the longer the weapon is charged."
+        )
+        //A Grizzly Fate
+        gen.add("enchantment.starborn_soundscape.grizzly_fate", "A Grizzly Fate")
+        gen.add(
+            "enchantment.starborn_soundscape.grizzly_fate.desc",
+            "Increases the number of bolts to 18 and gives them a random spread. Bolts do almost no direct damage but keep decent indirect damage. Increases the charge time severely. Spread is reduced the longer the weapon is charged."
+        )
+        //Tracer Round
+        gen.add("enchantment.starborn_soundscape.tracer", "Tracer Round")
+        gen.add(
+            "enchantment.starborn_soundscape.tracer.desc",
+            "The bolt fired is a tracer round, causing targets hit to glow."
+        )
+
+        //descriptions start, as astra said "// oh god think of the descripdren!"
+
+        gen.add("tooltip.soundscape.requires_song.tooltip",  //overarchiever tooltip KILL ASTRA
+            "Insert a song and get your groove on!")
+        gen.add("tooltip.soundscape.song.tooltip", //song inserted. p obvious
+            "Song inserted:")
+        gen.add("tooltip.soundscape.song_can_be_inserted.tooltip", //tooltip on all songs
+            "Insert this song into a weapon and get schmovin!")
+        gen.add("tooltip.soundscape.stamp1.tooltip", //tooltip stamp
+            "Right click to toggle your safety in the band, and hit others to make them safe or not")
+
+        //song tooltips
+        gen.add("tooltip.soundscape.nullSong.tooltip", //dummy tooltip
+            "Someone forgot to give this song a description, guess you'll have to find out what it does")
+        gen.add("tooltip.soundscape.foundDead.tooltip", //found dead tooltip
+            " - Summons a giant speaker to slam onto your foes! Let it sit and it starts blasting music louder then you thought could be handled! And you'd be right about that...")
+        gen.add("tooltip.soundscape.breakingTheCore.tooltip", //breaking the core tooltip
+            " - Summons a wave of 6 speakers that will target players and deal constant damage to them.")
+        gen.add("tooltip.soundscape.goingUp.tooltip", //going up in the world tooltip
+            " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over.")
+        gen.add("tooltip.soundscape.keepUp.tooltip", //keep up! tooltip
+            " - Launches you in the direction you are facing.")
+        gen.add("tooltip.soundscape.burnBlaze.tooltip", //through the burning and the blaze tooltip
+            " - Lights opponents on fire.")
+        gen.add("tooltip.soundscape.eyes.tooltip", //cant take my eyes off you tooltip
+            " - Blinds nearby opponents and makes you glow. You're the star of the show!")
+        gen.add("tooltip.soundscape.breakRightThrough.tooltip", //break right through tooltip
+            " - Lets bolts break right through shields")
+        gen.add("tooltip.soundscape.inMyElement.tooltip", //in my element tooltip
+            " - Does different effects based on the primary element of the user")
+        gen.add("tooltip.soundscape.ripMeOut.tooltip", //rip me out tooltip
+            " - Grappling hook...")
+        gen.add("tooltip.soundscape.sentYouReeling.tooltip", //sent you reeling through tooltip
+            " - Launches you backwards and surrounding players forwards")
 
     }
 

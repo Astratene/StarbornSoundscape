@@ -28,7 +28,7 @@ class BreakRightThroughSongItem(settings: Settings) : SongItem(settings) {
 
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
-            Text.translatable("tooltip.soundscape.break.tooltip")
+            Text.translatable("tooltip.soundscape.breakRightThrough.tooltip")
                 .formatted(Formatting.GRAY)
         )
     }

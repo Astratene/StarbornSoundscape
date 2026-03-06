@@ -28,7 +28,7 @@ class BurningAndBlazeSongItem(settings: Settings) : SongItem(settings) {
 
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
-            Text.translatable("tooltip.soundscape.burnblaze.tooltip")
+            Text.translatable("tooltip.soundscape.burnBlaze.tooltip")
                 .formatted(Formatting.GRAY)
         )
     }

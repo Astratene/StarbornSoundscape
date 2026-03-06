@@ -73,7 +73,7 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
 
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
-            Text.translatable("tooltip.soundscape.skihi.tooltip")
+            Text.translatable("tooltip.soundscape.goingUp.tooltip")
                 .formatted(Formatting.GRAY)
         )
     }
