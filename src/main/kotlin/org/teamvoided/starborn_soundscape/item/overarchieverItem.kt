@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -31,9 +30,7 @@ import org.teamvoided.starborn_soundscape.util.getPlayerLookingDirectionPos
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
-import java.awt.Color
 import java.lang.Math.clamp
-import kotlin.compareTo
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
@@ -52,15 +49,15 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     //override fun post
 
     fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isTestEnchantedTri(user, stack)) 40 else if (isTestEnchantedWell(
+        return if (isEnchantedTri(user, stack)) 40 else if (isEnchantedWell(
                 user,
                 stack
             )
-        ) 60 else if (isTestEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
+        ) 40 else if (isEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
     }
 
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isTestEnchantedGrizz(user, stack)) 40 else -1
+        return if (isEnchantedGrizz(user, stack)) -1 else -1
     }
 
     fun getAngleBetweenTriBolts(ticks: Int): Float {
@@ -68,14 +65,17 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     fun getAngleBetweenWellBolts(ticks: Int): Float {
-        return (ticks - 20).times(0.2f).plus(1f)
+        return (ticks - 20).times(0.2f).plus(2f)
     }
 
     fun getMaxSpread(ticks: Int): Float {
-        return 30 - (0.375f * max(ticks - 40, 0))
+        return 20 - (0.25f * max(ticks - 20, 0))
     }
 
     fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
+        if (isEnchantedWell(user, stack)){
+            return (ticks / getChargeTicks(user, stack).toFloat()).times(4f)
+        }
         return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
 
@@ -173,11 +173,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     fun fire(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        if (isTestEnchantedTri(user, stack)) {
+        if (isEnchantedTri(user, stack)) {
             fireTriBolts(world, user, ticks, stack)
-        } else if (isTestEnchantedWell(user, stack)) {
+        } else if (isEnchantedWell(user, stack)) {
             fireWellBolts(world, user, ticks, stack)
-        } else if (isTestEnchantedGrizz(user, stack)) {
+        } else if (isEnchantedGrizz(user, stack)) {
             fireSoManyFuckingBolts(world, user, ticks, stack)
         } else {
             val entity = CosmicBoltEntity(world, user)
@@ -192,7 +192,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
             )
             entity.pickupType = PickupPermission.DISALLOWED
             entity.damage = baseDamage
-            if (isTestEnchantedTracer(user, stack)) {
+            if (isEnchantedTracer(user, stack)) {
                 entity.tracerRound = true
             }
             if (data.passivelyDraining) {
@@ -213,298 +213,88 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        val entity = CosmicBoltEntity(world, user)
-        entity.setPosition(user.eyePos)
-        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
-        entity.directDamage = TriDirectDamage
-        entity.indirectDamage = TriIndirectDamage
-        entity.pickupType = PickupPermission.DISALLOWED
-        if (data.passivelyDraining) {
-            if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                entity.fireRound = true
-            } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                entity.breakRound = true
+        var angle = getAngleBetweenTriBolts(ticks)
+        val isOnGround = user.isOnGround
+        repeat(3) {
+            val entity = CosmicBoltEntity(world, user)
+            entity.setPosition(user.eyePos)
+            if (isOnGround) {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch,
+                    user.yaw + angle,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    0.0f
+                )
+            } else {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch + angle,
+                    user.yaw,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    0.0f
+                )
             }
-        }
-        world.spawnEntity(entity)
-        if (user.isOnGround) {
-            val entity2 = CosmicBoltEntity(world, user)
-            entity2.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity2,
-                user.pitch,
-                user.yaw + getAngleBetweenTriBolts(ticks),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity2.directDamage = TriDirectDamage
-            entity2.indirectDamage = TriIndirectDamage
-            entity2.pickupType = PickupPermission.DISALLOWED
+            entity.directDamage = TriDirectDamage
+            entity.indirectDamage = TriIndirectDamage
+            entity.pickupType = PickupPermission.DISALLOWED
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity2.fireRound = true
+                    entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity2.breakRound = true
+                    entity.breakRound = true
                 }
             }
-            world.spawnEntity(entity2)
-            val entity3 = CosmicBoltEntity(world, user)
-            entity3.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity3,
-                user.pitch,
-                user.yaw - getAngleBetweenTriBolts(ticks),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity3.directDamage = TriDirectDamage
-            entity3.indirectDamage = TriIndirectDamage
-            entity3.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity3.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity3.breakRound = true
-                }
-            }
-            world.spawnEntity(entity3)
-        } else {
-            val entity2 = CosmicBoltEntity(world, user)
-            entity2.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity2,
-                user.pitch + getAngleBetweenTriBolts(ticks),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity2.directDamage = TriDirectDamage
-            entity2.indirectDamage = TriIndirectDamage
-            entity2.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity2.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity2.breakRound = true
-                }
-            }
-            world.spawnEntity(entity2)
-            val entity3 = CosmicBoltEntity(world, user)
-            entity3.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity3,
-                user.pitch - getAngleBetweenTriBolts(ticks),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity3.directDamage = TriDirectDamage
-            entity3.indirectDamage = TriIndirectDamage
-            entity3.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity3.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity3.breakRound = true
-                }
-            }
-            world.spawnEntity(entity3)
+            world.spawnEntity(entity)
+            angle -= getAngleBetweenTriBolts(ticks)
         }
     }
 
     val WellDirectDamage = 4.5f
     val WellIndirectDamage = 4.0f
+    val nonFullMult = 0.75f
     fun fireWellBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        val entity = CosmicBoltEntity(world, user)
-        entity.setPosition(user.eyePos)
-        setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
-        entity.directDamage = WellDirectDamage
-        entity.indirectDamage = WellIndirectDamage
-        entity.pickupType = PickupPermission.DISALLOWED
-        if (data.passivelyDraining) {
-            if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                entity.fireRound = true
-            } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                entity.breakRound = true
+        var angle = getAngleBetweenWellBolts(ticks).times(2)
+        val isOnGround = user.isOnGround
+        val newDamage = if (ticks < 40) (WellIndirectDamage * nonFullMult) else WellIndirectDamage
+        repeat(5) {
+            val entity = CosmicBoltEntity(world, user)
+            entity.setPosition(user.eyePos)
+            if (isOnGround) {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch,
+                    user.yaw + angle,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    0.0f
+                )
+            } else {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch + angle,
+                    user.yaw,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    0.0f
+                )
             }
-        }
-        world.spawnEntity(entity)
-        if (user.isOnGround) {
-            val entity2 = CosmicBoltEntity(world, user)
-            entity2.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity2,
-                user.pitch,
-                user.yaw + getAngleBetweenWellBolts(ticks),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity2.directDamage = WellDirectDamage
-            entity2.indirectDamage = WellIndirectDamage
-            entity2.pickupType = PickupPermission.DISALLOWED
+            entity.directDamage = WellDirectDamage
+            entity.indirectDamage = newDamage
+            entity.pickupType = PickupPermission.DISALLOWED
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity2.fireRound = true
+                    entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity2.breakRound = true
+                    entity.breakRound = true
                 }
             }
-            world.spawnEntity(entity2)
-            val entity3 = CosmicBoltEntity(world, user)
-            entity3.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity3,
-                user.pitch,
-                user.yaw - getAngleBetweenWellBolts(ticks),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity3.directDamage = WellDirectDamage
-            entity3.indirectDamage = WellIndirectDamage
-            entity3.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity3.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity3.breakRound = true
-                }
-            }
-            world.spawnEntity(entity3)
-            val entity4 = CosmicBoltEntity(world, user)
-            entity4.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity4,
-                user.pitch,
-                user.yaw + getAngleBetweenWellBolts(ticks).times(2),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity4.directDamage = WellDirectDamage
-            entity4.indirectDamage = WellIndirectDamage
-            entity4.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity4.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity4.breakRound = true
-                }
-            }
-            world.spawnEntity(entity4)
-            val entity5 = CosmicBoltEntity(world, user)
-            entity5.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity5,
-                user.pitch,
-                user.yaw - getAngleBetweenWellBolts(ticks).times(2),
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity5.directDamage = WellDirectDamage
-            entity5.indirectDamage = WellIndirectDamage
-            entity5.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity5.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity5.breakRound = true
-                }
-            }
-            world.spawnEntity(entity5)
-        } else {
-            val entity2 = CosmicBoltEntity(world, user)
-            entity2.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity2,
-                user.pitch + getAngleBetweenWellBolts(ticks),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity2.directDamage = WellDirectDamage
-            entity2.indirectDamage = WellIndirectDamage
-            entity2.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity2.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity2.breakRound = true
-                }
-            }
-            world.spawnEntity(entity2)
-            val entity3 = CosmicBoltEntity(world, user)
-            entity3.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity3,
-                user.pitch - getAngleBetweenWellBolts(ticks),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity3.directDamage = WellDirectDamage
-            entity3.indirectDamage = WellIndirectDamage
-            entity3.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity3.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity3.breakRound = true
-                }
-            }
-            world.spawnEntity(entity3)
-            val entity4 = CosmicBoltEntity(world, user)
-            entity4.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity4,
-                user.pitch + getAngleBetweenWellBolts(ticks).times(2),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity4.directDamage = WellDirectDamage
-            entity4.indirectDamage = WellIndirectDamage
-            entity4.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity4.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity4.breakRound = true
-                }
-            }
-            world.spawnEntity(entity4)
-            val entity5 = CosmicBoltEntity(world, user)
-            entity5.setPosition(user.eyePos)
-            setPropertiesTwo(
-                entity5,
-                user.pitch - getAngleBetweenWellBolts(ticks).times(2),
-                user.yaw,
-                0.0f,
-                getLaunchVelocity(ticks, user, stack),
-                0.0f
-            )
-            entity5.directDamage = WellDirectDamage
-            entity5.indirectDamage = WellIndirectDamage
-            entity5.pickupType = PickupPermission.DISALLOWED
-            if (data.passivelyDraining) {
-                if (getSongItem(stack) is BurningAndBlazeSongItem) {
-                    entity5.fireRound = true
-                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
-                    entity5.breakRound = true
-                }
-            }
-            world.spawnEntity(entity5)
+            world.spawnEntity(entity)
+            angle -= getAngleBetweenWellBolts(ticks)
         }
     }
 
@@ -544,19 +334,19 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     override fun getUseTicks(stack: ItemStack, livingEntity: LivingEntity): Int = USE_TICKS
 
-    fun isTestEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
+    fun isEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
     }
 
-    fun isTestEnchantedTracer(user: LivingEntity, stack: ItemStack): Boolean {
+    fun isEnchantedTracer(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRACER)
     }
 
-    fun isTestEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {
+    fun isEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
     }
 
-    fun isTestEnchantedGrizz(user: LivingEntity, stack: ItemStack): Boolean {
+    fun isEnchantedGrizz(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
     }
 

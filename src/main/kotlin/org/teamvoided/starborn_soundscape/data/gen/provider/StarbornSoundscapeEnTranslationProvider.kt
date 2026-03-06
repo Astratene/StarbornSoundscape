@@ -22,13 +22,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             .distinctBy { it.translationKey }
             .forEach { gen.add(it, genLang(it.id)) }
 
-
-
-
         //dude this pisses me off im fixing it
-
-
-
 
         //status effects
         gen.add("effect.starborn_soundscape.hover",
@@ -137,7 +131,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("tooltip.soundscape.eyes.tooltip", //cant take my eyes off you tooltip
             " - Blinds nearby opponents and makes you glow. You're the star of the show!")
         gen.add("tooltip.soundscape.breakRightThrough.tooltip", //break right through tooltip
-            " - Lets bolts break right through shields")
+            " - Lets weapons break right through shields!")
         gen.add("tooltip.soundscape.inMyElement.tooltip", //in my element tooltip
             " - Does different effects based on the primary element of the user")
         gen.add("tooltip.soundscape.ripMeOut.tooltip", //rip me out tooltip

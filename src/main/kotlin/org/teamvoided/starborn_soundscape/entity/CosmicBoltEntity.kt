@@ -63,14 +63,12 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             ) if (breakRound) {hit.itemCooldownManager.set(Items.SHIELD, 40); hit.stopUsingItem()} else return
                 if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
-            val mult = if (hit is PlayerEntity) 1f else 1f
             hit.customDamage(
                 StarbornSoundscapeDamageTypes.BOLT_DIRECT,
                 directDamage,
                 owner,
                 owner
             )
-
             if (hit is EndermanEntity) return
             if (tracerRound) {
                 hit.addStatusEffect(
