@@ -1,6 +1,7 @@
 package org.teamvoided.starborn_soundscape.entity
 
 import com.ibm.icu.text.MessagePattern
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
@@ -23,12 +24,14 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
+import org.teamvoided.starborn_soundscape.util.sillyLightningTime
 
 class CosmicBoltEntity : PersistentProjectileEntity {
 
@@ -49,6 +52,8 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var tracerRound = false
     var fireRound = false
     var breakRound = false
+    var sparkRound = false
+    val sparkMult = 0.2f
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         if (entityHitResult.entity is LivingEntity) {
@@ -61,8 +66,10 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         owner
                     )
                 )
-            ) if (breakRound) {hit.itemCooldownManager.set(Items.SHIELD, 40); hit.stopUsingItem()} else return
-                if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
+            ) if (breakRound) {
+                hit.itemCooldownManager.set(Items.SHIELD, 40); hit.stopUsingItem()
+            } else return
+            if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
             hit.customDamage(
                 StarbornSoundscapeDamageTypes.BOLT_DIRECT,
                 directDamage,
@@ -81,6 +88,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             }
             if (fireRound) {
                 hit.setOnFireFor(100)
+            }
+            if (sparkRound) {
+                shockANearbyGuy(world, directDamage, sparkMult, hit)
             }
             if (world is ServerWorld) {
                 this.world.playSound(
@@ -139,6 +149,64 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             }
         }
+    }
+
+    fun shockANearbyGuy(world: World, damage: Float, multiplier: Float, except: LivingEntity?) {
+        val entities = mutableListOf<Entity>()
+        entities.addAll(
+            this.world.getOtherEntities(
+                this.owner, Box(
+                    this.x + 3,
+                    this.y + 3,
+                    this.z + 3,
+                    this.x - 3,
+                    this.y - 3,
+                    this.z - 3
+                )
+            ).filter {
+                it is LivingEntity && it.isAlive && it != this.owner && it != this && this.distanceTo(it) <= 10 && !it.hasStatusEffect(
+                    StarbornSoundscapeEffects.BAND_APPROVED
+                ) && it != except
+            }
+        )
+        val entities2 = mutableListOf<LivingEntity>()
+        if (entities.isNotEmpty()) {
+            for (entity in entities) {
+                if (entity is PlayerEntity) {
+                    for (entiity in entities) {
+                        if (entiity is PlayerEntity) {
+                            entities2.add(entity)
+                        }
+                    }
+                    break
+                }
+            }
+            if (entities2.isNotEmpty()) {
+                entities2.shuffle()
+                val guy = entities2.first()
+                if (world is ServerWorld) {
+                    sillyLightningTime(this.pos, guy.eyePos, world, 1, 9, 5, 0.05f, 0.75)
+                }
+                guy.customDamage(
+                    StarbornSoundscapeDamageTypes.SHOCKED,
+                    damage * multiplier,
+                    owner,
+                    owner
+                )
+            } else {
+                entities.shuffle()
+                val guy = entities.first()
+                if (world is ServerWorld) {
+                    sillyLightningTime(this.pos, guy.eyePos, world, 1, 9, 5, 0.05f, 0.75)
+                }
+                guy.customDamage(
+                    StarbornSoundscapeDamageTypes.SHOCKED,
+                    damage * multiplier,
+                    owner,
+                    owner
+                )
+            }
+        }
 
     }
 
@@ -159,6 +227,21 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     StarbornSoundscapeEffects.BAND_APPROVED
                 )
             }
+            if (sparkRound){
+                shockANearbyGuy(world, indirectDamage, sparkMult, null)
+                world.playSound(
+                    null,
+                    this.x,
+                    this.y,
+                    this.z,
+                    SoundEvents.BLOCK_ENDER_CHEST_OPEN,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.5f + world.random.nextFloat().plus(-0.5f).times(0.5f),
+                )
+                this.discard()
+                return
+            }
             var hasPlayedSound = false
             for (entity in entities) {
                 if (entity is PlayerEntity && entity.blockedByShield(
@@ -168,7 +251,9 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                             owner
                         )
                     )
-                ) if (breakRound) {entity.itemCooldownManager.set(Items.SHIELD, 40); entity.stopUsingItem()} else return
+                ) if (breakRound) {
+                    entity.itemCooldownManager.set(Items.SHIELD, 40); entity.stopUsingItem()
+                } else return
                 entity.customDamage(
                     StarbornSoundscapeDamageTypes.BOLT_EXPLOSION,
                     indirectDamage,
@@ -318,7 +403,17 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 ParticleTypes.CRIT, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
-                0.1
+                0.0
+            )
+        }
+        if (world is ServerWorld && sparkRound) {
+            sillyLightningTime(
+                Vec3d(this.pos.x, this.pos.y, this.pos.z),
+                Vec3d(
+                    this.x + (world.random.nextDouble().minus(0.5) * 3),
+                    this.y + (world.random.nextDouble().minus(0.5) * 3),
+                    this.z + (world.random.nextDouble().minus(0.5) * 3)
+                ), world as ServerWorld, 1, 9, 2, 0.01f, 0.75
             )
         }
         super.tick()

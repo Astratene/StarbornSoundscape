@@ -26,6 +26,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
+import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
 import org.teamvoided.starborn_soundscape.util.getPlayerLookingDirectionPos
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
@@ -53,7 +54,15 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                 user,
                 stack
             )
-        ) 40 else if (isEnchantedGrizz(user, stack)) 80 else 20 // will change based on enchantments
+        ) 40 else if (isEnchantedGrizz(user, stack)) 60 else 20
+    }
+
+    fun getMinChargeTicks(user: LivingEntity, stack: ItemStack): Int {
+        return if (isEnchantedTri(user, stack)) 15 else if (isEnchantedWell(
+                user,
+                stack
+            )
+        ) 20 else if (isEnchantedGrizz(user, stack)) 30 else 10
     }
 
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
@@ -69,12 +78,20 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     fun getMaxSpread(ticks: Int): Float {
-        return 20 - (0.25f * max(ticks - 20, 0))
+        return 20 - (0.5f * max(ticks - 30, 0))
     }
 
     fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
         if (isEnchantedWell(user, stack)){
             return (ticks / getChargeTicks(user, stack).toFloat()).times(4f)
+        }
+        if (!isEnchantedWell(user, stack) && !isEnchantedGrizz(user, stack) && !isEnchantedTri(user, stack)){
+            if (ticks < 20){
+                return (ticks / getChargeTicks(user, stack).toFloat()).times(3f)
+            }
+            else {
+                return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
+            }
         }
         return (ticks / getChargeTicks(user, stack).toFloat()).times(5f)
     }
@@ -127,7 +144,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
         }
 
         val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
-        if (usedTicks == 19 || (usedTicks + 1) == (getChargeTicks(user, stack)) || usedTicks == getExtraFlareTicks(
+        if (usedTicks == (getMinChargeTicks(user, stack) - 1) || (usedTicks + 1) == (getChargeTicks(user, stack)) || usedTicks == getExtraFlareTicks(
                 user,
                 stack
             )
@@ -164,7 +181,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         val usedTickes = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
-        if (usedTickes >= MIN_TICKS_TO_FIRE) {
+        if (usedTickes >= getMinChargeTicks(user, stack)) {
             fire(world, user, usedTickes, stack)
         }
         super.onStoppedUsing(stack, world, user, remainingUseTicks)
@@ -191,7 +208,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                 0.0f
             )
             entity.pickupType = PickupPermission.DISALLOWED
-            entity.damage = baseDamage
+            if (ticks < 20) entity.directDamage = baseDamage.toFloat() * 0.75f else entity.directDamage = baseDamage.toFloat()
             if (isEnchantedTracer(user, stack)) {
                 entity.tracerRound = true
             }
@@ -200,6 +217,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
+                } else if (getSongItem(stack) is InMyElementSongItem){
+                    entity.sparkRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -245,6 +264,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
+                } else if (getSongItem(stack) is InMyElementSongItem){
+                    entity.sparkRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -291,6 +312,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
+                } else if (getSongItem(stack) is InMyElementSongItem){
+                    entity.sparkRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -323,6 +346,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.fireRound = true
                 } else if (getSongItem(stack) is BreakRightThroughSongItem) {
                     entity.breakRound = true
+                } else if (getSongItem(stack) is InMyElementSongItem){
+                    entity.sparkRound = true
                 }
             }
             //entity.airResOnDrop = 0.5 + world.random.nextFloat().times(0.25)

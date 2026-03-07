@@ -19,6 +19,7 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.CRUSHED)
             .add(StarbornSoundscapeDamageTypes.STARSTRUCK)
+            .add(StarbornSoundscapeDamageTypes.SHOCKED)
 
         getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
@@ -26,12 +27,17 @@ class StarbornSoundscapeDamageTypeTagProvider(o: FabricDataOutput, r: Completabl
             .add(StarbornSoundscapeDamageTypes.CRUSHED)
             .add(StarbornSoundscapeDamageTypes.BOLT_DIRECT)
             .add(StarbornSoundscapeDamageTypes.STARSTRUCK)
+            .add(StarbornSoundscapeDamageTypes.SHOCKED)
 
         getOrCreateTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
             .add(StarbornSoundscapeDamageTypes.SMALL_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.BIG_SOUNDWAVES)
             .add(StarbornSoundscapeDamageTypes.CRUSHED)
             .add(StarbornSoundscapeDamageTypes.STARSTRUCK)
+            .add(StarbornSoundscapeDamageTypes.SHOCKED)
+
+        getOrCreateTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
+            .add(StarbornSoundscapeDamageTypes.SHOCKED)
 
         getOrCreateTagBuilder(DamageTypeTags.IS_PROJECTILE)
             .add(StarbornSoundscapeDamageTypes.BOLT_DIRECT)

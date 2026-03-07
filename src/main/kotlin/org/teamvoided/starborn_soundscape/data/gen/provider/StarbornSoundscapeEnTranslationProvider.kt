@@ -69,6 +69,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.big_soundwaves", "%s was violently shown %s's music taste")
         gen.add("death.attack.crushed", "%s was squished by %s's big ass speaker")
         gen.add("death.attack.starstruck", "%s watched %s's stars")
+        gen.add("death.attack.shocked", "%s was shocked by %s's performance")
 
         gen.add("death.attack.small_soundwaves.item", "%s got blasted by %s's %s")
         gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
@@ -76,6 +77,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.big_soundwaves.item", "%s was silenced by %s's %s's deafening roar")
         gen.add("death.attack.crushed.item", "%s was squished by %s's %s's unreasonably large speaker")
         gen.add("death.attack.starstruck.item", "%s was struck by awe while watching %s's %s's stars")
+        gen.add("death.attack.shocked.item", "%s was shown god by %s's %s")
 
         //enchantments start
 
@@ -106,7 +108,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
 
         //descriptions start, as astra said "// oh god think of the descripdren!"
 
-        gen.add("tooltip.soundscape.requires_song.tooltip",  //overarchiever tooltip KILL ASTRA
+        gen.add("tooltip.soundscape.requires_song.tooltip", // insert song tooltip
             "Insert a song and get your groove on!")
         gen.add("tooltip.soundscape.song.tooltip", //song inserted. p obvious
             "Song inserted:")

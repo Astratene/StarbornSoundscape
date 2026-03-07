@@ -23,6 +23,7 @@ import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
+import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
 import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
 import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
 import java.util.stream.Stream
@@ -83,6 +84,8 @@ object StarbornSoundscapeItems {
         "break_right_through",
         BreakRightThroughSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
     )
+    val IN_MY_ELEMENT =
+        register("in_my_element", InMyElementSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 

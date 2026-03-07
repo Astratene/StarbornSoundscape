@@ -4,7 +4,7 @@ modVersion = "2.0.0"
 group = "org.teamvoided"
 githubRepo = "Mxz-Astatine/StarbornSoundscape"
 discordServerInviteId = "KZ5Q364hEg"
-authors = [ "Astratene, BrandRobKus" ]
+authors = [ "Astratene, BrandRobKus, Miss_nora" ]
 majorMinecraftVersion = ">=1.21"
 minecraftVersion = "1.21.1"
 fabricLoaderVersion = "0.18.4"
