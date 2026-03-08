@@ -79,4 +79,8 @@ open class SongItem(settings: Settings) : Item(settings) {
     open fun getBanjoCooldown(): Int {
         return 0
     }
+
+    open fun isBanjoPassive(): Boolean {
+        return false
+    }
 }

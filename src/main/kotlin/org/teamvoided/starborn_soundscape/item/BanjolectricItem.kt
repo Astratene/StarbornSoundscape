@@ -34,14 +34,6 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
         return TypedActionResult(ActionResult.CONSUME_PARTIAL, player.getStackInHand(hand))
     }
 
-    // i dont know if this works because dummys dont work to test it
-    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
-        if (getSongItem(stack) is BreakRightThroughSongItem && target is PlayerEntity) {
-            target.itemCooldownManager.set(Items.SHIELD, 100); target.stopUsingItem()
-        }
-        super.postDamageEntity(stack, target, attacker)
-    }
-
     val maxAbilityCharge = 60
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
@@ -74,7 +66,15 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
                 StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
                 BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
             )
+        } else if (getSongItem(stack) is BreakRightThroughSongItem && target is PlayerEntity) {
+            target.itemCooldownManager.set(Items.SHIELD, 100)
+            target.stopUsingItem()
+            stack.set(
+                StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
+                BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
+            )
         }
+
         val world = attacker.world
         if (world is ServerWorld) {
             world.playSound(
@@ -94,7 +94,10 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
-        if (getSongItem(stack) != null && data.charge >= getSongItem(stack)!!.getBanjoChargeReduction(user)) {
+        if (getSongItem(stack) != null && data.charge >= getSongItem(stack)!!.getBanjoChargeReduction(user) && !getSongItem(
+                stack
+            )!!.isBanjoPassive()
+        ) {
             val song = getSongItem(stack) as SongItem
             val newCharge = data.charge - song.getBanjoChargeReduction(user)
             song.useBanjolectricSong(user, world)

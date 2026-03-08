@@ -26,6 +26,10 @@ class BreakRightThroughSongItem(settings: Settings) : SongItem(settings) {
         return java.awt.Color.GREEN
     }
 
+    override fun isBanjoPassive(): Boolean {
+        return true
+    }
+
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
             Text.translatable("tooltip.soundscape.breakRightThrough.tooltip")
