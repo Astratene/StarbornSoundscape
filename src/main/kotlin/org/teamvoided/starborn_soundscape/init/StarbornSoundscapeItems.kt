@@ -26,6 +26,7 @@ import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.FoundDeadSongItem
 import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
 import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
+import org.teamvoided.starborn_soundscape.item.songs.SentYouReelingSongItem
 import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
 import java.util.stream.Stream
 
@@ -94,6 +95,9 @@ object StarbornSoundscapeItems {
     )
     val IN_MY_ELEMENT =
         register("in_my_element", InMyElementSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
+    val SENT_YOU_REELING =
+        register("sent_you_reeling", SentYouReelingSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 

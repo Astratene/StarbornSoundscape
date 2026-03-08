@@ -55,9 +55,9 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
         if (attacker.fallDistance>0 && !attacker.isOnGround) {
-            StarbornSoundscape.log.info("banjo CRIT")
+            //StarbornSoundscape.log.info("banjo CRIT")
         } else if(getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge) {
-            StarbornSoundscape.log.info("banjo hit")
+            //StarbornSoundscape.log.info("banjo hit")
         }
         val newAbilityCharge = data.charge +
                 if((attacker.fallDistance>0 && !attacker.isOnGround)
@@ -65,7 +65,7 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
                 else if(getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge) 1 //hit
                 else 0 // just in case
 
-        if (data.charge <= maxAbilityCharge && target is PlayerEntity) {
+        if (data.charge <= maxAbilityCharge) {
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(newAbilityCharge))
         }
         if (getSongItem(stack) is BurningAndBlazeSongItem && data.charge>=getSongItem(stack)?.getBanjoChargeReduction(attacker)!!) {
@@ -82,9 +82,9 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
-        if (getSongItem(stack) != null && data.charge >= getSongItem(stack)?.getBanjoChargeReduction(user)!!) {
-            val newCharge = data.charge - getSongItem(stack)?.getBanjoChargeReduction(user)!!
-            getSongItem(stack)?.useSong(user, world)
+        if (getSongItem(stack) != null && data.charge >= getSongItem(stack)!!.getBanjoChargeReduction(user)) {
+            val newCharge = data.charge - getSongItem(stack)!!.getBanjoChargeReduction(user)
+            getSongItem(stack)!!.useBanjolectricSong(user, world)
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(newCharge))
             if (user is PlayerEntity && getSongItem(stack) is FoundDeadSongItem) {
                 user.itemCooldownManager.set(stack.item, 240)

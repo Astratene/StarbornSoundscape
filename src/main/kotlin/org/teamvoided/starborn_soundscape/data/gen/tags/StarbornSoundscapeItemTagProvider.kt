@@ -30,6 +30,7 @@ class StarbornSoundscapeItemTagProvider(
             .add(StarbornSoundscapeItems.CANT_TAKE_MY_EYES_OFF_YOU)
             .add(StarbornSoundscapeItems.BREAK_RIGHT_THROUGH)
             .add(StarbornSoundscapeItems.IN_MY_ELEMENT)
+            .add(StarbornSoundscapeItems.SENT_YOU_REELING)
     }
 
     private fun conventionalTags() {
@@ -38,7 +39,6 @@ class StarbornSoundscapeItemTagProvider(
         getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS).add(StarbornSoundscapeItems.OVERARCHIEVER)
         getOrCreateTagBuilder(ConventionalItemTags.BOW_TOOLS).add(StarbornSoundscapeItems.OVERARCHIEVER)
         getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
-        //getOrCreateTagBuilder(EnchantmentTags.IN_ENCHANTING_TABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
     }
 
     private fun enchantTags() {
