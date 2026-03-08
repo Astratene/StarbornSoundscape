@@ -20,6 +20,7 @@ import org.teamvoided.starborn_soundscape.components.CurrentUseTime
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.item.overarchieverItem.Companion.BAR_LIMIT
 import org.teamvoided.starborn_soundscape.item.overarchieverItem.Companion.USE_TICKS
 import org.teamvoided.starborn_soundscape.item.overarchieverItem.Companion.funnyMath
@@ -54,11 +55,6 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
-        if (attacker.fallDistance>0 && !attacker.isOnGround) {
-            //StarbornSoundscape.log.info("banjo CRIT")
-        } else if(getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge) {
-            //StarbornSoundscape.log.info("banjo hit")
-        }
         val newAbilityCharge = data.charge +
                 if((attacker.fallDistance>0 && !attacker.isOnGround)
                     && getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge) 4 //crit

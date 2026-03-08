@@ -41,5 +41,13 @@
     "sounds": [
       "starborn_soundscape:you_really_got_me"
     ]
+  },
+  "hit_banjo": {
+    "subtitle": "sounds.starborn_soundscape.hit_banjo",
+    "sounds": [
+      "starborn_soundscape:hit_banjo_0",
+      "starborn_soundscape:hit_banjo_1",
+      "starborn_soundscape:hit_banjo_2"
+    ]
   }
 }
