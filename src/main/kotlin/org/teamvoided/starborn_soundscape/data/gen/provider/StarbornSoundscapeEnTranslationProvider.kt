@@ -143,6 +143,10 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("tooltip.soundscape.sentYouReeling.tooltip", //sent you reeling through tooltip
             " - Launches you backwards and surrounding players forwards")
 
+
+        //Other tooltips
+        gen.add("tooltip.soundscape.wip.tooltip", //Work in progress
+            "This item is currently a work in progress and is not yet intended for gameplay.")
     }
 
 
