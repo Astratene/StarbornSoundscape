@@ -113,7 +113,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                             this.owner!!.x,
                             this.owner!!.y,
                             this.owner!!.z,
-                            1.6F,
+                            0.1F,
                             2.0f,
                             world.getRandom().nextLong()
                         )
@@ -135,7 +135,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                             this.owner!!.x,
                             this.owner!!.y,
                             this.owner!!.z,
-                            1.6F,
+                            0.1F,
                             2.0f,
                             world.getRandom().nextLong()
                         )
@@ -282,7 +282,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                                 this.owner!!.x,
                                 this.owner!!.y,
                                 this.owner!!.z,
-                                1.6F,
+                                0.1F,
                                 2.0f,
                                 world.getRandom().nextLong()
                             )
@@ -299,7 +299,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                                 this.owner!!.x,
                                 this.owner!!.y,
                                 this.owner!!.z,
-                                1.6F,
+                                0.1F,
                                 0.5f,
                                 world.getRandom().nextLong()
                             )

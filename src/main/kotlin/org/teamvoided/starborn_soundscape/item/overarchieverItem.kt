@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
+import org.teamvoided.starborn_soundscape.components.CurrentUseTime
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
 import org.teamvoided.starborn_soundscape.data.StarbornSoundscapeEnchantments
@@ -50,19 +51,13 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     //override fun post
 
     fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isEnchantedTri(user, stack)) 40 else if (isEnchantedWell(
-                user,
-                stack
-            )
-        ) 40 else if (isEnchantedGrizz(user, stack)) 60 else 20
+        return if (isEnchantedTri(user, stack)) 30 else if (isEnchantedWell(user, stack)) 40
+        else if (isEnchantedGrizz(user, stack)) 60 else 20
     }
 
     fun getMinChargeTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isEnchantedTri(user, stack)) 15 else if (isEnchantedWell(
-                user,
-                stack
-            )
-        ) 20 else if (isEnchantedGrizz(user, stack)) 30 else 10
+        return if (isEnchantedTri(user, stack)) 20 else if (isEnchantedWell(user, stack)) 25
+        else if (isEnchantedGrizz(user, stack)) 40 else 15
     }
 
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
@@ -70,11 +65,11 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     fun getAngleBetweenTriBolts(ticks: Int): Float {
-        return (20 - (ticks - 20)).plus(2).toFloat()
+        return (20 - ((ticks - 20) * 2)).plus(2).toFloat()
     }
 
     fun getAngleBetweenWellBolts(ticks: Int): Float {
-        return (ticks - 20).times(0.2f).plus(2f)
+        return (ticks - 20).times(0.15f).plus(3f)
     }
 
     fun getMaxSpread(ticks: Int): Float {
@@ -124,6 +119,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
+        val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
+        stack.set(StarbornSoundscapeDataComponents.CURRENT_USE_TIME, CurrentUseTime(usedTicks))
         if (user.handSwingTicks in 1..<10) {
             val data =
                 stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData.DEFAULT)
@@ -138,12 +135,12 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                 if (user is PlayerEntity) {
                     user.itemCooldownManager.set(stack.item, 5)
                 }
-                user.stopUsingItem()
+                stack.set(StarbornSoundscapeDataComponents.CURRENT_USE_TIME, CurrentUseTime(0))
                 user.handSwingTicks = 11
+                user.stopUsingItem()
             }
         }
 
-        val usedTicks = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
         if (usedTicks == (getMinChargeTicks(user, stack) - 1) || (usedTicks + 1) == (getChargeTicks(user, stack)) || usedTicks == getExtraFlareTicks(
                 user,
                 stack
@@ -164,15 +161,16 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     0.0,
                     0.2
                 )
+                val pitch = if (usedTicks + 1 == getChargeTicks(user, stack)) 2.0f else 1.75f
                 world.playSound(
                     null,
                     user.x,
                     user.y,
                     user.z,
-                    SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,
+                    SoundEvents.BLOCK_VAULT_CLOSE_SHUTTER,
                     SoundCategory.PLAYERS,
-                    6.0F,
-                    1.0f
+                    2.0F,
+                    pitch
                 )
             }
         }
@@ -181,6 +179,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         val usedTickes = min(USE_TICKS - remainingUseTicks, getChargeTicks(user, stack))
+        stack.set(StarbornSoundscapeDataComponents.CURRENT_USE_TIME, CurrentUseTime(0))
         if (usedTickes >= getMinChargeTicks(user, stack)) {
             fire(world, user, usedTickes, stack)
         }

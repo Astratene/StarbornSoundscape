@@ -124,6 +124,10 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
         }
 
         tooltip.add(
+            Text.translatable("tooltip.soundscape.overarchiever_activate.tooltip")
+                .formatted(Formatting.DARK_PURPLE)
+        )
+        tooltip.add(
             Text.translatable("tooltip.soundscape.song.tooltip")
                 .formatted(Formatting.YELLOW).formatted(Formatting.ITALIC)
         )

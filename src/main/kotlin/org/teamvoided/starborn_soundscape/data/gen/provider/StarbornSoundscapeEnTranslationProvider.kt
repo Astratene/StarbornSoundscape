@@ -112,6 +112,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "Insert a song and get your groove on!")
         gen.add("tooltip.soundscape.song.tooltip", //song inserted. p obvious
             "Song inserted:")
+        gen.add("tooltip.soundscape.overarchiever_activate.tooltip", //tooltip for the overarchiever
+            "left then right click to activate the song!")
         gen.add("tooltip.soundscape.song_can_be_inserted.tooltip", //tooltip on all songs
             "Insert this song into a weapon and get schmovin!")
         gen.add("tooltip.soundscape.stamp1.tooltip", //tooltip stamp

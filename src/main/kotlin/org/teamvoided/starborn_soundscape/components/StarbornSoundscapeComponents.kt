@@ -25,7 +25,7 @@ data class OverarchieverDatav2(val passivelyDraining: Boolean) : SimpleStorageCo
 
     // this part fixes the constant ticking caused by this data
     override fun equals(other: Any?): Boolean {
-        return if (other == null || other !is OverarchieverData) super.equals(other)
+        return if (other == null || other !is OverarchieverDatav2) super.equals(other)
         else true
     }
     // this is the end of it
@@ -37,5 +37,22 @@ data class OverarchieverDatav2(val passivelyDraining: Boolean) : SimpleStorageCo
             { component -> component.passivelyDraining }
         )
     }
+}
 
+data class CurrentUseTime(val useTime: Int) : SimpleStorageComponent {
+
+    // this part fixes the constant ticking caused by this data
+    override fun equals(other: Any?): Boolean {
+        return if (other == null || other !is CurrentUseTime) super.equals(other)
+        else true
+    }
+    // this is the end of it
+
+    companion object {
+        val DEFAULT: CurrentUseTime = CurrentUseTime(0)
+        val CODEC = Codec.INT.xmap(
+            { int -> CurrentUseTime(int) },
+            { component -> component.useTime }
+        )
+    }
 }

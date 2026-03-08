@@ -4,6 +4,7 @@
   "package": "org.teamvoided.starborn_soundscape.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "CrosshairRendererMixin",
     "ExampleMixin",
     "FogEffectAccessor",
     "HoldingRendererMixin"
