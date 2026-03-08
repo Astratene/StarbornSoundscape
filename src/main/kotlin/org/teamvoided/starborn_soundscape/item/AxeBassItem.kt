@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.item
 
+import net.minecraft.client.item.TooltipConfig
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EquipmentSlotGroup
 import net.minecraft.entity.LivingEntity
@@ -13,6 +14,8 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
@@ -45,6 +48,18 @@ class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, se
                 ), EquipmentSlotGroup.MAINHAND
             ).build()
         }
+    }
+
+    override fun appendTooltip(
+        stack: ItemStack?,
+        context: TooltipContext?,
+        tooltip: MutableList<Text?>,
+        config: TooltipConfig?
+    ) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.wip.tooltip").formatted(Formatting.LIGHT_PURPLE)
+        )
+        super.appendTooltip(stack, context, tooltip, config)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
