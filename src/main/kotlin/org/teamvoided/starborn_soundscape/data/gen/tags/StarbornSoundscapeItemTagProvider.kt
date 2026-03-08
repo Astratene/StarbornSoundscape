@@ -44,5 +44,6 @@ class StarbornSoundscapeItemTagProvider(
     private fun enchantTags() {
         getOrCreateTagBuilder(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
+        getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE).add(StarbornSoundscapeItems.BANJOLECTRIC)
     }
 }

@@ -14,6 +14,7 @@ import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
 import org.teamvoided.starborn_soundscape.item.BandStampItem
+import org.teamvoided.starborn_soundscape.item.BanjolectricItem
 import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
 import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.astra_only_no_snooping.UniverseEdgeItem
@@ -58,6 +59,13 @@ object StarbornSoundscapeItems {
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3.1F))
         )
     )
+
+    val BANJOLECTRIC = register(
+        "banjolectric",
+        BanjolectricItem((Item.Settings()).fireproof().rarity(Rarity.EPIC)
+            .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3F)))
+    )
+
     val FOUND_DEAD_FT_DEF4N = register(
         "found_dead_ft._deaf4n",
         FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))

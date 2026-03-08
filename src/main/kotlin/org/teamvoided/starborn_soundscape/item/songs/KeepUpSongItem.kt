@@ -55,6 +55,10 @@ class KeepUpSongItem(settings: Settings) : SongItem(settings) {
 
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 16
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.BLUE
     }

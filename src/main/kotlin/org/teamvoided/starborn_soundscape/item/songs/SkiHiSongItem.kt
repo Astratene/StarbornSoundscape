@@ -63,6 +63,10 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
 
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 24
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.WHITE
     }

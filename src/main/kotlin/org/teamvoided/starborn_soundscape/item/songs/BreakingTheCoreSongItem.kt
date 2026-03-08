@@ -80,6 +80,9 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
     override fun getOverArchIeverChargeUp(user: LivingEntity): Int {
         return 30
     }
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 32
+    }
 
     override fun getNameColor(): Formatting {
         return Formatting.RED

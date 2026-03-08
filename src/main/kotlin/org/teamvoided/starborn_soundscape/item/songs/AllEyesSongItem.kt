@@ -84,6 +84,10 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         return java.awt.Color.GRAY
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 32
+    }
+
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
             Text.translatable("tooltip.soundscape.eyes.tooltip")

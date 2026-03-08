@@ -5,6 +5,7 @@ import net.minecraft.component.DataComponentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
+import org.teamvoided.starborn_soundscape.components.BanjolectricData
 import org.teamvoided.starborn_soundscape.components.CurrentUseTime
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
@@ -14,6 +15,7 @@ object StarbornSoundscapeDataComponents {
     fun init() = Unit
 
     val OVERARCHIEVER_DATA = registerSimple("overarchiever_data", OverarchieverData.CODEC)
+    val BANJOLECTRIC_DATA = registerSimple("banjolectric_charge", BanjolectricData.CODEC)
     val OVERARCHIEVER_DATAV2 = registerSimple("overarchiever_datav2", OverarchieverDatav2.CODEC)
     val CURRENT_USE_TIME = registerSimple("current_use_time", CurrentUseTime.CODEC)
 

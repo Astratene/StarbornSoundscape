@@ -84,6 +84,10 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
         return 30
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 56
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.DARK_GRAY
     }

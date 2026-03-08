@@ -18,8 +18,9 @@ object StarbornSoundscapeClient {
         StarbornSoundscapeModelPredicates.init()
         StarbornHudRendering.init()
         fogEffect()
-        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "edge_of_the_universe_inv"));
-        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "overarchiever_inv"));
+        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "edge_of_the_universe_inv"))
+        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "overarchiever_inv"))
+        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "banjolectric_inv"))
     }
 
     fun fogEffect() {

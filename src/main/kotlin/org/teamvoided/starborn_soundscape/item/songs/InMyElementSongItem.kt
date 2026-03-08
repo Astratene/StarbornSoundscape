@@ -20,6 +20,10 @@ class InMyElementSongItem(settings: Settings) : SongItem(settings) {
         return 60
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 16
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.DARK_AQUA
     }
