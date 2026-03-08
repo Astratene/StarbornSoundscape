@@ -81,7 +81,14 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
         return 30
     }
     override fun getBanjoChargeReduction(user: LivingEntity): Int {
-        return 44
+        return 60
+    }
+
+    override fun givesBanjoCooldown(): Boolean {
+        return true
+    }
+    override fun getBanjoCooldown(): Int {
+        return 2400
     }
 
     override fun getNameColor(): Formatting {

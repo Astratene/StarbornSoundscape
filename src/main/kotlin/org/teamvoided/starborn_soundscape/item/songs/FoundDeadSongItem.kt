@@ -80,12 +80,19 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
 
     }
 
+    override fun givesBanjoCooldown(): Boolean {
+        return true
+    }
+    override fun getBanjoCooldown(): Int {
+        return 2400
+    }
+
     override fun getOverArchIeverChargeUp(user: LivingEntity): Int {
         return 30
     }
 
     override fun getBanjoChargeReduction(user: LivingEntity): Int {
-        return 56
+        return 60
     }
 
     override fun getNameColor(): Formatting {

@@ -20,11 +20,16 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
+import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
 import org.teamvoided.starborn_soundscape.item.tracker.AxeBassTracker
 import org.teamvoided.starborn_soundscape.util.PlayerAxeMeter
 
-class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, settings) {
+class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, settings), CustomItemModel {
+
+    override fun hasInventoryModel(): Boolean {
+        return true
+    }
 
     companion object {
         private const val SHOCKWAVE_RADIUS = 6.0

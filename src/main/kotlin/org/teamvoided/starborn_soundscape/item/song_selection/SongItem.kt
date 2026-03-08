@@ -3,10 +3,8 @@ package org.teamvoided.starborn_soundscape.item.song_selection
 import net.minecraft.client.item.TooltipConfig
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item
-import net.minecraft.item.Item.Settings
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
-import net.minecraft.util.Color
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
 
@@ -72,5 +70,13 @@ open class SongItem(settings: Settings) : Item(settings) {
 
     open fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
         return 40
+    }
+
+    open fun givesBanjoCooldown(): Boolean {
+        return false
+    }
+
+    open fun getBanjoCooldown(): Int {
+        return 0
     }
 }

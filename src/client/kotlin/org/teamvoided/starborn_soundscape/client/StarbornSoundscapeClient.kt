@@ -21,6 +21,7 @@ object StarbornSoundscapeClient {
         MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "edge_of_the_universe_inv"))
         MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "overarchiever_inv"))
         MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "banjolectric_inv"))
+        MokusLibClientAPI.registerItemModel(Identifier.of(StarbornSoundscape.MODID, "metronome_inv"))
     }
 
     fun fogEffect() {

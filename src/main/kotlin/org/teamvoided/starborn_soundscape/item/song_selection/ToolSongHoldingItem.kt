@@ -22,7 +22,7 @@ import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
 import software.bernie.geckolib.util.Color
 import java.util.ArrayList
 
-open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, settings)  {
+open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETHERITE, settings) {
 
     //all the bundle stuff
     override fun onClickedOnOther(stack: ItemStack, slot: Slot, clickType: ClickType?, player: PlayerEntity): Boolean {
@@ -175,7 +175,7 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
 
     fun useMetronomeSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             songItem.useSong(user, world)
             return
         }
@@ -183,37 +183,37 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
 
     fun useBanjolectricSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             songItem.useSong(user, world)
             return
         }
     }
 
-    fun getBanjoChargeReduction(stack: ItemStack, user: LivingEntity) : Int {
+    fun getBanjoChargeReduction(stack: ItemStack, user: LivingEntity): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getBanjoChargeReduction(user)
         }
         return 24
     }
 
-    fun getBanjoPassiveDrain(stack: ItemStack, user: LivingEntity) : Int {
+    fun getBanjoPassiveDrain(stack: ItemStack, user: LivingEntity): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getBanjoPassiveDrain(user)
         }
         return 1
     }
 
-    fun getBarColor(stack: ItemStack) : Int {
+    fun getBarColor(stack: ItemStack): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getBarColor().rgb
         }
         return Color.RED.color
     }
 
-    fun hasASongToSing(stack: ItemStack) : Boolean {
+    fun hasASongToSing(stack: ItemStack): Boolean {
         val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
         if (bundleContents != null && !bundleContents.isEmpty) {
             val songInWeapon = bundleContents.copyContents()
@@ -237,6 +237,22 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
             }
         }
         return null
+    }
+
+    fun givesBanjoCooldown(stack: ItemStack): Boolean {
+        val songItem = getSongItem(stack)
+        if (songItem != null) {
+            return songItem.givesBanjoCooldown()
+        }
+        return false
+    }
+
+    fun getBanjoCooldown(stack: ItemStack): Int {
+        val songItem = getSongItem(stack)
+        if (songItem != null) {
+            return songItem.getBanjoCooldown()
+        }
+        return 0
     }
 
 }

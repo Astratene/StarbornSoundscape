@@ -44,19 +44,18 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "Metronome ticks")
         gen.add("sounds.starborn_soundscape.metronome_2",
             "Metronome ticks")
-
         gen.add("sounds.starborn_soundscape.sound_so_loud_it_kills_ya",
             "Loud speaker plays like, really loudly")
         gen.add("sounds.starborn_soundscape.raw_deadly_sound",
             "Small speaker plays really loud sound")
         gen.add("sounds.starborn_soundscape.small_speaker_startup",
             "Small speakers get ready")
-
         gen.add("sounds.starborn_soundscape.speaker_starup",
             "Really epic electric guitar chord")
-
         gen.add("sounds.starborn_soundscape.you_really_got_me",
             "You really got me riff plays")
+        gen.add("sounds.starborn_soundscape.hit_banjo",
+            "Silly banjo plays")
 
         //item grouup
         gen.add("itemgroup.starborn_soundscape.tab",

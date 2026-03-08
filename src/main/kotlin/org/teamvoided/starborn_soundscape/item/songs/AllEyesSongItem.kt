@@ -76,6 +76,13 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         }
     }
 
+    override fun givesBanjoCooldown(): Boolean {
+        return true
+    }
+    override fun getBanjoCooldown(): Int {
+        return 600
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.GRAY
     }

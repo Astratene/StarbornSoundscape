@@ -64,7 +64,10 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
     }
 
     override fun getBanjoChargeReduction(user: LivingEntity): Int {
-        return 24
+        if (user.hasStatusEffect(StarbornSoundscapeEffects.HOVER)) {
+            return 0
+        }
+        return 40
     }
 
     override fun getNameColor(): Formatting {

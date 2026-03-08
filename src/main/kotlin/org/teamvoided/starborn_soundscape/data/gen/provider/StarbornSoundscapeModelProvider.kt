@@ -18,7 +18,8 @@ class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider
         StarbornSoundscapeItems.OVERARCHIEVER,
         StarbornSoundscapeItems.BAND_STAMP,
         StarbornSoundscapeItems.EDGE_OF_THE_UNIVERSE,
-        StarbornSoundscapeItems.BANJOLECTRIC
+        StarbornSoundscapeItems.BANJOLECTRIC,
+        StarbornSoundscapeItems.METRONOME
     )
 
     override fun generateBlockStateModels(p0: BlockStateModelGenerator?) {
