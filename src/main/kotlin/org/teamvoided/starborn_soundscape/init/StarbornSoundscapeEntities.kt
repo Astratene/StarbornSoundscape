@@ -54,6 +54,12 @@ object StarbornSoundscapeEntities {
             .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
     )
 
+    val TOXIC_CLOUD = register(
+        "toxic_cloud",
+        EntityType.Builder.create(EntityType.EntityFactory(::ToxicCloudEntity), SpawnGroup.MISC)
+            .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
+    )
+
 
     private fun <T : Entity> register(path: String, entry: EntityType<T>): EntityType<T> {
         return Registry.register(Registries.ENTITY_TYPE, id(path), entry)

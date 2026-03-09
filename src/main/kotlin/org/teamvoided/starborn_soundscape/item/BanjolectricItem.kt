@@ -40,9 +40,10 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
         val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
         val newAbilityCharge = data.charge +
                 if ((attacker.fallDistance > 0 && !attacker.isOnGround)
-                    && getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge
+                    && data.charge < maxAbilityCharge
                 ) 4 //crit
-                else if (getSongItem(stack) !is BreakRightThroughSongItem && data.charge < maxAbilityCharge) 1 //hit
+                else if (
+                    data.charge < maxAbilityCharge) 1 //hit
                 else 0 // just in case
 
         if (data.charge <= maxAbilityCharge) {
@@ -62,13 +63,6 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
             )?.getBanjoChargeReduction(attacker)!!
         ) {
             target.frozenTicks += 350
-            stack.set(
-                StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
-                BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
-            )
-        } else if (getSongItem(stack) is BreakRightThroughSongItem && target is PlayerEntity) {
-            target.itemCooldownManager.set(Items.SHIELD, 100)
-            target.stopUsingItem()
             stack.set(
                 StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
                 BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))

@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ExampleServerMixin",
+    "LivingEntityMixin",
     "PersistentProjectileEntityAccessor"
   ],
   "injectors": {

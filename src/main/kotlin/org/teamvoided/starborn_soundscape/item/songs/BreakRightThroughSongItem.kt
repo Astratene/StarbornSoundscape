@@ -30,6 +30,10 @@ class BreakRightThroughSongItem(settings: Settings) : SongItem(settings) {
         return true
     }
 
+    override fun getBanjoChargeReduction(user: LivingEntity): Int {
+        return 12
+    }
+
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
             Text.translatable("tooltip.soundscape.breakRightThrough.tooltip")

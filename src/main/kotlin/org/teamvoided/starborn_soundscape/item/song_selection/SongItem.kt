@@ -61,7 +61,7 @@ open class SongItem(settings: Settings) : Item(settings) {
     }
 
     open fun getBanjoChargeReduction(user: LivingEntity): Int {
-        return 0
+        return 16
     }
 
     open fun getBanjoPassiveDrain(user: LivingEntity): Int {
