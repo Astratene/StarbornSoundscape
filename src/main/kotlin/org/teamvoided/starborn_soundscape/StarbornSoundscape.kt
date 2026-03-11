@@ -9,6 +9,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeTabs
 
@@ -29,9 +30,11 @@ object StarbornSoundscape {
         StarbornSoundscapeDataComponents.init()
         StarbornSoundscapeEffects.init()
         StarbornSoundscapeTabs.init()
+        StarbornSoundscapeParticles.init()
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)
     fun mc(path: String): Identifier = Identifier.parse(path)
+    @JvmStatic
     fun id(path: String) = id(MODID, path)
 }

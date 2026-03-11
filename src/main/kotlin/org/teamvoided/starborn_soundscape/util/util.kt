@@ -98,8 +98,8 @@ fun sillyLightningTime(
         val b = bendPos[i + 1]
         val distance = a.distanceTo(b)
         val beamRenderer = BeamRendererEntity(world, a.x, a.y, a.z)
-        beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x007df9ff.toInt())
-        beamRenderer.dataTracker.set(BeamRendererEntity.InterColour, 0x00ababab.toInt())
+        beamRenderer.dataTracker.set(BeamRendererEntity.OuterColour, 0x00300d5a.toInt())
+        beamRenderer.dataTracker.set(BeamRendererEntity.InterColour, 0x001b0832.toInt())
         beamRenderer.dataTracker.set(BeamRendererEntity.LiveTime, boltTicks)
         beamRenderer.dataTracker.set(BeamRendererEntity.ShrinkTime, boltTicks - 1)
         beamRenderer.dataTracker.set(BeamRendererEntity.TargetPos, Vec3d(b.x, b.y, b.z).toVector3f())

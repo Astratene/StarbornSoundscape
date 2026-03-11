@@ -28,6 +28,7 @@ import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
 import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
 import org.teamvoided.starborn_soundscape.item.songs.SentYouReelingSongItem
 import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
+import org.teamvoided.starborn_soundscape.item.songs.ToxicitySongItem
 import java.util.stream.Stream
 
 @Suppress("unused")
@@ -98,6 +99,9 @@ object StarbornSoundscapeItems {
 
     val SENT_YOU_REELING =
         register("sent_you_reeling", SentYouReelingSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
+    val TOXICITY =
+        register("toxicity", ToxicitySongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
     val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 

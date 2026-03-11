@@ -31,6 +31,7 @@ class StarbornSoundscapeItemTagProvider(
             .add(StarbornSoundscapeItems.BREAK_RIGHT_THROUGH)
             .add(StarbornSoundscapeItems.IN_MY_ELEMENT)
             .add(StarbornSoundscapeItems.SENT_YOU_REELING)
+            .add(StarbornSoundscapeItems.TOXICITY)
     }
 
     private fun conventionalTags() {

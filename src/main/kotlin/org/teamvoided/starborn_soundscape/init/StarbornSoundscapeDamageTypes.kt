@@ -18,6 +18,7 @@ object StarbornSoundscapeDamageTypes : RegistryBootstrapper<DamageType>(Registry
     val CRUSHED = register("crushed") { DamageType("crushed", DamageScalingType.NEVER, 0f) }
     val STARSTRUCK = register("starstruck") { DamageType("starstruck", DamageScalingType.NEVER, 0f) }
     val SHOCKED = register("shocked") { DamageType("shocked", DamageScalingType.NEVER, 0f) }
+    val TOXICED = register("toxiced") { DamageType("toxiced", DamageScalingType.NEVER, 0f) }
 
     fun Entity.customDamage(
         type: RegistryKey<DamageType>, amount: Float, source: Entity? = null, attacker: Entity? = null

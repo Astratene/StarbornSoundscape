@@ -1,6 +1,7 @@
 package org.teamvoided.starborn_soundscape.item
 
 import net.minecraft.block.BlockState
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -122,6 +123,14 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
             return getBarColor(stack)
         }
         return Color.BLUE.color
+    }
+
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity?, slot: Int, selected: Boolean) {
+        if (world.time % 75 == 0L){
+            val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
+            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(data.charge + 1))
+        }
+        super.inventoryTick(stack, world, entity, slot, selected)
     }
 
     override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity?): Boolean {

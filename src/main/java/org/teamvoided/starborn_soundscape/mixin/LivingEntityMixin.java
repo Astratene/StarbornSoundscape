@@ -13,11 +13,6 @@ import static org.teamvoided.starborn_soundscape.util.MiscFuncsKt.disablesShield
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
-
-    @Shadow
-    @Nullable
-    private LivingEntity attacker;
-
     @Inject(method = "canDisableShield", at = @At("HEAD"), cancellable = true)
     public void canDisableShield(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;

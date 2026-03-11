@@ -28,6 +28,7 @@ import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
+import org.teamvoided.starborn_soundscape.item.songs.ToxicitySongItem
 import org.teamvoided.starborn_soundscape.util.getPlayerLookingDirectionPos
 import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
@@ -218,6 +219,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.breakRound = true
                 } else if (getSongItem(stack) is InMyElementSongItem){
                     entity.sparkRound = true
+                } else if (getSongItem(stack) is ToxicitySongItem){
+                    entity.cloudRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -265,6 +268,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.breakRound = true
                 } else if (getSongItem(stack) is InMyElementSongItem){
                     entity.sparkRound = true
+                } else if (getSongItem(stack) is ToxicitySongItem){
+                    entity.cloudRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -313,6 +318,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.breakRound = true
                 } else if (getSongItem(stack) is InMyElementSongItem){
                     entity.sparkRound = true
+                } else if (getSongItem(stack) is ToxicitySongItem){
+                    entity.cloudRound = true
                 }
             }
             world.spawnEntity(entity)
@@ -347,6 +354,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     entity.breakRound = true
                 } else if (getSongItem(stack) is InMyElementSongItem){
                     entity.sparkRound = true
+                } else if (getSongItem(stack) is ToxicitySongItem){
+                    entity.cloudRound = true
                 }
             }
             //entity.airResOnDrop = 0.5 + world.random.nextFloat().times(0.25)

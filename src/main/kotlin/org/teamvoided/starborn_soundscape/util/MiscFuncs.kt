@@ -5,6 +5,7 @@ import net.minecraft.util.Hand
 import org.teamvoided.starborn_soundscape.components.BanjolectricData
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.BanjolectricItem
+import org.teamvoided.starborn_soundscape.item.astra_only_no_snooping.UniverseEdgeItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 
 fun disablesShields(entity: LivingEntity): Boolean{
@@ -16,6 +17,9 @@ fun disablesShields(entity: LivingEntity): Boolean{
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(data.charge - item.getBanjoChargeReduction(stack, entity)))
             return true
         }
+    }
+    if (stack.item is UniverseEdgeItem){
+        return true
     }
     return false
 }

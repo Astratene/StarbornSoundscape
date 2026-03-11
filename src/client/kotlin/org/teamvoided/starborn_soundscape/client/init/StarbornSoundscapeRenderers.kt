@@ -45,6 +45,10 @@ object StarbornSoundscapeRenderers {
             StarbornSoundscapeEntities.STAR_PROJECTILE,
             ::EmptyEntityRenderer)
 
+        EntityRendererRegistry.register(
+            StarbornSoundscapeEntities.TOXIC_CLOUD,
+            ::EmptyEntityRenderer)
+
         EntityRendererRegistry.register(StarbornSoundscapeEntities.BIG_SPEAKER, ::BigSpeakerEntityRenderer)
         EntityModelLayerRegistry.registerModelLayer(
             StarbornModelLayers.BIG_SPEAKER,

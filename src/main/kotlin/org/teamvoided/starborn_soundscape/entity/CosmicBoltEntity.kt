@@ -26,10 +26,12 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import org.teamvoided.starborn_soundscape.entity.astra_stuff_dont_peep.StarProjectileEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
 import org.teamvoided.starborn_soundscape.util.sillyLightningTime
 
@@ -53,6 +55,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     var fireRound = false
     var breakRound = false
     var sparkRound = false
+    var cloudRound = false
     val sparkMult = 0.2f
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
@@ -227,7 +230,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                     StarbornSoundscapeEffects.BAND_APPROVED
                 )
             }
-            if (sparkRound){
+            if (sparkRound) {
                 shockANearbyGuy(world, indirectDamage, sparkMult, null)
                 world.playSound(
                     null,
@@ -241,6 +244,12 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
                 this.discard()
                 return
+            } else if (cloudRound && this.owner is LivingEntity) {
+                val cloud = ToxicCloudEntity(this.world, owner as LivingEntity)
+                cloud.setPosition(this.eyePos)
+                cloud.isSmall = true
+                cloud.cloudLifespan = 100
+                this.world.spawnEntity(cloud)
             }
             var hasPlayedSound = false
             for (entity in entities) {
@@ -347,6 +356,19 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         0.2
                     )
                 }
+                if (cloudRound) {
+                    world.spawnParticles(
+                        StarbornSoundscapeParticles.TOXIC_POOF,
+                        this.x,
+                        this.y,
+                        this.z,
+                        3,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.2
+                    )
+                }
                 world.playSound(
                     null,
                     this.x,
@@ -401,6 +423,12 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             )
             if (world is ServerWorld && breakRound) (world as ServerWorld).spawnParticles(
                 ParticleTypes.CRIT, this.x, this.y, this.z,
+                1,
+                0.0, 0.0, 0.0,
+                0.0
+            )
+            if (world is ServerWorld && breakRound) (world as ServerWorld).spawnParticles(
+                StarbornSoundscapeParticles.TOXIC_POOF, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
                 0.0

@@ -28,9 +28,17 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("effect.starborn_soundscape.hover",
             "Hover")
         gen.add("effect.starborn_soundscape.closed_eyes",
-            "Watching the stars!")
+            "Watching the Stars!")
         gen.add("effect.starborn_soundscape.band_approved",
             "Band Approved")
+        gen.add("effect.starborn_soundscape.shred_of_toxicity",
+            "Shred of Toxicity")
+        gen.add("effect.starborn_soundscape.deep_toxicity",
+            "Deep Toxicity")
+        gen.add("effect.starborn_soundscape.irradiated",
+            "Irradiated")
+        gen.add("effect.starborn_soundscape.corrosion",
+            "corrosion")
 
         gen.add("effect.starborn_soundscape.hover.desc",
             "Removes a persons gravity")
@@ -38,6 +46,14 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "Blinds you, but doesn't inhibit your legs.")
         gen.add("effect.starborn_soundscape.band_approved.desc",
             "Protects you from the harm the band may hit you with")
+        gen.add("effect.starborn_soundscape.shred_of_toxicity.desc",
+            "Reduces movement speed")
+        gen.add("effect.starborn_soundscape.deep_toxicity.desc",
+            "Reduces attack speed")
+        gen.add("effect.starborn_soundscape.irradiated.desc",
+            "Deals damage over time")
+        gen.add("effect.starborn_soundscape.corrosion.desc",
+            "Reduces armor points")
 
         //captions
         gen.add("sounds.starborn_soundscape.metronome_1",
@@ -56,6 +72,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "You really got me riff plays")
         gen.add("sounds.starborn_soundscape.hit_banjo",
             "Silly banjo plays")
+        gen.add("sounds.starborn_soundscape.fizz",
+            "Toxic cloud fizzes")
 
         //item grouup
         gen.add("itemgroup.starborn_soundscape.tab",
@@ -69,6 +87,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.crushed", "%s was squished by %s's big ass speaker")
         gen.add("death.attack.starstruck", "%s watched %s's stars")
         gen.add("death.attack.shocked", "%s was shocked by %s's performance")
+        gen.add("death.attack.toxiced", "%s had a meltdown")
 
         gen.add("death.attack.small_soundwaves.item", "%s got blasted by %s's %s")
         gen.add("death.attack.bolt_direct.item", "%s was pierced straight through by %s's %s")
@@ -77,6 +96,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("death.attack.crushed.item", "%s was squished by %s's %s's unreasonably large speaker")
         gen.add("death.attack.starstruck.item", "%s was struck by awe while watching %s's %s's stars")
         gen.add("death.attack.shocked.item", "%s was shown god by %s's %s")
+
+        gen.add("death.attack.toxiced.player", "%s was melted to bone while fighting %s")
 
         //enchantments start
 
@@ -141,6 +162,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             " - Grappling hook...")
         gen.add("tooltip.soundscape.sentYouReeling.tooltip", //sent you reeling through tooltip
             " - Launches you backwards and surrounding players forwards")
+        gen.add("tooltip.soundscape.toxicity.tooltip", //toxicity tooltip
+            " - Creates clouds of toxic mist that slow, damage, or weaken opponents armor")
 
 
         //Other tooltips

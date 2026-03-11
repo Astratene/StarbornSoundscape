@@ -21,9 +21,10 @@ data class OverarchieverData(val charge: Int) : SimpleStorageComponent {
 }
 
 data class BanjolectricData(val charge: Int) : SimpleStorageComponent {
+
     // this part fixes the constant ticking caused by this data
     override fun equals(other: Any?): Boolean {
-        return if (other == null || other !is OverarchieverData) super.equals(other)
+        return if (other == null || other !is BanjolectricData) super.equals(other)
         else true
     }
     // this is the end of it

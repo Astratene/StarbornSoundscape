@@ -49,5 +49,11 @@
       "starborn_soundscape:hit_banjo_1",
       "starborn_soundscape:hit_banjo_2"
     ]
+  },
+  "fizz": {
+    "subtitle": "sounds.starborn_soundscape.fizz",
+    "sounds": [
+      "starborn_soundscape:fizz"
+    ]
   }
 }
