@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.item
 
+import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.minecraft.client.item.TooltipConfig
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EquipmentSlotGroup
@@ -21,11 +22,16 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
-import org.teamvoided.starborn_soundscape.item.song_selection.SongHoldingItem
+import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.item.song_selection.ToolSongHoldingItem
 import org.teamvoided.starborn_soundscape.item.tracker.AxeBassTracker
 import org.teamvoided.starborn_soundscape.util.PlayerAxeMeter
+import software.bernie.geckolib.util.Color
+import java.lang.Math.clamp
+import kotlin.math.round
 
-class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, settings), CustomItemModel {
+class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomItemModel {
 
     override fun hasInventoryModel(): Boolean {
         return true
@@ -35,6 +41,11 @@ class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, se
         private const val SHOCKWAVE_RADIUS = 6.0
         private const val SHOCKWAVE_DAMAGE = 8f
         private const val SHOCKWAVE_PULL_STRENGTH = 1.2
+        private const val DEFAULT_CHARGE_PER_HIT = 8
+        private const val CHARGE_TAKEN = 64
+        const val MAX_CHARGE = 64
+        const val BAR_LIMIT = 13f
+        fun funnyMath(x: Int, y: Int) = clamp(round(BAR_LIMIT - x * BAR_LIMIT / y).toLong(), 0, BAR_LIMIT.toInt())
 
         fun createAttributes(
             material: ToolMaterial,
@@ -56,7 +67,7 @@ class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, se
     }
 
     override fun appendTooltip(
-        stack: ItemStack?,
+        stack: ItemStack,
         context: TooltipContext?,
         tooltip: MutableList<Text?>,
         config: TooltipConfig?
@@ -68,10 +79,14 @@ class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, se
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        val stack = user.getStackInHand(hand)
+        val charge = stack.getOrDefault(
+            StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA,
+            MetronomeChargeData.DEFAULT
+        ).charge
         if (!world.isClient) {
-            val meter = PlayerAxeMeter.get(user)
-            if (meter.isFull()) {
-                meter.consume()
+            if (charge >= 64) {
+                stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
                 emitShockwave(world, user)
             }
         }
@@ -113,5 +128,62 @@ class AxeBassItem(settings: Item.Settings) : AxeItem(ToolMaterials.NETHERITE, se
         if (tracker.isOnBeat(tick, 1)) {
             PlayerAxeMeter.get(player).add(damage * 0.5f)
         }
+    }
+
+    override fun postHit(stack: ItemStack, target: LivingEntity?, attacker: LivingEntity): Boolean {
+        if (attacker is PlayerEntity) {
+            val tracker = AxeBassTracker.get(attacker)
+            val tick = attacker.world.time
+
+            if (tracker.isOnBeat(tick, 1)) {
+                var charge = stack.getOrDefault(
+                    StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA,
+                    MetronomeChargeData.DEFAULT
+                ).charge
+                if (stack.item is ToolSongHoldingItem && (stack.item as ToolSongHoldingItem).hasASongToSing(stack)) {
+                    charge += (stack.item as ToolSongHoldingItem).getSongItem(stack)!!
+                        .getMetronomeChargePerHit(attacker)
+                } else {
+                    charge += DEFAULT_CHARGE_PER_HIT
+                }
+                if (charge > 64) {
+                    charge = 64
+                }
+                stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(charge))
+            }
+        }
+        return super.postHit(stack, target, attacker)
+    }
+
+    // item bar stuff
+    override fun getItemBarStep(stack: ItemStack): Int {
+        val data =
+            stack.getOrDefault(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData.DEFAULT)
+        return data?.let {
+            funnyMath(
+                MAX_CHARGE - it.charge,
+                MAX_CHARGE
+            )
+        } ?: BAR_LIMIT.toInt()
+    }
+
+    override fun allowComponentsUpdateAnimation(
+        player: PlayerEntity?,
+        hand: Hand?,
+        oldStack: ItemStack?,
+        newStack: ItemStack?
+    ): Boolean {
+        return false
+    }
+
+    override fun getItemBarColor(stack: ItemStack): Int {
+        if (hasASongToSing(stack)) {
+            return getBarColor(stack)
+        }
+        return Color.BLUE.color
+    }
+
+    override fun isItemBarVisible(stack: ItemStack): Boolean {
+        return true
     }
 }

@@ -22,13 +22,6 @@ data class OverarchieverData(val charge: Int) : SimpleStorageComponent {
 
 data class BanjolectricData(val charge: Int) : SimpleStorageComponent {
 
-    // this part fixes the constant ticking caused by this data
-    override fun equals(other: Any?): Boolean {
-        return if (other == null || other !is BanjolectricData) super.equals(other)
-        else true
-    }
-    // this is the end of it
-
     companion object {
         val DEFAULT: BanjolectricData = BanjolectricData(0)
         val CODEC = Codec.INT.xmap(
@@ -68,6 +61,17 @@ data class CurrentUseTime(val useTime: Int) : SimpleStorageComponent {
         val CODEC = Codec.INT.xmap(
             { int -> CurrentUseTime(int) },
             { component -> component.useTime }
+        )
+    }
+}
+
+data class MetronomeChargeData(val charge: Int) : SimpleStorageComponent {
+
+    companion object {
+        val DEFAULT: MetronomeChargeData = MetronomeChargeData(0)
+        val CODEC = Codec.INT.xmap(
+            { int -> MetronomeChargeData(int) },
+            { component -> component.charge }
         )
     }
 }

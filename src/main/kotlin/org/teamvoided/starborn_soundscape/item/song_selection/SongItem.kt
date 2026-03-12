@@ -72,6 +72,22 @@ open class SongItem(settings: Settings) : Item(settings) {
         return 40
     }
 
+    open fun getMetronomeChargeReduction(user: LivingEntity): Int{
+        return 64
+    }
+
+    open fun getMetronomeChargePerHit(user: LivingEntity): Int{
+        return 8
+    }
+
+    open fun givesMetronomeCooldown(): Boolean {
+        return false
+    }
+
+    open fun getMetronomeCooldown(): Int {
+        return 0
+    }
+
     open fun givesBanjoCooldown(): Boolean {
         return false
     }

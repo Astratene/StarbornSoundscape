@@ -18,7 +18,12 @@ import net.minecraft.text.Text
 import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
+import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
+import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.item.AxeBassItem
+import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import software.bernie.geckolib.util.Color
 import java.util.ArrayList
 
@@ -49,6 +54,9 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
                     val i: Int = builder.tryTransfer(slot, player)
                     if (i > 0) {
                         this.playInsertSound(player)
+                        if (stack.item is AxeBassItem){
+                            stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
+                        }
                     }
                 }
                 stack.set<BundleContentsComponent?>(DataComponentTypes.BUNDLE_CONTENTS, builder.build())
@@ -82,6 +90,9 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
                     val i: Int = builder.tryAdd(otherStack)
                     if (i > 0) {
                         this.playInsertSound(player)
+                        if (stack.item is AxeBassItem){
+                            stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
+                        }
                     }
                 }
 

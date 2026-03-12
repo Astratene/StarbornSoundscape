@@ -24,6 +24,7 @@ import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
 import software.bernie.geckolib.util.Color
+import kotlin.math.min
 
 class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), CustomItemModel {
     override fun hasInventoryModel(): Boolean {
@@ -50,24 +51,29 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
         if (data.charge <= maxAbilityCharge) {
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(newAbilityCharge))
         }
-        if (getSongItem(stack) is BurningAndBlazeSongItem && data.charge >= getSongItem(stack)?.getBanjoChargeReduction(
-                attacker
-            )!!
-        ) {
-            target.setOnFireFor(120)
-            stack.set(
-                StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
-                BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
-            )
-        } else if (getSongItem(stack) is InMyElementSongItem && target.frozenTicks <= 200 && data.charge >= getSongItem(
-                stack
-            )?.getBanjoChargeReduction(attacker)!!
-        ) {
-            target.frozenTicks += 350
-            stack.set(
-                StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
-                BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
-            )
+        else {
+            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(maxAbilityCharge))
+        }
+        if (attacker is PlayerEntity && !attacker.itemCooldownManager.isCoolingDown(stack.item)) {
+            if (getSongItem(stack) is BurningAndBlazeSongItem && data.charge >= getSongItem(stack)?.getBanjoChargeReduction(
+                    attacker
+                )!!
+            ) {
+                target.setOnFireFor(120)
+                stack.set(
+                    StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
+                    BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
+                )
+            } else if (getSongItem(stack) is InMyElementSongItem && target.frozenTicks <= 200 && data.charge >= getSongItem(
+                    stack
+                )?.getBanjoChargeReduction(attacker)!!
+            ) {
+                target.frozenTicks += 350
+                stack.set(
+                    StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
+                    BanjolectricData(data.charge - (getSongItem(stack)?.getBanjoChargeReduction(attacker)!!))
+                )
+            }
         }
 
         val world = attacker.world
@@ -126,9 +132,9 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
     }
 
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity?, slot: Int, selected: Boolean) {
-        if (world.time % 75 == 0L){
+        if (world.time % 75 == 0L) {
             val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
-            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(data.charge + 1))
+            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(min(data.charge + 1, maxAbilityCharge)))
         }
         super.inventoryTick(stack, world, entity, slot, selected)
     }
@@ -139,5 +145,14 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
 
     override fun isItemBarVisible(stack: ItemStack): Boolean {
         return true
+    }
+
+    override fun allowComponentsUpdateAnimation(
+        player: PlayerEntity?,
+        hand: Hand?,
+        oldStack: ItemStack?,
+        newStack: ItemStack?
+    ): Boolean {
+        return false
     }
 }
