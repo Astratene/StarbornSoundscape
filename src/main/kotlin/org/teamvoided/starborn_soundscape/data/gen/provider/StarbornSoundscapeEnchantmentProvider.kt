@@ -66,6 +66,20 @@ object StarbornSoundscapeEnchantmentProvider {
             )
         )
         c.register(
+            StarbornSoundscapeEnchantments.BOLT_RAIN,
+            Enchantment.builder(
+                Enchantment.createProperties(
+                    item.getTagOrThrow(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE),
+                    2,
+                    1,
+                    Enchantment.cost(10, 20),
+                    Enchantment.cost(60, 20),
+                    4,
+                    EquipmentSlotGroup.ANY
+                )
+            )
+        )
+        c.register(
             StarbornSoundscapeEnchantments.TRACER,
             Enchantment.builder(
                 Enchantment.createProperties(

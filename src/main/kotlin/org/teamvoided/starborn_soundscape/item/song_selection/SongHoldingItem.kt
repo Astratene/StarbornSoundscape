@@ -17,12 +17,10 @@ import net.minecraft.text.Text
 import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
-import org.teamvoided.starborn_soundscape.StarbornSoundscape
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
-import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 import software.bernie.geckolib.util.Color
 import java.util.*
 
@@ -54,7 +52,7 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryTransfer(slot, player)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is overarchieverItem){
+                        if (stack.item is OverarchieverItem){
                             stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
                         }
                     }
@@ -90,7 +88,7 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryAdd(otherStack)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is overarchieverItem){
+                        if (stack.item is OverarchieverItem){
                             stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
                         }
                     }

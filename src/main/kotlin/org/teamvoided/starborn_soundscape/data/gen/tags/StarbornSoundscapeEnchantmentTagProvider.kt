@@ -15,14 +15,17 @@ class StarbornSoundscapeEnchantmentTagProvider(o: FabricDataOutput, r: Completab
     FabricTagProvider<Enchantment>(o, RegistryKeys.ENCHANTMENT, r) {
 
     override fun configure(wrapperLookup: HolderLookup.Provider?) {
-//        getOrCreateTagBuilder(EnchantmentTags.IN_ENCHANTING_TABLE)
-//            .add(StarbornSoundscapeEnchantments.TRI_THIS)
-//            .add(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
-//            .add(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
+        getOrCreateTagBuilder(EnchantmentTags.IN_ENCHANTING_TABLE)
+            .add(StarbornSoundscapeEnchantments.TRI_THIS)
+            .add(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
+            .add(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
+            .add(StarbornSoundscapeEnchantments.TRACER)
+            .add(StarbornSoundscapeEnchantments.BOLT_RAIN)
         getOrCreateTagBuilder(EnchantmentTags.TREASURE)
             .add(StarbornSoundscapeEnchantments.TRI_THIS)
             .add(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
             .add(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
             .add(StarbornSoundscapeEnchantments.TRACER)
+            .add(StarbornSoundscapeEnchantments.BOLT_RAIN)
     }
 }

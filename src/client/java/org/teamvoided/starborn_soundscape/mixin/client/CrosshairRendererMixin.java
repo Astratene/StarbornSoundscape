@@ -1,7 +1,6 @@
 package org.teamvoided.starborn_soundscape.mixin.client;
 
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.hud.in_game.InGameHud;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.teamvoided.starborn_soundscape.item.overarchieverItem;
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem;
 
 @Mixin(InGameHud.class)
 public class CrosshairRendererMixin {
@@ -40,10 +39,10 @@ public class CrosshairRendererMixin {
     private boolean getOverArchIeverHand(ClientPlayerEntity player) {
         Item heldItem = player.getStackInHand(Hand.MAIN_HAND).getItem();
         Item offhandItem = player.getStackInHand(Hand.OFF_HAND).getItem();
-        if (heldItem instanceof overarchieverItem){
+        if (heldItem instanceof OverarchieverItem){
             return true;
         }
-        else return offhandItem instanceof overarchieverItem;
+        else return offhandItem instanceof OverarchieverItem;
     }
 
 }

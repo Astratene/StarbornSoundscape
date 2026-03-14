@@ -3,7 +3,7 @@ package org.teamvoided.starborn_soundscape.util
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.util.Identifier
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 
 object StarbornSoundscapeModelPredicates {
     fun init(){
@@ -15,7 +15,7 @@ object StarbornSoundscapeModelPredicates {
             if (entity == null) return@register 0f
             if (entity.activeItem != stack) return@register 0f
 
-            val item = stack.item as overarchieverItem
+            val item = stack.item as OverarchieverItem
             val maxCharge = item.getChargeTicks(entity, stack).toFloat()
 
             val useTime = stack.getUseTicks(entity) - entity.itemUseTimeLeft

@@ -9,9 +9,8 @@ import net.minecraft.client.render.DeltaTracker
 import net.minecraft.util.Hand
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.components.CurrentUseTime
-import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -56,8 +55,8 @@ object StarbornHudRendering {
                 15
             )
             val stack = player.getStackInHand(hand)
-            if (stack.item is overarchieverItem) {
-                val item = stack.item as overarchieverItem
+            if (stack.item is OverarchieverItem) {
+                val item = stack.item as OverarchieverItem
                 var charge = stack.getOrDefault(
                     StarbornSoundscapeDataComponents.CURRENT_USE_TIME,
                     CurrentUseTime.DEFAULT
@@ -209,9 +208,9 @@ object StarbornHudRendering {
     public fun getOverArchIeverHand(player: ClientPlayerEntity): Hand? {
         val heldItem = player.getStackInHand(Hand.MAIN_HAND)
         val offhandItem = player.getStackInHand(Hand.OFF_HAND)
-        if (heldItem.item is overarchieverItem) {
+        if (heldItem.item is OverarchieverItem) {
             return Hand.MAIN_HAND
-        } else if (offhandItem.item is overarchieverItem) {
+        } else if (offhandItem.item is OverarchieverItem) {
             return Hand.OFF_HAND
         } else return null
     }

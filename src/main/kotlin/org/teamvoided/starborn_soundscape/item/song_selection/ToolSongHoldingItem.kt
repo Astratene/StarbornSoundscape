@@ -19,11 +19,9 @@ import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
-import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
 import software.bernie.geckolib.util.Color
 import java.util.ArrayList
 

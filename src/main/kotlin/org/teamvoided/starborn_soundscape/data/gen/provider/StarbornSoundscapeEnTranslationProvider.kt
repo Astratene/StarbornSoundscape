@@ -105,25 +105,31 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         gen.add("enchantment.starborn_soundscape.tri_this", "Tri This!")
         gen.add(
             "enchantment.starborn_soundscape.tri_this.desc",
-            "Increases the number of bolts fired to 3, slightly reduces each bolts damage, and increases the charge time. Bolts spread is reduced the longer the weapon is charged."
+            "Increases the number of bolts fired to 3, decreasing bolt spread depending on charge."
         )
         //Well Well Well...
         gen.add("enchantment.starborn_soundscape.well_well_well", "Well Well Well...")
         gen.add(
             "enchantment.starborn_soundscape.well_well_well.desc",
-            "Increases the number of bolts fired to 5, reduces the damage of each bolt, and increases the charge time heavily. Bolt spread is increased the longer the weapon is charged."
+            "Increases the number of bolts fired to 5, increasing bolt spread depending on charge."
         )
         //A Grizzly Fate
         gen.add("enchantment.starborn_soundscape.grizzly_fate", "A Grizzly Fate")
         gen.add(
             "enchantment.starborn_soundscape.grizzly_fate.desc",
-            "Increases the number of bolts to 9 and gives them a random spread. Bolts do almost no direct damage but keep decent indirect damage. Increases the charge time severely. Spread is reduced the longer the weapon is charged."
+            "Increases the number of bolts to 9, decreasing bolt spread depending on charge. Much higher charge time."
         )
         //Tracer Round
         gen.add("enchantment.starborn_soundscape.tracer", "Tracer Round")
         gen.add(
             "enchantment.starborn_soundscape.tracer.desc",
             "The bolt fired is a tracer round, causing targets hit to glow."
+        )
+        //Bolt rain
+        gen.add("enchantment.starborn_soundscape.bolt_rain", "Rain for your Sorrows")
+        gen.add(
+            "enchantment.starborn_soundscape.bolt_rain.desc",
+            "Fires up to 18 bolts, depending on charge. Bolts gain a random spread"
         )
 
         //descriptions start, as astra said "// oh god think of the descripdren!"

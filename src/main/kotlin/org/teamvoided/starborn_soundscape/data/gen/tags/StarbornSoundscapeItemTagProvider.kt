@@ -46,4 +46,5 @@ class StarbornSoundscapeItemTagProvider(
         getOrCreateTagBuilder(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).add(StarbornSoundscapeItems.OVERARCHIEVER)
     }
+
 }

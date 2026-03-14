@@ -1,9 +1,6 @@
 package org.teamvoided.starborn_soundscape.init
 
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.item.Item
-import net.minecraft.item.MiningToolItem
-import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolMaterials
 import net.minecraft.registry.Holder
 import net.minecraft.registry.HolderLookup.RegistryLookup
@@ -15,10 +12,8 @@ import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
 import org.teamvoided.starborn_soundscape.item.BandStampItem
 import org.teamvoided.starborn_soundscape.item.BanjolectricItem
-import org.teamvoided.starborn_soundscape.item.BigSpeakerTestItem
-import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.astra_only_no_snooping.UniverseEdgeItem
-import org.teamvoided.starborn_soundscape.item.overarchieverItem
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
@@ -37,9 +32,8 @@ object StarbornSoundscapeItems {
 
     val OVERARCHIEVER =
         register(
-            "overarchiever", overarchieverItem(
-                Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)
-
+            "overarchiever", OverarchieverItem(
+                Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1).maxDamage(1)
             )
         )
 

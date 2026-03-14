@@ -34,11 +34,13 @@ import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
 import java.lang.Math.clamp
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
+import kotlin.math.tan
 
-class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomItemModel {
+class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomItemModel {
 
     override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         player.setCurrentHand(hand)
@@ -53,16 +55,16 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
         return if (isEnchantedTri(user, stack)) 30 else if (isEnchantedWell(user, stack)) 40
-        else if (isEnchantedGrizz(user, stack)) 60 else 20
+        else if (isEnchantedRain(user, stack)) 60 else if (isEnchantedGrizz(user, stack)) 60 else 20
     }
 
     fun getMinChargeTicks(user: LivingEntity, stack: ItemStack): Int {
         return if (isEnchantedTri(user, stack)) 20 else if (isEnchantedWell(user, stack)) 25
-        else if (isEnchantedGrizz(user, stack)) 40 else 15
+        else if (isEnchantedRain(user, stack)) 40 else if (isEnchantedGrizz(user, stack)) 40 else 15
     }
 
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
-        return if (isEnchantedGrizz(user, stack)) -1 else -1
+        return if (isEnchantedRain(user, stack)) -1 else -1
     }
 
     fun getAngleBetweenTriBolts(ticks: Int): Float {
@@ -73,15 +75,23 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
         return (ticks - 20).times(0.15f).plus(3f)
     }
 
+    fun getAngleBetweenGrizzBolts(ticks: Int): Float{
+        return (10 - ((ticks - 40) * 0.5)).plus(4).toFloat()
+    }
+
     fun getMaxSpread(ticks: Int): Float {
-        return 20 - (0.5f * max(ticks - 30, 0))
+        return 20 - (0.5f * max(ticks - 40, 0))
+    }
+
+    fun getBolts(ticks: Int): Int {
+        return 3 + (min(15, max(0, ticks - 45)))
     }
 
     fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
         if (isEnchantedWell(user, stack)){
             return (ticks / getChargeTicks(user, stack).toFloat()).times(4f)
         }
-        if (!isEnchantedWell(user, stack) && !isEnchantedGrizz(user, stack) && !isEnchantedTri(user, stack)){
+        if (!isEnchantedWell(user, stack) && !isEnchantedRain(user, stack) && !isEnchantedTri(user, stack)){
             if (ticks < 20){
                 return (ticks / getChargeTicks(user, stack).toFloat()).times(3f)
             }
@@ -194,9 +204,12 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
             fireTriBolts(world, user, ticks, stack)
         } else if (isEnchantedWell(user, stack)) {
             fireWellBolts(world, user, ticks, stack)
-        } else if (isEnchantedGrizz(user, stack)) {
+        } else if (isEnchantedRain(user, stack)) {
             fireSoManyFuckingBolts(world, user, ticks, stack)
-        } else {
+        } else if (isEnchantedGrizz(user, stack)) {
+            fireGrizzBolts(world, user, ticks, stack)
+        }
+        else {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             //setPropertiesTwo(entity, user.pitch, user.yaw, 0.0f, getLaunchVelocity(ticks, user, stack), 0.0f)
@@ -277,6 +290,54 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
         }
     }
 
+    val GrizzDirectDamage = 7.0f
+    val GrizzIndirectDamage = 3f
+    fun fireGrizzBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
+        val data =
+            stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
+        var angle = (getAngleBetweenGrizzBolts(ticks) * 4)
+        val isOnGround = user.isOnGround
+        repeat(9) {
+            val entity = CosmicBoltEntity(world, user)
+            entity.setPosition(user.eyePos)
+            if (isOnGround) {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch,
+                    user.yaw + angle,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    4.0f
+                )
+            } else {
+                setPropertiesTwo(
+                    entity,
+                    user.pitch + angle,
+                    user.yaw,
+                    0.0f,
+                    getLaunchVelocity(ticks, user, stack),
+                    4.0f
+                )
+            }
+            entity.directDamage = GrizzDirectDamage
+            entity.indirectDamage = GrizzIndirectDamage
+            entity.pickupType = PickupPermission.DISALLOWED
+            if (data.passivelyDraining) {
+                if (getSongItem(stack) is BurningAndBlazeSongItem) {
+                    entity.fireRound = true
+                } else if (getSongItem(stack) is BreakRightThroughSongItem) {
+                    entity.breakRound = true
+                } else if (getSongItem(stack) is InMyElementSongItem){
+                    entity.sparkRound = true
+                } else if (getSongItem(stack) is ToxicitySongItem){
+                    entity.cloudRound = true
+                }
+            }
+            world.spawnEntity(entity)
+            angle -= getAngleBetweenGrizzBolts(ticks)
+        }
+    }
+
     val WellDirectDamage = 4.5f
     val WellIndirectDamage = 4.0f
     val nonFullMult = 0.75f
@@ -327,12 +388,12 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
         }
     }
 
-    val GrizzDirectDamage = 0.2f
-    val GrizzIndirectDamage = 5f
+    val RainDirectDamage = 0.2f
+    val RainIndirectDamage = 2.5f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        repeat(9) {
+        repeat(getBolts(ticks)) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             setPropertiesTwo(
@@ -343,8 +404,8 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                 getLaunchVelocity(ticks, user, stack),
                 getMaxSpread(ticks)
             )
-            entity.directDamage = GrizzDirectDamage
-            entity.indirectDamage = GrizzIndirectDamage
+            entity.directDamage = RainDirectDamage
+            entity.indirectDamage = RainIndirectDamage
             entity.timeTillBoom = 20 + world.random.range(-5, 5)
             entity.pickupType = PickupPermission.DISALLOWED
             if (data.passivelyDraining) {
@@ -377,6 +438,10 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     fun isEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
+    }
+
+    fun isEnchantedRain(user: LivingEntity, stack: ItemStack): Boolean {
+        return stack.hasEnchantment(StarbornSoundscapeEnchantments.BOLT_RAIN)
     }
 
     fun isEnchantedGrizz(user: LivingEntity, stack: ItemStack): Boolean {
@@ -415,4 +480,7 @@ class overarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     override fun isItemBarVisible(stack: ItemStack): Boolean {
         return hasASongToSing(stack)
     }
+
+    override fun isEnchantable(stack: ItemStack): Boolean = true
+
 }
