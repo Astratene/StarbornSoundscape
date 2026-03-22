@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.components.BanjolectricData
+import org.teamvoided.starborn_soundscape.components.BanjolectricDatav2
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.item.OverarchieverItem.Companion.BAR_LIMIT
@@ -48,8 +49,7 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
 
         if (data.charge <= maxAbilityCharge) {
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(newAbilityCharge))
-        }
-        else {
+        } else {
             stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(maxAbilityCharge))
         }
         if (attacker is PlayerEntity && !attacker.itemCooldownManager.isCoolingDown(stack.item)) {
@@ -87,6 +87,7 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
                 1.5f
             )
         }
+        stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATAV2, BanjolectricDatav2(200))
         return super.postHit(stack, target, attacker)
     }
 
@@ -130,11 +131,38 @@ class BanjolectricItem(settings: Settings) : ToolSongHoldingItem(settings), Cust
     }
 
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity?, slot: Int, selected: Boolean) {
-        if (world.time % 75 == 0L) {
-            val data = stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
-            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData(min(data.charge + 1, maxAbilityCharge)))
+        val combatTicks = stack.getOrDefault(
+            StarbornSoundscapeDataComponents.BANJOLECTRIC_DATAV2,
+            BanjolectricDatav2.DEFAULT
+        ).combatTicks
+        if (combatTicks > 0) {
+            stack.set(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATAV2, BanjolectricDatav2(combatTicks - 1))
+        } else {
+            if (world.time % 75 == 0L && (entity is PlayerEntity && (entity.getStackInHand(Hand.MAIN_HAND) == stack || entity.getStackInHand(
+                    Hand.OFF_HAND
+                ) == stack))
+            ) {
+                val data =
+                    stack.getOrDefault(StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA, BanjolectricData.DEFAULT)
+                stack.set(
+                    StarbornSoundscapeDataComponents.BANJOLECTRIC_DATA,
+                    BanjolectricData(min(data.charge + 1, maxAbilityCharge))
+                )
+                if (world is ServerWorld) {
+                    world.playSound(
+                        null,
+                        entity.x,
+                        entity.y,
+                        entity.z,
+                        StarbornSoundscapeSounds.HIT_BANJO,
+                        entity.soundCategory,
+                        1.0f,
+                        0.5f
+                    )
+                }
+            }
+            super.inventoryTick(stack, world, entity, slot, selected)
         }
-        super.inventoryTick(stack, world, entity, slot, selected)
     }
 
     override fun canMine(state: BlockState?, world: World?, pos: BlockPos?, miner: PlayerEntity?): Boolean {

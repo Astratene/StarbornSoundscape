@@ -6,6 +6,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import org.teamvoided.starborn_soundscape.StarbornSoundscape.id
 import org.teamvoided.starborn_soundscape.components.BanjolectricData
+import org.teamvoided.starborn_soundscape.components.BanjolectricDatav2
 import org.teamvoided.starborn_soundscape.components.CurrentUseTime
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
@@ -17,6 +18,7 @@ object StarbornSoundscapeDataComponents {
 
     val OVERARCHIEVER_DATA = registerSimple("overarchiever_data", OverarchieverData.CODEC)
     val BANJOLECTRIC_DATA = registerSimple("banjolectric_charge", BanjolectricData.CODEC)
+    val BANJOLECTRIC_DATAV2 = registerSimple("banjolectric_combat_ticks", BanjolectricDatav2.CODEC)
     val OVERARCHIEVER_DATAV2 = registerSimple("overarchiever_datav2", OverarchieverDatav2.CODEC)
     val CURRENT_USE_TIME = registerSimple("current_use_time", CurrentUseTime.CODEC)
     val METRONOME_CHARGE_DATA = registerSimple("metronome_charge_data", MetronomeChargeData.CODEC)

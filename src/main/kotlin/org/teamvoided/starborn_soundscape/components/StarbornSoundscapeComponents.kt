@@ -31,6 +31,17 @@ data class BanjolectricData(val charge: Int) : SimpleStorageComponent {
     }
 }
 
+data class BanjolectricDatav2(val combatTicks: Int) : SimpleStorageComponent {
+
+    companion object {
+        val DEFAULT: BanjolectricDatav2 = BanjolectricDatav2(0)
+        val CODEC = Codec.INT.xmap(
+            { int -> BanjolectricDatav2(int) },
+            { component -> component.combatTicks }
+        )
+    }
+}
+
 data class OverarchieverDatav2(val passivelyDraining: Boolean) : SimpleStorageComponent {
 
     // this part fixes the constant ticking caused by this data
