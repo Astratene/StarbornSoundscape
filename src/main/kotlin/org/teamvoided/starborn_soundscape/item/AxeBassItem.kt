@@ -1,11 +1,14 @@
 package org.teamvoided.starborn_soundscape.item
 
+import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipConfig
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EquipmentSlotGroup
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolMaterial
@@ -22,7 +25,14 @@ import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
+import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.item.song_selection.ToolSongHoldingItem
+import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
+import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
+import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
+import org.teamvoided.starborn_soundscape.item.songs.ToxicitySongItem
 import org.teamvoided.starborn_soundscape.item.tracker.AxeBassTracker
 import org.teamvoided.starborn_soundscape.util.PlayerAxeMeter
 import software.bernie.geckolib.util.Color
@@ -43,6 +53,7 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         private const val CHARGE_TAKEN = 64
         const val MAX_CHARGE = 64
         const val BAR_LIMIT = 13f
+
         fun funnyMath(x: Int, y: Int) = clamp(round(BAR_LIMIT - x * BAR_LIMIT / y).toLong(), 0, BAR_LIMIT.toInt())
 
         fun createAttributes(
@@ -85,14 +96,15 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         if (!world.isClient) {
             if (charge >= 64) {
                 stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
-                emitShockwave(world, user)
+                emitShockwave(world, user, stack)
                 useMetronomeSong(stack, user, world)
             }
         }
         return TypedActionResult.success(user.getStackInHand(hand))
     }
 
-    private fun emitShockwave(world: World, user: PlayerEntity) {
+    private fun emitShockwave(world: World, user: PlayerEntity, stack: ItemStack) {
+
         val box = Box(
             user.x, user.y, user.z,
             user.x, user.y, user.z
@@ -117,23 +129,155 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                 val z = center.z + r * kotlin.math.sin(angle)
                 val y = center.y + 0.1
 
-                serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
-                    x, y, z,
-                    1, 0.0, 0.0, 0.0, 0.0)
-                serverWorld.spawnParticles(ParticleTypes.LAVA,
-                    x, y, z,
-                    1, 0.0, 0.0, 0.0, 0.1)
-                serverWorld.spawnParticles(ParticleTypes.LARGE_SMOKE,
-                    x, y, z,
-                    1, 0.0, 0.0, 0.0, 0.1)
+                if (getSongItem(stack) is BurningAndBlazeSongItem) {
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LAVA,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.EXPLOSION,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                } else if (getSongItem(stack) is AllEyesSongItem) {
+                    serverWorld.spawnParticles(
+                        ParticleTypes.FIREWORK,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.FLASH,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                } else if (getSongItem(stack) is ToxicitySongItem) {
+                    serverWorld.spawnParticles(
+                        ParticleTypes.SCULK_SOUL,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        StarbornSoundscapeParticles.TOXIC_POOF,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.FLAME,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LARGE_SMOKE,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                } else if (getSongItem(stack) is InMyElementSongItem) {
+                    serverWorld.spawnParticles(
+                        ParticleTypes.FLAME,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LARGE_SMOKE,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LAVA,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.SMALL_FLAME,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                } else {
+                    serverWorld.spawnParticles(
+                        ParticleTypes.SCULK_SOUL,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.0
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LAVA,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                    serverWorld.spawnParticles(
+                        ParticleTypes.LARGE_SMOKE,
+                        x, y, z,
+                        1, 0.0, 0.0, 0.0, 0.1
+                    )
+                }
             }
         }
 
+        val hasBurningSong = getSongItem(stack) is BurningAndBlazeSongItem
+        val hasInMyElementSong = getSongItem(stack) is InMyElementSongItem
+
         for (entity in entities) {
             val dir = user.pos.subtract(entity.pos).normalize()
+
             entity.damage(world.damageSources.playerAttack(user), SHOCKWAVE_DAMAGE)
             entity.addVelocity(dir.x * SHOCKWAVE_PULL_STRENGTH, 0.75, dir.z * SHOCKWAVE_PULL_STRENGTH)
             entity.velocityDirty = true
+
+            if (hasBurningSong && entity is LivingEntity && entity.isOnFire) {
+
+                if (entity == user) continue
+
+                if (entity.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) continue
+
+                world.createExplosion(
+                    null,
+                    entity.x,
+                    entity.y,
+                    entity.z,
+                    2.0f,
+                    World.ExplosionSourceType.NONE
+                )
+
+                entity.setOnFireFor(150)
+            }
+            if (hasInMyElementSong && entity is LivingEntity) {
+                val center = user.blockPos
+                val radius = SHOCKWAVE_RADIUS.toInt()
+                val fireState = Blocks.FIRE.defaultState
+
+                for (x in -radius..radius) {
+                    for (z in -radius..radius) {
+                        if (x * x + z * z <= radius * radius) {
+
+                            for (yOffset in -1..1) {
+                                val pos = center.add(x, yOffset, z)
+
+                                if (world.getBlockState(pos).isAir &&
+                                    fireState.canPlaceAt(world, pos)
+                                ) {
+                                    world.setBlockState(pos, fireState)
+                                }
+                            }
+                        }
+                    }
+                }
+                user.addStatusEffect(
+                    StatusEffectInstance(
+                        StatusEffects.FIRE_RESISTANCE,
+                        600,
+                        0
+                    )
+                )
+                if (entity.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)){
+                    entity.addStatusEffect(
+                        StatusEffectInstance(
+                            StatusEffects.FIRE_RESISTANCE,
+                            600,
+                            0
+                        )
+                    )
+                }
+            }
         }
 
         world.playSound(
@@ -175,6 +319,9 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                     charge = 64
                 }
                 stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(charge))
+                if (getSongItem(stack) is BurningAndBlazeSongItem && target is LivingEntity){
+                    target.setOnFireFor(100)
+                }
             }
         }
         return super.postHit(stack, target, attacker)
