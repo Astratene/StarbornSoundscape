@@ -9,7 +9,6 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
@@ -22,7 +21,6 @@ import kotlin.math.min
 class ToxicCloudEntity : Entity {
 
     var owner: LivingEntity? = null
-    var ownerUuid: UUID? = null
 
     constructor(entityType: EntityType<out ToxicCloudEntity?>?, world: World?) :
             super(entityType as EntityType<out Entity?>?, world)
