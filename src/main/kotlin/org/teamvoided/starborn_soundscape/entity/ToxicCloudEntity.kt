@@ -31,10 +31,11 @@ class ToxicCloudEntity : Entity {
             super(TOXIC_CLOUD as EntityType<out Entity?>, world) {
         this.owner = owner
     }
-
+    // set this to true for ur one brand
     var isSmall = false
     val smallWidth = 3.5
     val smallHeight = 2.5
+    // sets the radius for your one brand
     val bigWidth = 4.0
     val bigHeight = 1.0
     var cloudLifespan = 200
@@ -109,7 +110,9 @@ class ToxicCloudEntity : Entity {
                                 )
                             }
                         }
-                    } else {
+                    }
+                    // this is the effects stuff for your one brand :3
+                    else {
                         val shred = entity.getStatusEffect(StarbornSoundscapeEffects.IRRADIATED)
                         val lvl = shred?.amplifier ?: -1
                         entity.addStatusEffect(
