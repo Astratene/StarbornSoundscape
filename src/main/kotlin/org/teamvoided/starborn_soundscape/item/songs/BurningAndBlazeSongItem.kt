@@ -22,6 +22,10 @@ class BurningAndBlazeSongItem(settings: Settings) : SongItem(settings) {
         return 16
     }
 
+    override fun getMetronomeChargeReduction(user: LivingEntity): Int {
+        return 64
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.GOLD
     }

@@ -12,7 +12,7 @@ object AxeBassTracker {
     ) {
         fun isOnBeat(currentTick: Long, window: Int): Boolean {
             val delta = currentTick - lastBeatTick
-            return delta in -window..window
+            return kotlin.math.abs(currentTick - lastBeatTick) <= window
         }
     }
 

@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape.client
 
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.render.BackgroundRenderer
 import net.minecraft.util.Identifier
 import net.mokus.mokuslib.api.MokusLibClientAPI
