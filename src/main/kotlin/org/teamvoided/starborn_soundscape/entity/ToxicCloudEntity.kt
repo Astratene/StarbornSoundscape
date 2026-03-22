@@ -31,7 +31,7 @@ class ToxicCloudEntity : Entity {
             super(TOXIC_CLOUD as EntityType<out Entity?>, world) {
         this.owner = owner
     }
-    // set this to true for ur one brand
+    // keep this false for ur one brand
     var isSmall = false
     val smallWidth = 3.5
     val smallHeight = 2.5
