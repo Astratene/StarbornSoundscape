@@ -33,6 +33,7 @@ import org.teamvoided.starborn_soundscape.item.song_selection.ToolSongHoldingIte
 import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BurningAndBlazeSongItem
 import org.teamvoided.starborn_soundscape.item.songs.InMyElementSongItem
+import org.teamvoided.starborn_soundscape.item.songs.KeepUpSongItem
 import org.teamvoided.starborn_soundscape.item.songs.ToxicitySongItem
 import org.teamvoided.starborn_soundscape.item.tracker.AxeBassTracker
 import org.teamvoided.starborn_soundscape.util.PlayerAxeMeter
@@ -116,13 +117,20 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         if (!world.isClient) {
             if (charge >= 64) {
                 stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
-                emitShockwave(world, user, stack)
+                if (getSongItem(stack) !is KeepUpSongItem) {
+                    emitShockwave(world, user, stack)
+                    keepUpLaunch(world, user, stack)
+                }
                 useMetronomeSong(stack, user, world)
             }
         } else {
             return TypedActionResult.fail(user.getStackInHand(hand))
         }
         return TypedActionResult.success(user.getStackInHand(hand))
+    }
+
+    private fun keepUpLaunch(world: World, user: PlayerEntity, stack: ItemStack) {
+
     }
 
     private fun emitShockwave(world: World, user: PlayerEntity, stack: ItemStack) {

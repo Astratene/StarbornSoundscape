@@ -9,7 +9,8 @@ object AxeBassTracker {
     data class Data(
         var beatIndex: Int = 0,
         var lastBeatTick: Long = 0L,
-        var metronomeEnabled: Boolean = true
+        var metronomeEnabled: Boolean = true,
+
     ) {
         fun isOnBeat(currentTick: Long, window: Int): Boolean {
             val delta = currentTick - lastBeatTick
