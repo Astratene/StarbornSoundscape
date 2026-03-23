@@ -111,11 +111,11 @@ class ToxicCloudEntity : Entity {
                     }
                     // this is the effects stuff for your one brand :3
                     else {
-                        val shred = entity.getStatusEffect(StarbornSoundscapeEffects.IRRADIATED)
+                        val shred = entity.getStatusEffect(StarbornSoundscapeEffects.SOUNDSICK)
                         val lvl = shred?.amplifier ?: -1
                         entity.addStatusEffect(
                             StatusEffectInstance(
-                                StarbornSoundscapeEffects.IRRADIATED,
+                                StarbornSoundscapeEffects.SOUNDSICK,
                                 20, min(lvl + 1, 100),
                                 false, true, true
                             )

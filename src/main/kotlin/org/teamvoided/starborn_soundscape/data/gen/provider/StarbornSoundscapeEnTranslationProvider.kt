@@ -35,8 +35,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "Shred of Toxicity")
         gen.add("effect.starborn_soundscape.deep_toxicity",
             "Deep Toxicity")
-        gen.add("effect.starborn_soundscape.irradiated",
-            "Irradiated")
+        gen.add("effect.starborn_soundscape.soundsick",
+            "Soundsick")
         gen.add("effect.starborn_soundscape.corrosion",
             "corrosion")
 
@@ -50,7 +50,7 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
             "Reduces movement speed")
         gen.add("effect.starborn_soundscape.deep_toxicity.desc",
             "Reduces attack speed")
-        gen.add("effect.starborn_soundscape.irradiated.desc",
+        gen.add("effect.starborn_soundscape.soundsick.desc",
             "Deals damage over time")
         gen.add("effect.starborn_soundscape.corrosion.desc",
             "Reduces armor points")

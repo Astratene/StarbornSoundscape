@@ -50,7 +50,7 @@ object StarbornSoundscapeEffects {
             )
     )
 
-    val IRRADIATED = register("irradiated", ToxicEffect(0x347a37))
+    val SOUNDSICK = register("soundsick", ToxicEffect(0x347a37))
 
     val CORROSION = register(
         "corrosion", StarbornSoundscapeBasicEffect(StatusEffectType.BENEFICIAL, 0x347a37)
