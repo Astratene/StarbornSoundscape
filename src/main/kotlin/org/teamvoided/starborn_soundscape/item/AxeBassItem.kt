@@ -24,6 +24,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
+import org.teamvoided.starborn_soundscape.entity.ToxicCloudEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
@@ -84,11 +85,30 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         tooltip.add(
             Text.translatable("tooltip.soundscape.wip.tooltip").formatted(Formatting.LIGHT_PURPLE)
         )
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.toggle.tooltip").formatted(Formatting.GRAY)
+        )
         super.appendTooltip(stack, context, tooltip, config)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand)
+        val tracker = AxeBassTracker.get(user)
+
+        if (user.isSneaking) {
+            if (!world.isClient) {
+                tracker.metronomeEnabled = !tracker.metronomeEnabled
+
+                user.sendMessage(
+                    Text.literal(
+                        if (tracker.metronomeEnabled) "Metronome ON"
+                        else "Metronome OFF"
+                    ).formatted(Formatting.GRAY),
+                    true
+                )
+            }
+            return TypedActionResult.success(stack)
+        }
         val charge = stack.getOrDefault(
             StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA,
             MetronomeChargeData.DEFAULT
@@ -99,6 +119,8 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                 emitShockwave(world, user, stack)
                 useMetronomeSong(stack, user, world)
             }
+        } else {
+            return TypedActionResult.fail(user.getStackInHand(hand))
         }
         return TypedActionResult.success(user.getStackInHand(hand))
     }
@@ -215,6 +237,18 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
 
         val hasBurningSong = getSongItem(stack) is BurningAndBlazeSongItem
         val hasInMyElementSong = getSongItem(stack) is InMyElementSongItem
+        val hasToxicitySong = getSongItem(stack) is ToxicitySongItem
+
+        if (hasToxicitySong && world is ServerWorld) {
+            val cloud = ToxicCloudEntity(world, user)
+            cloud.setPosition(user.x, user.y, user.z)
+
+            cloud.owner = user
+            cloud.isSmall = false
+
+            world.spawnEntity(cloud)
+        }
+
 
         for (entity in entities) {
             val dir = user.pos.subtract(entity.pos).normalize()

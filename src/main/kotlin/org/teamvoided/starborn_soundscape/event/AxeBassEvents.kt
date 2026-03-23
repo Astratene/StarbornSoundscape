@@ -26,6 +26,7 @@ object AxeBassEvents {
                 val mainHandStack = player.mainHandStack
                 if (mainHandStack.item !is AxeBassItem) continue
                 val data = AxeBassTracker.get(player)
+                if (!data.metronomeEnabled) continue
 
                 if (tick - data.lastBeatTick >= BEAT_INTERVAL) {
                     data.lastBeatTick = tick

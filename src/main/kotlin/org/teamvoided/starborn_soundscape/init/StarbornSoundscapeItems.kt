@@ -45,7 +45,7 @@ object StarbornSoundscapeItems {
         "metronome",
         AxeBassItem(
             (Item.Settings()).fireproof().rarity(Rarity.EPIC)
-                .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 4, -2.4F))
+                .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 3, -2.4F))
         )
     )
     val EDGE_OF_THE_UNIVERSE = register(

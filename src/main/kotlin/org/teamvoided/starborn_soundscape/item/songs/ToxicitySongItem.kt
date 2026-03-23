@@ -15,6 +15,7 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
         return true
     }
 
+    //Is this for the OverArchiever or the BanjoElectric, cuz it's making another cloud for the Metronome
     override fun useSong(user: LivingEntity, world: World) {
         val boo = 0.1
         val boost = user.rotationVector.multiply(1.0, 1.0, 1.0).normalize().multiply(boo)

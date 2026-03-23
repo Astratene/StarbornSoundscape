@@ -175,6 +175,8 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
         //Other tooltips
         gen.add("tooltip.soundscape.wip.tooltip", //Work in progress
             "This item is currently a work in progress and is not yet intended for gameplay.")
+        gen.add("tooltip.soundscape.toggle.tooltip", //toggle metronome sound
+            "Sneak and Use to toggle the Metronome sound effect.")
     }
 
 
