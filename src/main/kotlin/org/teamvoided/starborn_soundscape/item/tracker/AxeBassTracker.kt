@@ -10,6 +10,7 @@ object AxeBassTracker {
         var beatIndex: Int = 0,
         var lastBeatTick: Long = 0L,
         var metronomeEnabled: Boolean = true,
+        var pendingSlam: Boolean = false
 
     ) {
         fun isOnBeat(currentTick: Long, window: Int): Boolean {

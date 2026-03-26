@@ -1,5 +1,6 @@
 package org.teamvoided.starborn_soundscape
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -12,6 +13,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeTabs
+import org.teamvoided.starborn_soundscape.item.AxeBassItem
 
 @Suppress("unused")
 object StarbornSoundscape {
@@ -31,6 +33,16 @@ object StarbornSoundscape {
         StarbornSoundscapeEffects.init()
         StarbornSoundscapeTabs.init()
         StarbornSoundscapeParticles.init()
+
+        ServerTickEvents.END_SERVER_TICK.register { server ->
+            for (player in server.playerManager.playerList) {
+                val stack = player.mainHandStack
+
+                if (stack.item is AxeBassItem) {
+                    (stack.item as AxeBassItem).tick(player)
+                }
+            }
+        }
     }
 
     fun id(namespace: String, path: String): Identifier = Identifier.of(namespace, path)

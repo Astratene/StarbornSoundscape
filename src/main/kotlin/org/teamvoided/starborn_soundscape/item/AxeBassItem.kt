@@ -117,12 +117,16 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         if (!world.isClient) {
             if (charge >= 64) {
                 stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(0))
-                if (getSongItem(stack) !is KeepUpSongItem) {
-                    emitShockwave(world, user, stack)
+
+                if (getSongItem(stack) is KeepUpSongItem) {
                     keepUpLaunch(world, user, stack)
+                } else {
+                    emitShockwave(world, user, stack)
                 }
+
                 useMetronomeSong(stack, user, world)
             }
+
         } else {
             return TypedActionResult.fail(user.getStackInHand(hand))
         }
@@ -130,7 +134,31 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
     }
 
     private fun keepUpLaunch(world: World, user: PlayerEntity, stack: ItemStack) {
+        val look = user.rotationVector.normalize()
 
+        val horizontalBoost = 1.5
+        val verticalBoost = 1.0
+
+        user.addVelocity(
+            look.x * horizontalBoost,
+            verticalBoost,
+            look.z * horizontalBoost
+        )
+
+        user.velocityDirty = true
+        user.velocityModified = true
+
+        val tracker = AxeBassTracker.get(user)
+        tracker.pendingSlam = true
+
+        world.playSound(
+            null,
+            user.blockPos,
+            SoundEvents.ENTITY_ENDER_DRAGON_FLAP,
+            SoundCategory.PLAYERS,
+            1.0f,
+            1.2f
+        )
     }
 
     private fun emitShockwave(world: World, user: PlayerEntity, stack: ItemStack) {
@@ -368,6 +396,23 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         }
         return super.postHit(stack, target, attacker)
     }
+
+    fun tick(player: PlayerEntity) {
+        val tracker = AxeBassTracker.get(player)
+
+        if (tracker.pendingSlam && player.isOnGround) {
+            tracker.pendingSlam = false
+
+            if (!player.world.isClient) {
+                val stack = player.mainHandStack
+
+                if (stack.item is AxeBassItem) {
+                    (stack.item as AxeBassItem).emitShockwave(player.world, player, stack)
+                }
+            }
+        }
+    }
+
 
     // item bar stuff
     override fun getItemBarStep(stack: ItemStack): Int {
