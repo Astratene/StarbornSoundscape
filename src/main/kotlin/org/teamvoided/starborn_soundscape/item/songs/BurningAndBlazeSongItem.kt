@@ -44,4 +44,18 @@ class BurningAndBlazeSongItem(settings: Settings) : SongItem(settings) {
                 .formatted(Formatting.GRAY)
         )
     }
+
+    override fun addArchieverDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.burnBlazeArchiever.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
+
+    override fun addBanjoDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.burnBlazeBanjo.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
 }

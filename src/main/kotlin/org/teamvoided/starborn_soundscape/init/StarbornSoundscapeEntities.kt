@@ -61,6 +61,13 @@ object StarbornSoundscapeEntities {
     )
 
 
+
+    val SPOTLIGHT = register(
+        "spotlight",
+        EntityType.Builder.create(EntityType.EntityFactory(::SpotLightEntity), SpawnGroup.MISC)
+            .setDimensions(0.5f, 0.5f).maxTrackingRange(4).build()
+    )
+
     private fun <T : Entity> register(path: String, entry: EntityType<T>): EntityType<T> {
         return Registry.register(Registries.ENTITY_TYPE, id(path), entry)
     }

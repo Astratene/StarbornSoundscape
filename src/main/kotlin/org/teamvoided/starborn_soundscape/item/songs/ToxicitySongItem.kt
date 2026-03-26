@@ -15,7 +15,6 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
         return true
     }
 
-    //Is this for the OverArchiever or the BanjoElectric, cuz it's making another cloud for the Metronome
     override fun useSong(user: LivingEntity, world: World) {
         val boo = 0.1
         val boost = user.rotationVector.multiply(1.0, 1.0, 1.0).normalize().multiply(boo)
@@ -29,6 +28,11 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
             boost.z
         )
         world.spawnEntity(cloud)
+    }
+
+    override fun useMetronomeSong(user: LivingEntity, world: World) {
+        // put the code here brand
+        super.useMetronomeSong(user, world)
     }
 
     override fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {
@@ -50,6 +54,20 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
     override fun addDescription(tooltip: MutableList<Text?>) {
         tooltip.add(
             Text.translatable("tooltip.soundscape.toxicity.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
+
+    override fun addArchieverDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.toxicityArchiever.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
+
+    override fun addBanjoDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.toxicityBanjo.tooltip")
                 .formatted(Formatting.GRAY)
         )
     }

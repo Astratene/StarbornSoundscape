@@ -20,6 +20,8 @@ import net.minecraft.world.World
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
+import org.teamvoided.starborn_soundscape.item.AxeBassItem
+import org.teamvoided.starborn_soundscape.item.BanjolectricItem
 import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 import software.bernie.geckolib.util.Color
 import java.util.*
@@ -52,7 +54,7 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryTransfer(slot, player)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is OverarchieverItem){
+                        if (stack.item is OverarchieverItem) {
                             stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
                         }
                     }
@@ -88,7 +90,7 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     val i: Int = builder.tryAdd(otherStack)
                     if (i > 0) {
                         this.playInsertSound(player)
-                        if (stack.item is OverarchieverItem){
+                        if (stack.item is OverarchieverItem) {
                             stack.set(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATA, OverarchieverData(0))
                         }
                     }
@@ -140,7 +142,15 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
                     .append(planStack.getName())
                     .formatted(songStack.getNameColor()).formatted(Formatting.BOLD)
             )
-            songStack.addDescription(tooltip)
+            if (stack.item is OverarchieverItem) {
+                songStack.addArchieverDescription(tooltip)
+            } else if (stack.item is BanjolectricItem) {
+                songStack.addBanjoDescription(tooltip)
+            } else if (stack.item is AxeBassItem) {
+                songStack.addMetronomeDescription(tooltip)
+            } else {
+                songStack.addDescription(tooltip)
+            }
         }
 
         val planTooltip: MutableList<Text> = ArrayList<Text>()
@@ -187,7 +197,7 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
 
     fun useSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             songItem.useSong(user, world)
             return
         }
@@ -195,45 +205,45 @@ open class SongHoldingItem(settings: Settings) : Item(settings) {
 
     fun isPassive(stack: ItemStack): Boolean {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.isPassive()
         }
         return false
     }
 
-    fun getOverarchieverUseCharge(stack: ItemStack, user: LivingEntity) : Int {
+    fun getOverarchieverUseCharge(stack: ItemStack, user: LivingEntity): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getOverarchieverChargeReduction(user)
         }
         return 100000
     }
 
-    fun getOverarchieverPassiveDrain(stack: ItemStack, user: LivingEntity) : Int {
+    fun getOverarchieverPassiveDrain(stack: ItemStack, user: LivingEntity): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getOverArchIeverPassiveDrain(user)
         }
         return 100000
     }
 
-    fun getOverarchieverChargeUp(stack: ItemStack, user: LivingEntity): Int{
+    fun getOverarchieverChargeUp(stack: ItemStack, user: LivingEntity): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getOverArchIeverChargeUp(user)
         }
         return 4
     }
 
-    fun getBarColor(stack: ItemStack) : Int {
+    fun getBarColor(stack: ItemStack): Int {
         val songItem = getSongItem(stack)
-        if (songItem != null){
+        if (songItem != null) {
             return songItem.getBarColor().rgb
         }
         return Color.RED.color
     }
 
-    fun hasASongToSing(stack: ItemStack) : Boolean {
+    fun hasASongToSing(stack: ItemStack): Boolean {
         val bundleContents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
         if (bundleContents != null && !bundleContents.isEmpty) {
             val songInWeapon = bundleContents.copyContents()

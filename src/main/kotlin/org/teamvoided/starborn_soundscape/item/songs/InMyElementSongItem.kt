@@ -42,4 +42,18 @@ class InMyElementSongItem(settings: Settings) : SongItem(settings) {
                 .formatted(Formatting.GRAY)
         )
     }
+
+    override fun addArchieverDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.inMyElementArchiever.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
+
+    override fun addBanjoDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.inMyElementBanjo.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
 }

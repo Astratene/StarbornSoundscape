@@ -31,6 +31,18 @@ open class SongItem(settings: Settings) : Item(settings) {
         )
     }
 
+    open fun addArchieverDescription(tooltip: MutableList<Text?>,) {
+        addDescription(tooltip)
+    }
+
+    open fun addMetronomeDescription(tooltip: MutableList<Text?>,) {
+        addDescription(tooltip)
+    }
+
+    open fun addBanjoDescription(tooltip: MutableList<Text?>,) {
+        addDescription(tooltip)
+    }
+
     override fun appendTooltip(
         stack: ItemStack?,
         context: TooltipContext?,

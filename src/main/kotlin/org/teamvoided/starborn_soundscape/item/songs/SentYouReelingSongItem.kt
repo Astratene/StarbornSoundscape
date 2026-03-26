@@ -129,6 +129,13 @@ class SentYouReelingSongItem(settings: Settings) : SongItem(settings) {
         )
     }
 
+    override fun addArchieverDescription(tooltip: MutableList<Text?>) {
+        tooltip.add(
+            Text.translatable("tooltip.soundscape.sentYouReelingArchiever.tooltip")
+                .formatted(Formatting.GRAY)
+        )
+    }
+
     fun collectEntitiesInBeamWithMinPos(size: Double, caster: LivingEntity, length: Double, minPos: Double, world: World): MutableList<Entity> {
         val entities = mutableListOf<Entity>()
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length)).add(0.0, 1.0, 0.0)

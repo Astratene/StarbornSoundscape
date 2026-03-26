@@ -10,6 +10,7 @@ import org.teamvoided.starborn_soundscape.client.renderer.BigSpeakerEntityRender
 import org.teamvoided.starborn_soundscape.client.renderer.ConeRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityModel
 import org.teamvoided.starborn_soundscape.client.renderer.CosmicBoltEntityRenderer
+import org.teamvoided.starborn_soundscape.client.renderer.LightRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.SmallSpeakerEntityRenderer
 import org.teamvoided.starborn_soundscape.client.renderer.StarbornModelLayers
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
@@ -54,5 +55,10 @@ object StarbornSoundscapeRenderers {
             StarbornModelLayers.BIG_SPEAKER,
             BigSpeakerEntityModel::getTexturedModelData
         )
+
+
+        EntityRendererRegistry.register(
+            StarbornSoundscapeEntities.SPOTLIGHT,
+            ::LightRenderer)
     }
 }

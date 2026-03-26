@@ -10,42 +10,31 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import org.joml.Vector3d
+import org.joml.Vector3f
+import org.teamvoided.starborn_soundscape.entity.BeamRendererEntity
+import org.teamvoided.starborn_soundscape.entity.ConeRendererEntity
 import org.teamvoided.starborn_soundscape.entity.SmallSpeakerEntity
+import org.teamvoided.starborn_soundscape.entity.SpotLightEntity
 
 class TesterItem(settings: Settings) : Item(settings) {
 
     override fun use(world: World, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?>? {
-        if (!world.isClient) {
-            val serverWorld = world as ServerWorld
-            serverWorld.spawnParticles(
-                ParticleTypes.GLOW,
-                user.x,
-                user.y + 1,
-                user.z,
-                50,
-                1.0,
-                2.0,
-                1.0,
-                0.0
-            )
-        }
-        val positions =
-            mutableListOf(Vec3d(1.0, 2.5, -0.5),
-                Vec3d(-1.0, 2.5, -0.5),
-                Vec3d(1.25, 1.5, -0.5),
-                Vec3d(-1.25, 1.5, -0.5),
-                Vec3d(1.0, 0.5, -0.5),
-                Vec3d(-1.0, 0.5, -0.5))
-        repeat(6) {
-            positions.add(Vec3d(world.random.nextDouble().plus(-0.5).times(10), world.random.nextDouble().times(3), -1.0))
-            val speaker = SmallSpeakerEntity(world, user)
-            speaker.relativeVec = positions[it]
-            speaker.ticksTillTrackTarget = ((it.floorDiv(2)) * 10) + 20
-            speaker.setPosition(user.pos)
-            speaker.pitch2 = 1.25f + ((it.floorDiv(2)) * 0.1f)
-            world.spawnEntity(speaker)
-        }
-        //user.itemCooldownManager.set(user.getStackInHand(hand).item, 1000)
+        val beamRenderer = SpotLightEntity(world, user.x, user.eyeY, user.z)
+        beamRenderer.dataTracker.set(SpotLightEntity.OuterColour, 0x005d3e96)
+        beamRenderer.dataTracker.set(SpotLightEntity.InterColour, 0x002b99ca)
+        //beamRenderer.dataTracker.set(BeamRendererEntity.LiveTime, ticks)
+        //beamRenderer.dataTracker.set(SpotLightEntity.ShrinkTime, 0)
+        beamRenderer.dataTracker.set(SpotLightEntity.TargetPos, Vector3f(user.x.toFloat() + 1, user.eyeY.toFloat() + 10, user.z.toFloat()))
+        beamRenderer.dataTracker.set(SpotLightEntity.OuterThickness, 0.1f)
+        beamRenderer.dataTracker.set(SpotLightEntity.MaxOuterThickness, 0.1f)
+        beamRenderer.dataTracker.set(SpotLightEntity.InnerCubes, 1)
+        beamRenderer.dataTracker.set(SpotLightEntity.EndSize, 2f)
+        beamRenderer.dataTracker.set(SpotLightEntity.MaxEndSize, 2f)
+        beamRenderer.dataTracker.set(SpotLightEntity.Length, 10f)
+        beamRenderer.setPosition(user.x, user.eyeY, user.z)
+        world.spawnEntity(beamRenderer)
+        println("waow")
         return super.use(world, user, hand)
     }
 }

@@ -14,6 +14,7 @@ import org.teamvoided.starborn_soundscape.item.BandStampItem
 import org.teamvoided.starborn_soundscape.item.BanjolectricItem
 import org.teamvoided.starborn_soundscape.item.astra_only_no_snooping.UniverseEdgeItem
 import org.teamvoided.starborn_soundscape.item.OverarchieverItem
+import org.teamvoided.starborn_soundscape.item.TesterItem
 import org.teamvoided.starborn_soundscape.item.songs.AllEyesSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakRightThroughSongItem
 import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
@@ -37,7 +38,7 @@ object StarbornSoundscapeItems {
             )
         )
 
-    //    val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+        val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 //    val BIGSPEAKERITEM = register("bigspeakeritem",
 //        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
 //    )

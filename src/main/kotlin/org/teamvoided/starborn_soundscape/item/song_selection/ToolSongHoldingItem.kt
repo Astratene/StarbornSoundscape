@@ -22,6 +22,8 @@ import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
 import org.teamvoided.starborn_soundscape.data.tags.StarbornSoundscapeItemTags
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.item.AxeBassItem
+import org.teamvoided.starborn_soundscape.item.BanjolectricItem
+import org.teamvoided.starborn_soundscape.item.OverarchieverItem
 import software.bernie.geckolib.util.Color
 import java.util.ArrayList
 
@@ -136,7 +138,15 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
                     .append(planStack.getName())
                     .formatted(songStack.getNameColor()).formatted(Formatting.BOLD)
             )
-            songStack.addDescription(tooltip)
+            if (stack.item is OverarchieverItem) {
+                songStack.addArchieverDescription(tooltip)
+            } else if (stack.item is BanjolectricItem) {
+                songStack.addBanjoDescription(tooltip)
+            } else if (stack.item is AxeBassItem) {
+                songStack.addMetronomeDescription(tooltip)
+            } else {
+                songStack.addDescription(tooltip)
+            }
         }
 
         val planTooltip: MutableList<Text> = ArrayList<Text>()
