@@ -84,9 +84,6 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         config: TooltipConfig?
     ) {
         tooltip.add(
-            Text.translatable("tooltip.soundscape.wip.tooltip").formatted(Formatting.LIGHT_PURPLE)
-        )
-        tooltip.add(
             Text.translatable("tooltip.soundscape.toggle.tooltip").formatted(Formatting.GRAY)
         )
         super.appendTooltip(stack, context, tooltip, config)
