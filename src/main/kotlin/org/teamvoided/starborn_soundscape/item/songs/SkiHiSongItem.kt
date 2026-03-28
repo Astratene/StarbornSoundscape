@@ -35,7 +35,7 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
                 user.addStatusEffect(
                     StatusEffectInstance(
                         StarbornSoundscapeEffects.HOVER,
-                        100, 0,
+                        150, 0,
                         false, false, true
                     )
                 )
@@ -59,7 +59,7 @@ class SkiHiSongItem(settings: Settings) : SongItem(settings) {
         if (user.hasStatusEffect(StarbornSoundscapeEffects.HOVER)) {
             return 0
         }
-        return 50000
+        return 100000
 
     }
 
