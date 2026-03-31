@@ -9,6 +9,7 @@ import org.teamvoided.starborn_soundscape.components.BanjolectricData
 import org.teamvoided.starborn_soundscape.components.BanjolectricDatav2
 import org.teamvoided.starborn_soundscape.components.CurrentUseTime
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
+import org.teamvoided.starborn_soundscape.components.MetronomeCooldownData
 import org.teamvoided.starborn_soundscape.components.OverarchieverData
 import org.teamvoided.starborn_soundscape.components.OverarchieverDatav2
 import org.teamvoided.starborn_soundscape.components.SimpleStorageComponent
@@ -22,6 +23,7 @@ object StarbornSoundscapeDataComponents {
     val OVERARCHIEVER_DATAV2 = registerSimple("overarchiever_datav2", OverarchieverDatav2.CODEC)
     val CURRENT_USE_TIME = registerSimple("current_use_time", CurrentUseTime.CODEC)
     val METRONOME_CHARGE_DATA = registerSimple("metronome_charge_data", MetronomeChargeData.CODEC)
+    val METRONOME_COOLDOWN_DATA = registerSimple("metronome_cooldown_data", MetronomeCooldownData.CODEC)
 
 
 

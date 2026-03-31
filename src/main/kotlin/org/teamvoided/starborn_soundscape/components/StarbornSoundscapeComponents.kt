@@ -1,6 +1,7 @@
 package org.teamvoided.starborn_soundscape.components
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
 data class OverarchieverData(val charge: Int) : SimpleStorageComponent {
 
@@ -84,5 +85,20 @@ data class MetronomeChargeData(val charge: Int) : SimpleStorageComponent {
             { int -> MetronomeChargeData(int) },
             { component -> component.charge }
         )
+    }
+}
+
+data class MetronomeCooldownData(val cooling: Boolean, val ticks: Int, val maxTicks: Int) : SimpleStorageComponent {
+
+    companion object {
+        val DEFAULT: MetronomeCooldownData = MetronomeCooldownData(false, 0, 0)
+        val CODEC = RecordCodecBuilder.create<MetronomeCooldownData> { builder ->
+            builder.group(
+                Codec.BOOL.fieldOf("cooling").forGetter { it.cooling },
+                Codec.INT.fieldOf("ticks").forGetter { it.ticks },
+                Codec.INT.fieldOf("maxTicks").forGetter { it.maxTicks }
+            ).apply(builder, ::MetronomeCooldownData)
+        }
+
     }
 }

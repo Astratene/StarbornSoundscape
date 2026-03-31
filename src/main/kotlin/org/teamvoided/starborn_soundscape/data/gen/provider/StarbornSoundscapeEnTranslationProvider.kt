@@ -13,6 +13,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeItems
+import org.teamvoided.starborn_soundscape.item.songs.BreakingTheCoreSongItem
+import org.teamvoided.starborn_soundscape.item.songs.SkiHiSongItem
 import java.util.concurrent.CompletableFuture
 
 class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: CompletableFuture<HolderLookup.Provider>) :
@@ -20,64 +22,124 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
     override fun generateTranslations(lookup: HolderLookup.Provider, gen: TranslationBuilder) {
         StarbornSoundscapeItems.items(lookup.getLookupOrThrow(RegistryKeys.ITEM))
             .distinctBy { it.translationKey }
-            .forEach { gen.add(it, genLang(it.id)) }
+            .forEach {
+                if (it.asItem() !is BreakingTheCoreSongItem && it.asItem() !is SkiHiSongItem) {
+                    gen.add(it, genLang(it.id))
+                }
+            }
 
-        //dude this pisses me off im fixing it
+        //Custom items
+        gen.add(
+            "item.starborn_soundscape.balcony_suicide",
+            "Balcony 'Suicide'"
+        )
+        gen.add(
+                "item.starborn_soundscape.conspiracy_and_murder",
+        "Conspiracy & Murder"
+        )
 
         //status effects
-        gen.add("effect.starborn_soundscape.hover",
-            "Hover")
-        gen.add("effect.starborn_soundscape.closed_eyes",
-            "Watching the Stars!")
-        gen.add("effect.starborn_soundscape.band_approved",
-            "Band Approved")
-        gen.add("effect.starborn_soundscape.shred_of_toxicity",
-            "Shred of Toxicity")
-        gen.add("effect.starborn_soundscape.deep_toxicity",
-            "Deep Toxicity")
-        gen.add("effect.starborn_soundscape.soundsick",
-            "Soundsick")
-        gen.add("effect.starborn_soundscape.corrosion",
-            "corrosion")
+        gen.add(
+            "effect.starborn_soundscape.hover",
+            "Hover"
+        )
+        gen.add(
+            "effect.starborn_soundscape.closed_eyes",
+            "Watching the Stars!"
+        )
+        gen.add(
+            "effect.starborn_soundscape.band_approved",
+            "Band Approved"
+        )
+        gen.add(
+            "effect.starborn_soundscape.shred_of_toxicity",
+            "Shred of Toxicity"
+        )
+        gen.add(
+            "effect.starborn_soundscape.deep_toxicity",
+            "Deep Toxicity"
+        )
+        gen.add(
+            "effect.starborn_soundscape.soundsick",
+            "Soundsick"
+        )
+        gen.add(
+            "effect.starborn_soundscape.corrosion",
+            "corrosion"
+        )
 
-        gen.add("effect.starborn_soundscape.hover.desc",
-            "Removes a persons gravity")
-        gen.add("effect.starborn_soundscape.closed_eyes.desc",
-            "Blinds you, but doesn't inhibit your legs.")
-        gen.add("effect.starborn_soundscape.band_approved.desc",
-            "Protects you from the harm the band may hit you with")
-        gen.add("effect.starborn_soundscape.shred_of_toxicity.desc",
-            "Reduces movement speed")
-        gen.add("effect.starborn_soundscape.deep_toxicity.desc",
-            "Reduces attack speed")
-        gen.add("effect.starborn_soundscape.soundsick.desc",
-            "Deals damage over time")
-        gen.add("effect.starborn_soundscape.corrosion.desc",
-            "Reduces armor points")
+        gen.add(
+            "effect.starborn_soundscape.hover.desc",
+            "Removes a persons gravity"
+        )
+        gen.add(
+            "effect.starborn_soundscape.closed_eyes.desc",
+            "Blinds you, but doesn't inhibit your legs."
+        )
+        gen.add(
+            "effect.starborn_soundscape.band_approved.desc",
+            "Protects you from the harm the band may hit you with"
+        )
+        gen.add(
+            "effect.starborn_soundscape.shred_of_toxicity.desc",
+            "Reduces movement speed"
+        )
+        gen.add(
+            "effect.starborn_soundscape.deep_toxicity.desc",
+            "Reduces attack speed"
+        )
+        gen.add(
+            "effect.starborn_soundscape.soundsick.desc",
+            "Deals damage over time"
+        )
+        gen.add(
+            "effect.starborn_soundscape.corrosion.desc",
+            "Reduces armor points"
+        )
 
         //captions
-        gen.add("sounds.starborn_soundscape.metronome_1",
-            "Metronome ticks")
-        gen.add("sounds.starborn_soundscape.metronome_2",
-            "Metronome ticks")
-        gen.add("sounds.starborn_soundscape.sound_so_loud_it_kills_ya",
-            "Loud speaker plays like, really loudly")
-        gen.add("sounds.starborn_soundscape.raw_deadly_sound",
-            "Small speaker plays really loud sound")
-        gen.add("sounds.starborn_soundscape.small_speaker_startup",
-            "Small speakers get ready")
-        gen.add("sounds.starborn_soundscape.speaker_starup",
-            "Really epic electric guitar chord")
-        gen.add("sounds.starborn_soundscape.you_really_got_me",
-            "You really got me riff plays")
-        gen.add("sounds.starborn_soundscape.hit_banjo",
-            "Silly banjo plays")
-        gen.add("sounds.starborn_soundscape.fizz",
-            "Toxic cloud fizzes")
+        gen.add(
+            "sounds.starborn_soundscape.metronome_1",
+            "Metronome ticks"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.metronome_2",
+            "Metronome ticks"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.sound_so_loud_it_kills_ya",
+            "Loud speaker plays like, really loudly"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.raw_deadly_sound",
+            "Small speaker plays really loud sound"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.small_speaker_startup",
+            "Small speakers get ready"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.speaker_starup",
+            "Really epic electric guitar chord"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.you_really_got_me",
+            "You really got me riff plays"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.hit_banjo",
+            "Silly banjo plays"
+        )
+        gen.add(
+            "sounds.starborn_soundscape.fizz",
+            "Toxic cloud fizzes"
+        )
 
         //item grouup
-        gen.add("itemgroup.starborn_soundscape.tab",
-            "Starborn Soundscape")
+        gen.add(
+            "itemgroup.starborn_soundscape.tab",
+            "Starborn Soundscape"
+        )
 
         //death messages
         gen.add("death.attack.small_soundwaves", "%s couldn't handle %s's vibes")
@@ -134,75 +196,131 @@ class StarbornSoundscapeEnTranslationProvider(o: FabricDataOutput, r: Completabl
 
         //descriptions start, as astra said "// oh god think of the descripdren!"
 
-        gen.add("tooltip.soundscape.requires_song.tooltip", // insert song tooltip
-            "Insert a song and get your groove on!")
-        gen.add("tooltip.soundscape.song.tooltip", //song inserted. p obvious
-            "Song inserted:")
-        gen.add("tooltip.soundscape.overarchiever_activate.tooltip", //tooltip for the overarchiever
-            "left then right click to activate the song!")
-        gen.add("tooltip.soundscape.song_can_be_inserted.tooltip", //tooltip on all songs
-            "Insert this song into a weapon and get schmovin!")
-        gen.add("tooltip.soundscape.stamp1.tooltip", //tooltip stamp
-            "Right click to toggle your safety in the band, and hit others to make them safe or not")
+        gen.add(
+            "tooltip.soundscape.requires_song.tooltip", // insert song tooltip
+            "Insert a song and get your groove on!"
+        )
+        gen.add(
+            "tooltip.soundscape.song.tooltip", //song inserted. p obvious
+            "Song inserted:"
+        )
+        gen.add(
+            "tooltip.soundscape.overarchiever_activate.tooltip", //tooltip for the overarchiever
+            "left then right click to activate the song!"
+        )
+        gen.add(
+            "tooltip.soundscape.song_can_be_inserted.tooltip", //tooltip on all songs
+            "Insert this song into a weapon and get schmovin!"
+        )
+        gen.add(
+            "tooltip.soundscape.stamp1.tooltip", //tooltip stamp
+            "Right click to toggle your safety in the band, and hit others to make them safe or not"
+        )
 
         //song tooltips
-        gen.add("tooltip.soundscape.nullSong.tooltip", //dummy tooltip
-            "Someone forgot to give this song a description, guess you'll have to find out what it does")
-        gen.add("tooltip.soundscape.foundDead.tooltip", //found dead tooltip
-            " - Summons a giant speaker to slam onto your foes! Let it sit and it starts blasting music louder then you thought could be handled! And you'd be right about that...")
-        gen.add("tooltip.soundscape.breakingTheCore.tooltip", //breaking the core tooltip
-            " - Summons a wave of 6 speakers that will target players and deal constant damage to them")
-        gen.add("tooltip.soundscape.goingUp.tooltip", //going up in the world tooltip
-            " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over")
-        gen.add("tooltip.soundscape.keepUp.tooltip", //keep up! tooltip
-            " - Launches you in the direction you are facing")
+        gen.add(
+            "tooltip.soundscape.nullSong.tooltip", //dummy tooltip
+            "Someone forgot to give this song a description, guess you'll have to find out what it does"
+        )
+        gen.add(
+            "tooltip.soundscape.foundDead.tooltip", //found dead tooltip
+            " - Summons a giant speaker that slams onto your foes"
+        )
+        gen.add(
+            "tooltip.soundscape.breakingTheCore.tooltip", //breaking the core tooltip
+            " - Summons a wave of 6 speakers that will target foes"
+        )
+        gen.add(
+            "tooltip.soundscape.goingUp.tooltip", //going up in the world tooltip
+            " - Launches you up in the air and lets you hover until you play the song again, or until a short period is over"
+        )
+        gen.add(
+            "tooltip.soundscape.keepUp.tooltip", //keep up! tooltip
+            " - Launches you in the direction you are facing"
+        )
 
-        gen.add("tooltip.soundscape.burnBlaze.tooltip", //through the burning and the blaze tooltip
-            " - Lights opponents on fire")
-        gen.add("tooltip.soundscape.burnBlazeArchiever.tooltip", //through the burning and the blaze tooltip for bow
-            " - When activated, bolts will light opponents on fire for a short period of time")
-        gen.add("tooltip.soundscape.burnBlazeBanjo.tooltip", //through the burning and the blaze tooltip for banjo
-            " - On hit, consume some charge to light opponents on fire")
+        gen.add(
+            "tooltip.soundscape.burnBlaze.tooltip", //through the burning and the blaze tooltip
+            " - Lights opponents on fire"
+        )
+        gen.add(
+            "tooltip.soundscape.burnBlazeArchiever.tooltip", //through the burning and the blaze tooltip for bow
+            " - When activated, bolts will light opponents on fire for a short period of time"
+        )
+        gen.add(
+            "tooltip.soundscape.burnBlazeBanjo.tooltip", //through the burning and the blaze tooltip for banjo
+            " - On hit, consume some charge to light opponents on fire"
+        )
 
-        gen.add("tooltip.soundscape.eyes.tooltip", //cant take my eyes off you tooltip
-            " - Blinds nearby opponents and makes you glow. You're the star of the show!")
+        gen.add(
+            "tooltip.soundscape.eyes.tooltip", //cant take my eyes off you tooltip
+            " - Blinds nearby opponents and makes you glow"
+        )
 
-        gen.add("tooltip.soundscape.breakRightThrough.tooltip", //break right through tooltip
-            " - Lets weapons break right through shields!")
-        gen.add("tooltip.soundscape.breakRightThroughArchiever.tooltip", //break right through tooltip for the bow
-            " - When activated, bolts will pierce through and disable shields for a short period of time")
-        gen.add("tooltip.soundscape.breakRightThroughBanjo.tooltip", //break right through tooltip for the banjo
-            " - When hitting a shield, consume some charge to disable it.")
+        gen.add(
+            "tooltip.soundscape.breakRightThrough.tooltip", //break right through tooltip
+            " - Lets weapons break through shields"
+        )
+        gen.add(
+            "tooltip.soundscape.breakRightThroughArchiever.tooltip", //break right through tooltip for the bow
+            " - When activated, bolts will pierce through and disable shields for a short period of time"
+        )
+        gen.add(
+            "tooltip.soundscape.breakRightThroughBanjo.tooltip", //break right through tooltip for the banjo
+            " - When hitting a shield, consume some charge to disable it."
+        )
 
-        gen.add("tooltip.soundscape.inMyElement.tooltip", //in my element tooltip
-            " - Does different effects based on the primary element of the user")
-        gen.add("tooltip.soundscape.inMyElementArchiever.tooltip", //in my element tooltip for the bow
-            " - When activated, bolts will shock nearby opponents for a short time")
-        gen.add("tooltip.soundscape.inMyElementBanjo.tooltip", //in my element tooltip for the banjo
-            " - Oh hit, consume some charge to freeze opponents for a short time")
+        gen.add(
+            "tooltip.soundscape.inMyElement.tooltip", //in my element tooltip
+            " - Does different effects based on the primary element of the user"
+        )
+        gen.add(
+            "tooltip.soundscape.inMyElementArchiever.tooltip", //in my element tooltip for the bow
+            " - When activated, bolts will shock nearby opponents for a short time"
+        )
+        gen.add(
+            "tooltip.soundscape.inMyElementBanjo.tooltip", //in my element tooltip for the banjo
+            " - Oh hit, consume some charge to freeze opponents for a short time"
+        )
 
 
-        gen.add("tooltip.soundscape.ripMeOut.tooltip", //rip me out tooltip
-            " - Grappling hook...")
+        gen.add(
+            "tooltip.soundscape.ripMeOut.tooltip", //rip me out tooltip
+            " - Grappling hook..."
+        )
 
-        gen.add("tooltip.soundscape.sentYouReeling.tooltip", //sent you reeling through tooltip
-            " - Launches you backwards and surrounding players forwards")
-        gen.add("tooltip.soundscape.sentYouReelingArchiever.tooltip", //sent you reeling through tooltip for bow
-            " - Launches surrounding players in the direction you are looking")
+        gen.add(
+            "tooltip.soundscape.sentYouReeling.tooltip", //sent you reeling through tooltip
+            " - Launches you backwards and surrounding players forwards"
+        )
+        gen.add(
+            "tooltip.soundscape.sentYouReelingArchiever.tooltip", //sent you reeling through tooltip for bow
+            " - Launches surrounding players in the direction you are looking"
+        )
 
-        gen.add("tooltip.soundscape.toxicity.tooltip", //toxicity tooltip
-            " - Creates clouds of toxic mist that slow, damage, or weaken opponents armor")
-        gen.add("tooltip.soundscape.toxicityArchiever.tooltip", //toxicity tooltip for bow
-            " - When activated, bolts will explode into a toxic gas that slows opponents and weakens armour the longer they spend inside it")
-        gen.add("tooltip.soundscape.toxicityBanjo.tooltip", //toxicity tooltip for banjo
-            " - When used, consume some charge to send out a toxic cloud that slows and weakens opponents armour the longer they spend inside it")
+        gen.add(
+            "tooltip.soundscape.toxicity.tooltip", //toxicity tooltip
+            " - Creates clouds of toxic mist that slow, damage, or weaken opponents armor"
+        )
+        gen.add(
+            "tooltip.soundscape.toxicityArchiever.tooltip", //toxicity tooltip for bow
+            " - When activated, bolts will explode into a toxic gas that slows opponents and weakens armour the longer they spend inside it"
+        )
+        gen.add(
+            "tooltip.soundscape.toxicityBanjo.tooltip", //toxicity tooltip for banjo
+            " - When used, consume some charge to send out a toxic cloud that slows and weakens opponents armour the longer they spend inside it"
+        )
 
 
         //Other tooltips
-        gen.add("tooltip.soundscape.wip.tooltip", //Work in progress
-            "This item is currently a work in progress and is not yet intended for gameplay.")
-        gen.add("tooltip.soundscape.toggle.tooltip", //toggle metronome sound
-            "Sneak and Use to toggle the Metronome sound effect.")
+        gen.add(
+            "tooltip.soundscape.wip.tooltip", //Work in progress
+            "This item is currently a work in progress and is not yet intended for gameplay."
+        )
+        gen.add(
+            "tooltip.soundscape.toggle.tooltip", //toggle metronome sound
+            "Sneak and Use to toggle the Metronome sound effect."
+        )
     }
 
 

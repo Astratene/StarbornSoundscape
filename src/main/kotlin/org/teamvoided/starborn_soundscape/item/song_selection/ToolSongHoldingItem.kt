@@ -258,18 +258,18 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
         return null
     }
 
-    fun givesBanjoCooldown(stack: ItemStack): Boolean {
+    fun givesMetronomeCooldown(stack: ItemStack): Boolean {
         val songItem = getSongItem(stack)
         if (songItem != null) {
-            return songItem.givesBanjoCooldown()
+            return songItem.givesMetronomeCooldown()
         }
         return false
     }
 
-    fun getBanjoCooldown(stack: ItemStack): Int {
+    fun getMetronomeCooldown(stack: ItemStack): Int {
         val songItem = getSongItem(stack)
         if (songItem != null) {
-            return songItem.getBanjoCooldown()
+            return songItem.getMetronomeCooldown()
         }
         return 0
     }

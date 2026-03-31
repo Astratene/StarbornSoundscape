@@ -22,16 +22,16 @@ class StarbornSoundscapeItemTagProvider(
 
     private fun modTags() {
         getOrCreateTagBuilder(StarbornSoundscapeItemTags.SONG_ITEMS)
-            .add(StarbornSoundscapeItems.FOUND_DEAD_FT_DEF4N)
-            .add(StarbornSoundscapeItems.BREAKING_THE_CORE_FT_LOOK0UT)
-            .add(StarbornSoundscapeItems.GOING_UP_IN_THE_WORLD_FT_SKI_HI)
-            .add(StarbornSoundscapeItems.KEEP_UP_FT_STEP2IT)
-            .add(StarbornSoundscapeItems.THROUGH_THE_BURNING_AND_THE_BLAZE)
-            .add(StarbornSoundscapeItems.CANT_TAKE_MY_EYES_OFF_YOU)
-            .add(StarbornSoundscapeItems.BREAK_RIGHT_THROUGH)
+            .add(StarbornSoundscapeItems.CONSPIRACY_AND_MURDER)
+            .add(StarbornSoundscapeItems.TOXIC_CITY)
             .add(StarbornSoundscapeItems.IN_MY_ELEMENT)
-            .add(StarbornSoundscapeItems.SENT_YOU_REELING)
-            .add(StarbornSoundscapeItems.TOXICITY)
+            .add(StarbornSoundscapeItems.BREAK_IN)
+            .add(StarbornSoundscapeItems.FOUND_DEAD)
+            .add(StarbornSoundscapeItems.SENT_OFF_TRACK)
+            .add(StarbornSoundscapeItems.BURNING_TESTIMONY)
+            .add(StarbornSoundscapeItems.BALCONY_SUICIDE)
+            .add(StarbornSoundscapeItems.CLEAN_ESCAPE)
+            .add(StarbornSoundscapeItems.EYES_ON_THE_LIES)
     }
 
     private fun conventionalTags() {

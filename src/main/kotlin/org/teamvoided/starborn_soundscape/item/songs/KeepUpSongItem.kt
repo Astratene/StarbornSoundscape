@@ -59,6 +59,14 @@ class KeepUpSongItem(settings: Settings) : SongItem(settings) {
         return 30
     }
 
+    override fun givesMetronomeCooldown(): Boolean {
+        return true
+    }
+
+    override fun getMetronomeCooldown(): Int {
+        return 100000
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.BLUE
     }

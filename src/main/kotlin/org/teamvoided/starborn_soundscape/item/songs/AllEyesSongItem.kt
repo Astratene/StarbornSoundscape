@@ -83,6 +83,14 @@ class AllEyesSongItem(settings: Settings) : SongItem(settings) {
         return 600
     }
 
+    override fun givesMetronomeCooldown(): Boolean {
+        return true
+    }
+
+    override fun getMetronomeCooldown(): Int {
+        return 300
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.GRAY
     }

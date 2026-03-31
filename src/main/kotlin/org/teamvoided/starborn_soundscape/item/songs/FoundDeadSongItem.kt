@@ -95,6 +95,14 @@ class FoundDeadSongItem(settings: Settings) : SongItem(settings) {
         return 60
     }
 
+    override fun givesMetronomeCooldown(): Boolean {
+        return true
+    }
+
+    override fun getMetronomeCooldown(): Int {
+        return 1800
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.DARK_GRAY
     }

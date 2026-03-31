@@ -15,7 +15,7 @@ import kotlin.collections.forEach
 object StarbornSoundscapeTabs {
     fun init() = Unit
 
-    val TAB = register("tab", StarbornSoundscapeItems.KEEP_UP_FT_STEP2IT, ::tabESB)
+    val TAB = register("tab", StarbornSoundscapeItems.CONSPIRACY_AND_MURDER, ::tabESB)
 
     fun tabESB(displayParameters: DisplayParameters): Set<ItemConvertible> {
         return StarbornSoundscapeItems.items()

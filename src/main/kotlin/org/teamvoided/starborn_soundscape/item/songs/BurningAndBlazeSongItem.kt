@@ -26,6 +26,14 @@ class BurningAndBlazeSongItem(settings: Settings) : SongItem(settings) {
         return 64
     }
 
+    override fun givesMetronomeCooldown(): Boolean {
+        return true
+    }
+
+    override fun getMetronomeCooldown(): Int {
+        return 200
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.GOLD
     }

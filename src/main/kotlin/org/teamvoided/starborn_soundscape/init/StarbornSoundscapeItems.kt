@@ -38,10 +38,8 @@ object StarbornSoundscapeItems {
             )
         )
 
-        val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-//    val BIGSPEAKERITEM = register("bigspeakeritem",
-//        BigSpeakerTestItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-//    )
+    //val TESTITEM = register("testitem", TesterItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
     val METRONOME = register(
         "metronome",
         AxeBassItem(
@@ -49,54 +47,57 @@ object StarbornSoundscapeItems {
                 .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 3, -2.4F))
         )
     )
-    val EDGE_OF_THE_UNIVERSE = register(
-        "edge_of_the_universe",
-        UniverseEdgeItem(
-            (Item.Settings()).fireproof().rarity(Rarity.EPIC)
-                .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3.1F))
-        )
-    )
 
     val BANJOLECTRIC = register(
         "banjolectric",
-        BanjolectricItem((Item.Settings()).fireproof().rarity(Rarity.EPIC)
-            .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3F)))
+        BanjolectricItem(
+            (Item.Settings()).fireproof().rarity(Rarity.EPIC)
+                .attributeModifiersComponent(AxeBassItem.createAttributes(ToolMaterials.NETHERITE, 5, -3F))
+        )
     )
 
-    val FOUND_DEAD_FT_DEF4N = register(
-        "found_dead_ft._deaf4n",
-        FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    val CONSPIRACY_AND_MURDER = register(
+        "conspiracy_and_murder",
+        BreakingTheCoreSongItem(Item.Settings().fireproof().maxCount(1))
     )
-    val BREAKING_THE_CORE_FT_LOOK0UT = register(
-        "breaking_the_core_ft._look0ut",
-        BreakingTheCoreSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
-    val GOING_UP_IN_THE_WORLD_FT_SKI_HI = register(
-        "going_up_in_the_world_ft._ski_hi",
-        SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
-    val KEEP_UP_FT_STEP2IT =
-        register("keep_up_ft._step2it", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
-    val THROUGH_THE_BURNING_AND_THE_BLAZE = register(
-        "through_the_burning_and_the_blaze",
-        BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
-    val CANT_TAKE_MY_EYES_OFF_YOU = register(
-        "cant_take_my_eyes_off_you",
-        AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
-    val BREAK_RIGHT_THROUGH = register(
-        "break_right_through",
-        BreakRightThroughSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
-    )
+
+    val TOXIC_CITY =
+        register("toxic_city", ToxicitySongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
     val IN_MY_ELEMENT =
         register("in_my_element", InMyElementSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 
-    val SENT_YOU_REELING =
-        register("sent_you_reeling", SentYouReelingSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val BREAK_IN = register(
+        "break_in",
+        BreakRightThroughSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
 
-    val TOXICITY =
-        register("toxicity", ToxicitySongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val FOUND_DEAD = register(
+        "found_dead",
+        FoundDeadSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+
+    val SENT_OFF_TRACK =
+        register("sent_off_track", SentYouReelingSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
+    val BURNING_TESTIMONY = register(
+        "burning_testimony",
+        BurningAndBlazeSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+
+    val BALCONY_SUICIDE = register(
+        "balcony_suicide",
+        SkiHiSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+
+    val CLEAN_ESCAPE =
+        register("clean_escape", KeepUpSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+
+    val EYES_ON_THE_LIES = register(
+        "eyes_on_the_lies",
+        AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
+    )
+
 
     val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
 

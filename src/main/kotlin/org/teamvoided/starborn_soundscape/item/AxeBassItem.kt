@@ -3,6 +3,7 @@ package org.teamvoided.starborn_soundscape.item
 import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipConfig
 import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlotGroup
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
@@ -24,6 +25,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.mokus.mokuslib.itemskin.CustomItemModel
 import org.teamvoided.starborn_soundscape.components.MetronomeChargeData
+import org.teamvoided.starborn_soundscape.components.MetronomeCooldownData
 import org.teamvoided.starborn_soundscape.entity.ToxicCloudEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDataComponents
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
@@ -122,6 +124,12 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                 }
 
                 useMetronomeSong(stack, user, world)
+                if (givesMetronomeCooldown(stack)) {
+                    stack.set(
+                        StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                        MetronomeCooldownData(true, getMetronomeCooldown(stack), getMetronomeCooldown(stack))
+                    )
+                }
             }
 
         } else {
@@ -335,7 +343,7 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                         0
                     )
                 )
-                if (entity.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)){
+                if (entity.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) {
                     entity.addStatusEffect(
                         StatusEffectInstance(
                             StatusEffects.FIRE_RESISTANCE,
@@ -370,8 +378,11 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
         if (attacker is PlayerEntity) {
             val tracker = AxeBassTracker.get(attacker)
             val tick = attacker.world.time
-
-            if (tracker.isOnBeat(tick, 2)) {
+            val cooldownData = stack.getOrDefault(
+                StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                MetronomeCooldownData.DEFAULT
+            )
+            if (tracker.isOnBeat(tick, 2) && !cooldownData.cooling) {
                 var charge = stack.getOrDefault(
                     StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA,
                     MetronomeChargeData.DEFAULT
@@ -386,7 +397,7 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                     charge = 64
                 }
                 stack.set(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData(charge))
-                if (getSongItem(stack) is BurningAndBlazeSongItem && target is LivingEntity){
+                if (getSongItem(stack) is BurningAndBlazeSongItem && target is LivingEntity) {
                     target.setOnFireFor(100)
                 }
             }
@@ -405,7 +416,31 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
 
                 if (stack.item is AxeBassItem) {
                     (stack.item as AxeBassItem).emitShockwave(player.world, player, stack)
+                    stack.set(
+                        StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                        MetronomeCooldownData(false, 0, 0)
+                    )
                 }
+            }
+        }
+    }
+
+    override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
+        val cooldownData = stack.getOrDefault(
+            StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+            MetronomeCooldownData.DEFAULT
+        )
+        if (cooldownData.cooling){
+            if (cooldownData.ticks <= 0){
+                stack.set(
+                    StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                    MetronomeCooldownData(false, 0, 0)
+                )
+            } else {
+                stack.set(
+                    StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                    MetronomeCooldownData(true, cooldownData.ticks - 1, cooldownData.maxTicks)
+                )
             }
         }
     }
@@ -415,6 +450,18 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
     override fun getItemBarStep(stack: ItemStack): Int {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.METRONOME_CHARGE_DATA, MetronomeChargeData.DEFAULT)
+        val cooldownData = stack.getOrDefault(
+            StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+            MetronomeCooldownData.DEFAULT
+        )
+        if (cooldownData.cooling) {
+            return cooldownData?.let {
+                funnyMath(
+                    it.maxTicks - it.ticks,
+                    it.maxTicks
+                )
+            } ?: BAR_LIMIT.toInt()
+        }
         return data?.let {
             funnyMath(
                 MAX_CHARGE - it.charge,
@@ -433,6 +480,17 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
     }
 
     override fun getItemBarColor(stack: ItemStack): Int {
+        val cooldownData = stack.getOrDefault(
+            StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+            MetronomeCooldownData.DEFAULT
+        )
+        if (cooldownData.cooling) {
+            return if (cooldownData.ticks % 5 == 0 || (cooldownData.ticks + 1) % 5 == 0){
+                Color.BLACK.color
+            } else {
+                Color.RED.color
+            }
+        }
         if (hasASongToSing(stack)) {
             return getBarColor(stack)
         }

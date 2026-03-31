@@ -91,6 +91,14 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
         return 2400
     }
 
+    override fun givesMetronomeCooldown(): Boolean {
+        return true
+    }
+
+    override fun getMetronomeCooldown(): Int {
+        return 1800
+    }
+
     override fun getNameColor(): Formatting {
         return Formatting.RED
     }
@@ -105,4 +113,5 @@ class BreakingTheCoreSongItem(settings: Settings) : SongItem(settings) {
                 .formatted(Formatting.GRAY)
         )
     }
+
 }
