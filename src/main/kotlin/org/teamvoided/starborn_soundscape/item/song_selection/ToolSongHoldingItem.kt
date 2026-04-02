@@ -195,7 +195,7 @@ open class ToolSongHoldingItem(settings: Settings) : ToolItem(ToolMaterials.NETH
     fun useMetronomeSong(stack: ItemStack, user: LivingEntity, world: World) {
         val songItem = getSongItem(stack)
         if (songItem != null) {
-            songItem.useSong(user, world)
+            songItem.useMetronomeSong(user, world)
             return
         }
     }

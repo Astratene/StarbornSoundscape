@@ -31,8 +31,7 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
     }
 
     override fun useMetronomeSong(user: LivingEntity, world: World) {
-        // put the code here brand
-        super.useMetronomeSong(user, world)
+        return
     }
 
     override fun getOverArchIeverPassiveDrain(user: LivingEntity): Int {

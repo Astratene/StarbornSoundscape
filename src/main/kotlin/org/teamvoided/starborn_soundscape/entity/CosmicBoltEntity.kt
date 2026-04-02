@@ -26,6 +26,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.entity.astra_stuff_dont_peep.StarProjectileEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
@@ -33,6 +34,7 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.mixin.PersistentProjectileEntityAccessor
+import org.teamvoided.starborn_soundscape.particle.AstralParticleOptions
 import org.teamvoided.starborn_soundscape.util.sillyLightningTime
 
 class CosmicBoltEntity : PersistentProjectileEntity {
@@ -59,6 +61,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
     val sparkMult = 0.2f
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
+        var colour = Vector3f(128f / 255f, 128f / 255f, 128f / 255f)
         if (entityHitResult.entity is LivingEntity) {
             val hit = entityHitResult.entity as LivingEntity
 
@@ -71,6 +74,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 )
             ) if (breakRound) {
                 hit.itemCooldownManager.set(Items.SHIELD, 40); hit.stopUsingItem()
+                colour = Vector3f(0f / 255f, 120f / 255f, 5f / 255f)
             } else return
             if (hit.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED)) return
             hit.customDamage(
@@ -88,12 +92,15 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         false, false, true
                     )
                 )
+                colour = Vector3f(255f / 255f, 255f / 255f, 255f / 255f)
             }
             if (fireRound) {
                 hit.setOnFireFor(100)
+                colour = Vector3f(255f / 255f, 134f / 255f, 0f / 255f)
             }
             if (sparkRound) {
                 shockANearbyGuy(world, directDamage, sparkMult, hit)
+                colour = Vector3f(255f / 255f, 255f / 255f, 255f / 255f)
             }
             if (world is ServerWorld) {
                 this.world.playSound(
@@ -122,12 +129,23 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         )
                     )
                 }
-                if (world is ServerWorld) (world as ServerWorld).spawnParticles(
-                    ParticleTypes.END_ROD, this.x, this.y, this.z,
-                    5,
-                    0.0, 0.0, 0.0,
-                    0.5
-                )
+                if (world is ServerWorld) {
+                    (world as ServerWorld).spawnParticles(
+                        AstralParticleOptions(
+                            colour,
+                            Vector3f(0f, 0f, 0f),
+                            5f,
+                            false,
+                            true,
+                            true,
+                            false,
+                            0.2f,
+                            20,
+                            -0.0001f,
+                            0.9f
+                        ), this.x, this.y, this.z, 1, 0.0, 0.0, 0.0, 0.0
+                    )
+                }
             }
             if (this.owner != null && !hit.isAlive) {
                 if (this.owner is ServerPlayerEntity) {
@@ -144,12 +162,23 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                         )
                     )
                 }
-                if (world is ServerWorld) (world as ServerWorld).spawnParticles(
-                    ParticleTypes.GLOW, this.x, this.y, this.z,
-                    20,
-                    0.0, 0.0, 0.0,
-                    0.5
-                )
+                if (world is ServerWorld) {
+                    (world as ServerWorld).spawnParticles(
+                        AstralParticleOptions(
+                            colour,
+                            Vector3f(0.5f, 0.5f, 0.5f),
+                            1.5f,
+                            false,
+                            true,
+                            true,
+                            false,
+                            0.0f,
+                            20,
+                            0.5f,
+                            0.3f
+                        ), this.x, this.y, this.z, 5, 0.0, 0.0, 0.0, 0.0
+                    )
+                }
             }
         }
     }
@@ -319,16 +348,20 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             if (this.world is ServerWorld) {
                 val world = this.world as ServerWorld
                 val particle = if (tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
-                world.spawnParticles(
-                    particle,
-                    this.x,
-                    this.y,
-                    this.z,
-                    5,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.2
+                (world as ServerWorld).spawnParticles(
+                    AstralParticleOptions(
+                        Vector3f(1f, 1f, 1f),
+                        Vector3f(01f, 01f, 1f),
+                        1.5f,
+                        false,
+                        true,
+                        true,
+                        false,
+                        0.0f,
+                        20,
+                        0.2f,
+                        0.9f
+                    ), this.x, this.y, this.z, 5, 0.0, 0.0, 0.0, 0.0
                 )
                 if (fireRound) {
                     world.spawnParticles(
@@ -408,9 +441,8 @@ class CosmicBoltEntity : PersistentProjectileEntity {
             this.velocityDirty = true
         }
         if (!this.inGround) {
-            val particle = if (tracerRound) ParticleTypes.END_ROD else ParticleTypes.GLOW
-            if (world is ServerWorld) (world as ServerWorld).spawnParticles(
-                particle, this.x, this.y, this.z,
+            if (world is ServerWorld && tracerRound) (world as ServerWorld).spawnParticles(
+                ParticleTypes.END_ROD, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
                 0.0
@@ -427,7 +459,7 @@ class CosmicBoltEntity : PersistentProjectileEntity {
                 0.0, 0.0, 0.0,
                 0.0
             )
-            if (world is ServerWorld && breakRound) (world as ServerWorld).spawnParticles(
+            if (world is ServerWorld && cloudRound) (world as ServerWorld).spawnParticles(
                 StarbornSoundscapeParticles.TOXIC_POOF, this.x, this.y, this.z,
                 1,
                 0.0, 0.0, 0.0,
