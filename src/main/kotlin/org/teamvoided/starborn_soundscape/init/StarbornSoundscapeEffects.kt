@@ -56,7 +56,7 @@ object StarbornSoundscapeEffects {
         "corrosion", StarbornSoundscapeBasicEffect(StatusEffectType.BENEFICIAL, 0x347a37)
             .addAttributeModifier(
                 EntityAttributes.GENERIC_ARMOR, id("effect.corrosion"),
-                -4.0, EntityAttributeModifier.Operation.ADD_VALUE
+                -2.0, EntityAttributeModifier.Operation.ADD_VALUE
             )
     )
 
