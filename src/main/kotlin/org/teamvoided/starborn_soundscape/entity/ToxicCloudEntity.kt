@@ -36,7 +36,11 @@ class ToxicCloudEntity : Entity {
     // sets the radius for your one brand
     val bigWidth = 4.0
     val bigHeight = 1.0
-    var cloudLifespan = 200
+    var cloudLifespan = 100
+    // banjo stats
+    var isBanjo = false
+    val banjoWidth = 2.5
+    val banjoHeight = 1.5
 
     override fun tick() {
         if (this.age == 1) {
@@ -51,8 +55,8 @@ class ToxicCloudEntity : Entity {
                 0.8f
             )
            }
-        val height = if (isSmall) smallHeight else bigHeight
-        val width = if (isSmall) smallWidth else bigWidth
+        val height = if (isSmall) smallHeight else if(isBanjo) banjoHeight else bigHeight
+        val width = if (isSmall) smallWidth else if(isBanjo) banjoWidth else bigWidth
         if (world is ServerWorld) (world as ServerWorld).spawnParticles(
             StarbornSoundscapeParticles.TOXIC_POOF, this.x, this.y, this.z,
             10,
@@ -110,6 +114,37 @@ class ToxicCloudEntity : Entity {
                         }
                     }
                     // this is the effects stuff for your one brand :3
+                    else if(isBanjo) {
+                        val shred = entity.getStatusEffect(StarbornSoundscapeEffects.SHRED_OF_TOXICITY)
+                        val lvl = shred?.amplifier ?: -1
+                        entity.addStatusEffect(
+                            StatusEffectInstance(
+                                StarbornSoundscapeEffects.SHRED_OF_TOXICITY,
+                                40, min(lvl + 1, 25),
+                                false, true, true
+                            )
+                        )
+                        if (lvl >= 20) {
+                            val deep = entity.getStatusEffect(StarbornSoundscapeEffects.DEEP_TOXICITY)
+                            val lvl = deep?.amplifier ?: -1
+                            entity.addStatusEffect(
+                                StatusEffectInstance(
+                                    StarbornSoundscapeEffects.DEEP_TOXICITY,
+                                    40, min(lvl + 1, 25),
+                                    false, true, true
+                                )
+                            )
+                            if (lvl >= 20) {
+                                entity.addStatusEffect(
+                                    StatusEffectInstance(
+                                        StarbornSoundscapeEffects.CORROSION,
+                                        60, 0,
+                                        false, true, true
+                                    )
+                                )
+                            }
+                        }
+                    }
                     else {
                         val shred = entity.getStatusEffect(StarbornSoundscapeEffects.SOUNDSICK)
                         val lvl = shred?.amplifier ?: -1

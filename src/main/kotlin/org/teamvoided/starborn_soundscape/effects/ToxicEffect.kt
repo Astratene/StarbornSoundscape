@@ -11,7 +11,7 @@ class ToxicEffect(color: Int) : StarbornSoundscapeBasicEffect(StatusEffectType.H
     }
 
     override fun applyUpdateEffect(entity: LivingEntity?, amplifier: Int): Boolean {
-        if (entity != null && entity.world != null && (entity.world.time % 20 == 0L)) {
+        if (entity != null && entity.world != null && (entity.world.time % 15 == 0L)) {
             entity.customDamage(StarbornSoundscapeDamageTypes.TOXICED, 1.0f)
         }
         return true

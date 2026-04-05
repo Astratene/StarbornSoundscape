@@ -20,7 +20,7 @@ class ToxicitySongItem(settings: Settings) : SongItem(settings) {
         val boost = user.rotationVector.multiply(1.0, 1.0, 1.0).normalize().multiply(boo)
         val cloud = ToxicCloudEntity(world, user)
         cloud.setPosition(user.eyePos)
-        cloud.isSmall = true
+        cloud.isBanjo = true
         cloud.cloudLifespan = 100
         cloud.setVelocity(
             boost.x,
