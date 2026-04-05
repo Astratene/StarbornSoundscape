@@ -57,12 +57,12 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     fun getChargeTicks(user: LivingEntity, stack: ItemStack): Int {
         return if (isEnchantedTri(user, stack)) 30 else if (isEnchantedWell(user, stack)) 40
-        else if (isEnchantedRain(user, stack)) 60 else if (isEnchantedGrizz(user, stack)) 60 else 20
+        else if (isEnchantedRain(user, stack)) 100 else if (isEnchantedGrizz(user, stack)) 60 else 20
     }
 
     fun getMinChargeTicks(user: LivingEntity, stack: ItemStack): Int {
         return if (isEnchantedTri(user, stack)) 20 else if (isEnchantedWell(user, stack)) 25
-        else if (isEnchantedRain(user, stack)) 40 else if (isEnchantedGrizz(user, stack)) 40 else 15
+        else if (isEnchantedRain(user, stack)) 50 else if (isEnchantedGrizz(user, stack)) 40 else 15
     }
 
     fun getExtraFlareTicks(user: LivingEntity, stack: ItemStack): Int {
@@ -82,16 +82,19 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     fun getMaxSpread(ticks: Int): Float {
-        return 20 - (0.5f * max(ticks - 40, 0))
+        return 20 - (0.2f * max(ticks - 50, 0))
     }
 
     fun getBolts(ticks: Int): Int {
-        return 3 + (min(15, max(0, ticks - 45)))
+        return 3 + (min(15, max(0, ticks - 55)))
     }
 
     fun getLaunchVelocity(ticks: Int, user: LivingEntity, stack: ItemStack): Float {
         if (isEnchantedWell(user, stack)) {
             return (ticks / getChargeTicks(user, stack).toFloat()).times(4f)
+        }
+        if (isEnchantedRain(user, stack)) {
+            return (ticks / getChargeTicks(user, stack).toFloat()).times(6.25f)
         }
         if (!isEnchantedWell(user, stack) && !isEnchantedRain(user, stack) && !isEnchantedTri(user, stack)) {
             if (ticks < 20) {
@@ -236,9 +239,9 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                 0.0f
             )
             entity.pickupType = PickupPermission.DISALLOWED
-            if (ticks < 20) entity.directDamage = baseDamage.toFloat() * 0.75f else entity.directDamage =
+            if (ticks < 20) entity.directDamage = baseDamage.toFloat() * 0.5f else entity.directDamage =
                 baseDamage.toFloat()
-            if (isEnchantedTracer(user, stack)) {
+            if (isEnchantedTracer(user, stack) && ticks == 20) {
                 entity.tracerRound = true
             }
             if (data.passivelyDraining) {
@@ -258,7 +261,7 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
 
-    val TriDirectDamage = 7.0f
+    val TriDirectDamage = 5.5f
     val TriIndirectDamage = 5f
     fun fireTriBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
@@ -362,6 +365,7 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
         var angle = getAngleBetweenWellBolts(ticks).times(2)
         val isOnGround = user.isOnGround
+        val newDirectDamage = if (ticks < 40) (WellDirectDamage * nonFullMult) else WellDirectDamage
         val newDamage = if (ticks < 40) (WellIndirectDamage * nonFullMult) else WellIndirectDamage
         repeat(5) {
             val entity = CosmicBoltEntity(world, user)
@@ -385,7 +389,7 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
                     0.0f
                 )
             }
-            entity.directDamage = WellDirectDamage
+            entity.directDamage = newDirectDamage
             entity.indirectDamage = newDamage
             entity.pickupType = PickupPermission.DISALLOWED
             if (data.passivelyDraining) {
@@ -405,11 +409,11 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
     }
 
     val RainDirectDamage = 0.2f
-    val RainIndirectDamage = 2.5f
+    val RainIndirectDamage = 3f
     fun fireSoManyFuckingBolts(world: World, user: LivingEntity, ticks: Int, stack: ItemStack) {
         val data =
             stack.getOrDefault(StarbornSoundscapeDataComponents.OVERARCHIEVER_DATAV2, OverarchieverDatav2.DEFAULT)
-        repeat(getBolts(ticks)) {
+        repeat(18) { //getBolts(ticks)) {
             val entity = CosmicBoltEntity(world, user)
             entity.setPosition(user.eyePos)
             setPropertiesTwo(

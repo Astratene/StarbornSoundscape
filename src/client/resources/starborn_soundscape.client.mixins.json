@@ -10,7 +10,8 @@
     "FogEffectAccessor",
     "HoldingRendererMixin",
     "InGameHudMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
