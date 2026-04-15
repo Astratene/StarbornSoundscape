@@ -241,9 +241,6 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
             entity.pickupType = PickupPermission.DISALLOWED
             if (ticks < 20) entity.directDamage = baseDamage.toFloat() * 0.5f else entity.directDamage =
                 baseDamage.toFloat()
-            if (isEnchantedTracer(user, stack) && ticks == 20) {
-                entity.tracerRound = true
-            }
             if (data.passivelyDraining) {
                 if (getSongItem(stack) is BurningAndBlazeSongItem) {
                     entity.fireRound = true
@@ -450,10 +447,6 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     fun isEnchantedTri(user: LivingEntity, stack: ItemStack): Boolean {
         return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRI_THIS)
-    }
-
-    fun isEnchantedTracer(user: LivingEntity, stack: ItemStack): Boolean {
-        return stack.hasEnchantment(StarbornSoundscapeEnchantments.TRACER)
     }
 
     fun isEnchantedWell(user: LivingEntity, stack: ItemStack): Boolean {

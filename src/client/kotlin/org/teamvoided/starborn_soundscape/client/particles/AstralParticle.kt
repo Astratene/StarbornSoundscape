@@ -1,4 +1,4 @@
-package einstein.astrasparticles.client
+package org.teamvoided.starborn_soundscape.client.particles
 
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.particle.Particle

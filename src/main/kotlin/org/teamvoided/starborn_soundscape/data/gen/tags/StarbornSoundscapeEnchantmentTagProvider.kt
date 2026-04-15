@@ -19,13 +19,11 @@ class StarbornSoundscapeEnchantmentTagProvider(o: FabricDataOutput, r: Completab
             .add(StarbornSoundscapeEnchantments.TRI_THIS)
             .add(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
             .add(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
-            .add(StarbornSoundscapeEnchantments.TRACER)
             .add(StarbornSoundscapeEnchantments.BOLT_RAIN)
         getOrCreateTagBuilder(EnchantmentTags.TREASURE)
             .add(StarbornSoundscapeEnchantments.TRI_THIS)
             .add(StarbornSoundscapeEnchantments.WELL_WELL_WELL)
             .add(StarbornSoundscapeEnchantments.GRIZZLY_FATE)
-            .add(StarbornSoundscapeEnchantments.TRACER)
             .add(StarbornSoundscapeEnchantments.BOLT_RAIN)
     }
 }

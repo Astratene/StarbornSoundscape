@@ -10,7 +10,7 @@ object StarbornSoundscapeEnchantments {
     val TRI_THIS = create("tri_this")
     val WELL_WELL_WELL = create("well_well_well")
     val GRIZZLY_FATE = create("grizzly_fate")
-    val TRACER = create("tracer")
+    //val TRACER = create("tracer")
     val BOLT_RAIN = create("bolt_rain")
 
     private fun create(id: String): RegistryKey<Enchantment> {
