@@ -98,8 +98,17 @@ object StarbornSoundscapeItems {
         AllEyesSongItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))
     )
 
+    val UNPRINTED_RECORD = register(
+        "unprinted_record",
+        Item(Item.Settings().maxCount(1))
+    )
 
-    val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1)))
+    val DISC_WAX = register(
+        "disc_wax",
+        Item(Item.Settings().maxCount(64))
+    )
+
+    //val BAND_STAMP = register("band_stamp", BandStampItem(Item.Settings().fireproof().rarity(Rarity.EPIC).maxCount(1))) Kept in case i can think of ways to make it work in future
 
     fun items(): Set<Item> {
         return Registries.ITEM.holders().astItems()

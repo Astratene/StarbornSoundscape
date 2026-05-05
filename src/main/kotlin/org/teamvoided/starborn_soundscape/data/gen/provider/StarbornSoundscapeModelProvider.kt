@@ -16,7 +16,7 @@ class StarbornSoundscapeModelProvider(o: FabricDataOutput) : FabricModelProvider
     // Put items that already have models in here :3
     val hasModel = listOf<Item>(
         StarbornSoundscapeItems.OVERARCHIEVER,
-        StarbornSoundscapeItems.BAND_STAMP,
+        //StarbornSoundscapeItems.BAND_STAMP,
         StarbornSoundscapeItems.BANJOLECTRIC,
         StarbornSoundscapeItems.METRONOME
     )

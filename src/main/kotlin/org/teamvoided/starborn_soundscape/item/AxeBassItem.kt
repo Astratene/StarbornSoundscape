@@ -423,6 +423,15 @@ class AxeBassItem(settings: Settings) : ToolSongHoldingItem(settings), CustomIte
                 }
             }
         }
+        if (!tracker.pendingSlam){
+            val stack = player.mainHandStack
+
+            if (stack.item is AxeBassItem && getSongItem(stack) is KeepUpSongItem) {
+            stack.set(
+                StarbornSoundscapeDataComponents.METRONOME_COOLDOWN_DATA,
+                MetronomeCooldownData(false, 0, 0)
+            )}
+        }
     }
 
     override fun inventoryTick(stack: ItemStack, world: World?, entity: Entity?, slot: Int, selected: Boolean) {

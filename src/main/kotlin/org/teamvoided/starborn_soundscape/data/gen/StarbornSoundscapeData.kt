@@ -20,6 +20,7 @@ import org.teamvoided.starborn_soundscape.data.gen.StarbornSoundscapeRegistryBoo
 import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeEnTranslationProvider
 import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeEnchantmentProvider
 import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeModelProvider
+import org.teamvoided.starborn_soundscape.data.gen.provider.StarbornSoundscapeRecipeProvider
 import org.teamvoided.starborn_soundscape.data.gen.tags.StarbornSoundscapeDamageTypeTagProvider
 import org.teamvoided.starborn_soundscape.data.gen.tags.StarbornSoundscapeEnchantmentTagProvider
 import org.teamvoided.starborn_soundscape.data.gen.tags.StarbornSoundscapeItemTagProvider
@@ -43,6 +44,7 @@ object StarbornSoundscapeData : DataGeneratorEntrypoint {
         pack.addProvider(::StarbornSoundscapeItemTagProvider)
         pack.addProvider(::DynamicRegistryProvider)
         pack.addProvider(::StarbornSoundscapeEnchantmentTagProvider)
+        pack.addProvider(::StarbornSoundscapeRecipeProvider)
 
     }
 
