@@ -496,4 +496,6 @@ class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomI
 
     override fun isEnchantable(stack: ItemStack): Boolean = true
 
+    override fun getEnchantability(): Int = 15
+
 }

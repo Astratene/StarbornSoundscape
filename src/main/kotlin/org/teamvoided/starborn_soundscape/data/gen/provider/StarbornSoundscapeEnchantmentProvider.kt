@@ -5,6 +5,7 @@ import net.minecraft.entity.EquipmentSlotGroup
 import net.minecraft.item.Item
 import net.minecraft.registry.BootstrapContext
 import net.minecraft.registry.HolderProvider
+import net.minecraft.registry.HolderSet
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
@@ -22,7 +23,9 @@ object StarbornSoundscapeEnchantmentProvider {
 
     fun bootstrap(c: BootstrapContext<Enchantment>) {
         val item: HolderProvider<Item> = c.getRegistryLookup(RegistryKeys.ITEM)
+        val enchantments = c.getRegistryLookup(RegistryKeys.ENCHANTMENT)
 
+        val exclusiveSet = enchantments.getTagOrThrow(EnchantmentTags.BOW_EXCLUSIVE_SET)
         c.register(
             StarbornSoundscapeEnchantments.TRI_THIS,
             Enchantment.builder(
@@ -30,12 +33,13 @@ object StarbornSoundscapeEnchantmentProvider {
                     item.getTagOrThrow(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE),
                     2,
                     1,
-                    Enchantment.cost(10, 20),
+                    Enchantment.cost(1, 1),
                     Enchantment.cost(60, 20),
                     4,
                     EquipmentSlotGroup.ANY
+
                 )
-            )
+            ).withExclusiveSet(exclusiveSet)
         )
         c.register(
             StarbornSoundscapeEnchantments.WELL_WELL_WELL,
@@ -44,12 +48,12 @@ object StarbornSoundscapeEnchantmentProvider {
                     item.getTagOrThrow(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE),
                     2,
                     1,
-                    Enchantment.cost(10, 20),
+                    Enchantment.cost(1, 1),
                     Enchantment.cost(60, 20),
                     4,
                     EquipmentSlotGroup.ANY
                 )
-            )
+            ).withExclusiveSet(exclusiveSet)
         )
         c.register(
             StarbornSoundscapeEnchantments.GRIZZLY_FATE,
@@ -58,12 +62,12 @@ object StarbornSoundscapeEnchantmentProvider {
                     item.getTagOrThrow(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE),
                     2,
                     1,
-                    Enchantment.cost(10, 20),
+                    Enchantment.cost(1, 1),
                     Enchantment.cost(60, 20),
                     4,
                     EquipmentSlotGroup.ANY
                 )
-            )
+            ).withExclusiveSet(exclusiveSet)
         )
         c.register(
             StarbornSoundscapeEnchantments.BOLT_RAIN,
@@ -72,12 +76,12 @@ object StarbornSoundscapeEnchantmentProvider {
                     item.getTagOrThrow(StarbornSoundscapeItemTags.ORVERARCHIEVER_ENCHANTABLE),
                     2,
                     1,
-                    Enchantment.cost(10, 20),
+                    Enchantment.cost(1, 1),
                     Enchantment.cost(60, 20),
                     4,
                     EquipmentSlotGroup.ANY
                 )
-            )
+            ).withExclusiveSet(exclusiveSet)
         )
 //        c.register(
 //            StarbornSoundscapeEnchantments.TRACER,

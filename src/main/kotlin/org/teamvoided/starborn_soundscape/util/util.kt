@@ -1,11 +1,13 @@
 package org.teamvoided.starborn_soundscape.util
 
 import net.minecraft.enchantment.Enchantment
+import net.minecraft.enchantment.EnchantmentLevelEntry
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Holder
+import net.minecraft.registry.HolderSet
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -19,6 +21,7 @@ import net.minecraft.world.World
 import org.joml.Math.lerp
 import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.entity.BeamRendererEntity
+import java.util.Optional
 
 
 public fun setPropertiesTwo(
