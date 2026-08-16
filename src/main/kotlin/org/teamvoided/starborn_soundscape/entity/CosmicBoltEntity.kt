@@ -1,6 +1,5 @@
 package org.teamvoided.starborn_soundscape.entity
 
-import com.ibm.icu.text.MessagePattern
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -13,7 +12,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.SoundPlayS2CPacket
-import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Holder
 import net.minecraft.server.network.ServerPlayerEntity
@@ -27,7 +25,6 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.joml.Vector3f
-import org.teamvoided.starborn_soundscape.entity.astra_stuff_dont_peep.StarProjectileEntity
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
