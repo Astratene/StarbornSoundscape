@@ -1,6 +1,5 @@
 package org.teamvoided.starborn_soundscape.entity
 
-import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -8,18 +7,11 @@ import net.minecraft.entity.MovementType
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.entity.projectile.PersistentProjectileEntity
-import net.minecraft.entity.projectile.ProjectileEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.particle.BlockStateParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -28,10 +20,9 @@ import org.joml.Vector3f
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeDamageTypes.customDamage
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
-import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities.BIG_SPEAKER
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
-import java.util.UUID
+import java.util.*
 import kotlin.math.roundToInt
 
 class BigSpeakerEntity : Entity {
@@ -128,7 +119,8 @@ class BigSpeakerEntity : Entity {
             }
         }
     }
-    fun playDeactivationSound(){
+
+    fun playDeactivationSound() {
         this.world.playSound(
             null,
             this.x,
@@ -156,7 +148,13 @@ class BigSpeakerEntity : Entity {
             )
         }
         world.playSoundFromEntity(this, SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY, SoundCategory.PLAYERS, 1.0f, 1.0f)
-        world.playSoundFromEntity(this, StarbornSoundscapeSounds.SOUND_SO_LOUD_IT_KILLS_YA, SoundCategory.PLAYERS, 10.0f, 1.0f)
+        world.playSoundFromEntity(
+            this,
+            StarbornSoundscapeSounds.SOUND_SO_LOUD_IT_KILLS_YA,
+            SoundCategory.PLAYERS,
+            10.0f,
+            1.0f
+        )
     }
 
     fun hitAir(world: World) {
@@ -187,6 +185,7 @@ class BigSpeakerEntity : Entity {
             )
         }
     }
+
     fun dealDamageToEntitiesInSpeaker(damage: Float, world: World) {
         val entities = mutableListOf<Entity>()
         entities.addAll(
@@ -216,7 +215,12 @@ class BigSpeakerEntity : Entity {
         }
     }
 
-    fun collectEntitiesInBeamWithMinPos(size: Double, caster: BigSpeakerEntity, length: Double, minPos: Double): MutableList<LivingEntity> {
+    fun collectEntitiesInBeamWithMinPos(
+        size: Double,
+        caster: BigSpeakerEntity,
+        length: Double,
+        minPos: Double
+    ): MutableList<LivingEntity> {
         val entities = mutableListOf<Entity>()
         val endPos = caster.eyePos.add(caster.rotationVector.multiply(length)).add(0.0, 1.0, 0.0)
         val startPos = caster.eyePos.add(caster.rotationVector.multiply(minPos)).add(0.0, 1.0, 0.0)
@@ -232,7 +236,8 @@ class BigSpeakerEntity : Entity {
                         (lerp(startPos.y + 2 - size, endPos.y, i / interval)) - size,
                         (lerp(startPos.z, endPos.z, i / interval)) - size
                     )
-                ).filter { it is LivingEntity && it != this.owner && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED) }
+                )
+                    .filter { it is LivingEntity && it != this.owner && !it.hasStatusEffect(StarbornSoundscapeEffects.BAND_APPROVED) }
             )
         }
         return entities as MutableList<LivingEntity>

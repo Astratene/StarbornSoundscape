@@ -6,7 +6,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission
 import net.minecraft.item.ItemStack
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -36,11 +35,9 @@ import org.teamvoided.starborn_soundscape.util.hasEnchantment
 import org.teamvoided.starborn_soundscape.util.setPropertiesBasedOnPlayerLookingDirection
 import org.teamvoided.starborn_soundscape.util.setPropertiesTwo
 import java.lang.Math.clamp
-import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
-import kotlin.math.tan
 
 class OverarchieverItem(settings: Settings) : SongHoldingItem(settings), CustomItemModel {
 

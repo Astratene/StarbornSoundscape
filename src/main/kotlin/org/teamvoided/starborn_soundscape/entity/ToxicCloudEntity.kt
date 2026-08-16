@@ -15,7 +15,6 @@ import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEffects
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeEntities.TOXIC_CLOUD
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeParticles
 import org.teamvoided.starborn_soundscape.init.StarbornSoundscapeSounds
-import java.util.UUID
 import kotlin.math.min
 
 class ToxicCloudEntity : Entity {
